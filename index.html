@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>효성티앤씨 ESG 환경 데이터 검수 대시보드</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+  select { outline: none; }
+  button { outline: none; }
+  @media print {
+    .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+
+
+const RAW = {"indicators": [{"cat": "폐기물 관리", "label": "일반 폐기물 배출량 > 위탁처리 > 재활용(①)", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [0.0, 0.0, 1.82], "광동스판": [481.32, 160.41, 123.0], "구미": [3358.366, 3192.35, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [1164.09, 1204.31, null], "동나이": [1707.52, 1196.02, null], "서울(공덕)": [12.81, 6.05, null], "서울(마포)": [9.65, 8.97, null], "울산": [5114.556, 5356.774, null], "주해스판": [9.91, 16.68, 0], "취저우스판": [3811.98, 3836.44, null], "브라질스판": [568.8314, 525.46, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [988.108, 868.571, null]}}, {"cat": "폐기물 관리", "label": "일반 폐기물 배출량 > 위탁처리 > 소각", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [145.52, 174.07, 120.89], "광동스판": [373.09, 430.22, 198.0], "구미": [568.87, 475.19, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [2.37, 10.7, null], "동나이": [309.54, 375.25, null], "서울(공덕)": [15.71, 5.32, null], "서울(마포)": [6.16, 5.43, null], "울산": [435.16, 238.54, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [0.0, 0.0, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [325.54, 170.01, null]}}, {"cat": "폐기물 관리", "label": "일반 폐기물 배출량 > 위탁처리 > 매립", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [65, 35.15, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [0.21, null, null], "동나이": [63.75, 6.22, null], "서울(공덕)": [0.05, 0.09, null], "서울(마포)": [0, 0.03, null], "울산": [173.93, 116.86, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [765.71, 734.86, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "폐기물 관리", "label": "지정 폐기물 배출량 > 자가처리(재활용)(②)", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [56, 107, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [null, null, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [0.0, 0.0, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "폐기물 관리", "label": "지정 폐기물 배출량 > 위탁처리 > 재활용(③)", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [49.0, 80.0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [79.31, 106.53, 72.0], "구미": [109.95, 169.25, null], "기타": [null, null, null], "닝샤스판": [2781.975, 2711.165, null], "대구": [null, 0.76, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [335.46, 204.62, null], "주해스판": [6.22, 88.4, 196.88], "취저우스판": [91.26, 103.38, null], "브라질스판": [0.0, 0.0, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "폐기물 관리", "label": "지정 폐기물 배출량 > 위탁처리 > 소각", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [525.0, 477.0, null], "가흥화공": [689.34, 650.18, 554.75], "광동스판": [2294.04, 1534.215, 1183.8], "구미": [1551.26, 151.85, null], "기타": [null, null, null], "닝샤스판": [0.0, 234.69, null], "대구": [null, null, null], "동나이": [2867.269, 3301.675, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [147.55, 144.71, null], "주해스판": [929.125, 1035.89, 785.9], "취저우스판": [2095.284, 2124.843, null], "브라질스판": [0.0, 0.28, null], "인도스판": [501.636, 641.932, null], "튀르키예스판": [2689.47, 2376.5, null]}}, {"cat": "폐기물 관리", "label": "지정 폐기물 배출량 > 위탁처리 > 매립", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.0, 1.11, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [0, null, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [87.11, 41.25, null], "인도스판": [11.97, 8.1, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "폐기물 관리", "label": "지정 폐기물 배출량 > 위탁처리 > 기타", "unit": "Ton", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [1.42, 2.2, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [1714.817, 1694.69, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [null, null, null], "주해스판": [0.0, 0.0, 102.875], "취저우스판": [0.0, 0.0, null], "브라질스판": [0.04127, 58.21, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [null, 0.0, null]}}, {"cat": "대기오염물질 배출", "label": "일반대기오염물질 > 질소산화물(NOx)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [3.847, 4.07, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [34.872, 26.054, 14.518], "구미": [24.5, null, null], "기타": [null, null, null], "닝샤스판": [7.349029, 8.096236000000001, null], "대구": [0.57, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [21.95, null, null], "주해스판": [5.484521184, 3.7187, 2.2143], "취저우스판": [8.3358982656, 4.6305, null], "브라질스판": [31.02158564, 43.452786888, null], "인도스판": [3.20184, 3.46836683064677, null], "튀르키예스판": [128.2464, 0.0876, null]}}, {"cat": "대기오염물질 배출", "label": "일반대기오염물질 > 황산화물(SOx)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [0.221, 0.234, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.013, 0.01, 0.005], "구미": [2.45, null, null], "기타": [null, null, null], "닝샤스판": [7.082718, 3.379985, null], "대구": [0.17, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0.59, null, null], "주해스판": [0.190426752, 0, 0.0225], "취저우스판": [10.69298468352, 2.5817, null], "브라질스판": [0.527342364, 0.0, null], "인도스판": [6.02215, 7.45028888888889, null], "튀르키예스판": [1.5768, 0, null]}}, {"cat": "대기오염물질 배출", "label": "일반대기오염물질 > 먼지(PM)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.0, 0.0, 0.1297], "구미": [1.54, null, null], "기타": [null, null, null], "닝샤스판": [3.153387, 1.968073, null], "대구": [0.56, null, null], "동나이": [24.95, 24.7509328508404, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [1.48, null, null], "주해스판": [0.019980168, 0.2608, 0.1297], "취저우스판": [2.252174976, 0.5689, null], "브라질스판": [26.33194347, 15.1332878928, null], "인도스판": [8.78848, 9.4934417115576, null], "튀르키예스판": [0.011388, 0.00876, null]}}, {"cat": "대기오염물질 배출", "label": "일반대기오염물질 > 총탄화수소(THC)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.735], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [0.06, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [1.56, null, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [null, null, null], "인도스판": [null, null, null], "튀르키예스판": [0.011388, null, null]}}, {"cat": "대기오염물질 배출", "label": "휘발성유기화학물질(VOCs)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [2.23, 2.494476, null], "가흥화공": [2.521733, 2.47, 1.126], "광동스판": [4.853, 5.839241, 3.998], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [8.089366, 9.659978, null], "대구": [0, null, null], "동나이": [0.0, 0.00220729344, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0.17, null, null], "주해스판": [1.46, 0.6154, 0.735], "취저우스판": [31.46, 6.279865331, null], "브라질스판": [0.31, 4.8, null], "인도스판": [null, null, null], "튀르키예스판": [0.032412, null, null]}}, {"cat": "대기오염물질 배출", "label": "유해대기오염물질(HAPs) > 염화수소(HCl)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0], "구미": [0.34, null, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [0, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0.01, null, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [null, null, null], "인도스판": [null, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "대기오염물질 배출", "label": "유해대기오염물질(HAPs) > 일산화탄소(CO)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0], "구미": [5.5, null, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [0, null, null], "동나이": [null, 0.0, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0, null, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [null, null, null], "인도스판": [null, null, null], "튀르키예스판": [9.173471999999999, 0.06132, null]}}, {"cat": "수자원 관리", "label": "상수도 및 생활용수", "unit": "Ton", "data": {"가흥무역": [0.0, null, null], "가흥스판": [0.0, null, null], "가흥화공": [4278, 4766, 4690], "광동스판": [13639.0, 16094.0, 12826.0], "구미": [62199, 521963, null], "기타": [null, null, null], "닝샤스판": [11336.0, 11796, null], "대구": [6565, 7733, null], "동나이": [2396525, 2585457, null], "서울(공덕)": [5331, 5375, null], "서울(마포)": [3759, 4305, null], "울산": [null, null, null], "주해스판": [0, 0, 0], "취저우스판": [0.0, null, null], "브라질스판": [0.0, 0.0, null], "인도스판": [0.0, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "수자원 관리", "label": "공업용수", "unit": "Ton", "data": {"가흥무역": [0.0, null, null], "가흥스판": [276688, 276275, null], "가흥화공": [372183, 398312, 380019], "광동스판": [611067, 603346, 384699.0], "구미": [749687, 422123, null], "기타": [null, null, null], "닝샤스판": [574173.0, 605255, null], "대구": [551323, 612960, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [2702210, 1716273, null], "주해스판": [227760, 237902, 247807], "취저우스판": [512727, 548231.22, null], "브라질스판": [0.0, 0.0, null], "인도스판": [354346, 444796, null], "튀르키예스판": [12806, 16518, null]}}, {"cat": "수자원 관리", "label": "하수 재이용수", "unit": "Ton", "data": {"가흥무역": [0.0, null, null], "가흥스판": [0.0, null, null], "가흥화공": [0.0, null, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [1013108, 1155483, null], "기타": [null, null, null], "닝샤스판": [0.0, null, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [null, null, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, null, null], "브라질스판": [0.0, 0.0, null], "인도스판": [0.0, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "수자원 관리", "label": "지하수", "unit": "Ton", "data": {"가흥무역": [0.0, null, null], "가흥스판": [0.0, null, null], "가흥화공": [0.0, null, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0.0, null, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [null, null, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, null, null], "브라질스판": [278952, 280013.0, null], "인도스판": [0.0, null, null], "튀르키예스판": [359315, 342071, null]}}, {"cat": "수자원 관리", "label": "용수 재활용", "unit": "Ton", "data": {"가흥무역": [0.0, null, null], "가흥스판": [7653.0, 18675.0, null], "가흥화공": [52583.0, 59907, 53076], "광동스판": [5898.0, 39368.0, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [24592.0, 48342.0, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [3747425, 2501461, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [15011.0, 24752.0, null], "브라질스판": [0.0, 0.0, null], "인도스판": [36218, 43586.0, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "최종 방류지별 폐수 배출량 > 하수처리", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [88698, 81251, 79885], "광동스판": [241218, 164732, 131041.0], "구미": [175383, 193231, null], "기타": [null, null, null], "닝샤스판": [193930, 187734, null], "대구": [506530, 559200, null], "동나이": [567235, 416214.0, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [77363, 71125, 59651], "취저우스판": [123883, 109951, null], "브라질스판": [69657.02, 64745.3, null], "인도스판": [94486, 162348, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "최종 방류지별 폐수 배출량 > 해양방류", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [null, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [509175, 78005, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [null, null, null], "인도스판": [null, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "최종 방류지별 폐수 배출량 > 위탁처리", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [148937, 142416, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0], "구미": [null, 62, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [null, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [null, null, null], "인도스판": [null, null, null], "튀르키예스판": [145925.0, 156886.0, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "수질오염물질 배출량 > BOD", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, 0], "광동스판": [0.55, 0.8071868, 0.714], "구미": [0.45, 2.01, null], "기타": [null, null, null], "닝샤스판": [6.423507575, 6.2770737, null], "대구": [3.4, 3.5, null], "동나이": [12.56, 2.5484, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0.6, 0.07, null], "주해스판": [0.4122084, 0.6941, 0.6264], "취저우스판": [0.21, 2.0698, null], "브라질스판": [3.8662169616, 4.488913321, null], "인도스판": [2.4701, 3.16659774, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "수질오염물질 배출량 > TOC", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, null], "광동스판": [null, null, 1.494], "구미": [0.99, 3.54, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [14.4, 9.1, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [1.93, 0.36, null], "주해스판": [null, null, 0.4855], "취저우스판": [null, null, null], "브라질스판": [null, null, null], "인도스판": [null, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "수질오염물질 배출량 > COD", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [3.871, 2.529, null], "가흥화공": [2.369041, 7.294536, 2.441035], "광동스판": [2.18, 1.476, 2.883], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [28.6528, 19.5876, null], "대구": [null, null, null], "동나이": [75.79, 93.796, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [1.796673, 1.6941, 2.7782], "취저우스판": [6.7, 4.8378, null], "브라질스판": [12.8193208818182, 18.64294, null], "인도스판": [10.1251, 15.01813703, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "수질오염물질 배출량 > SS", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [null, null, null], "가흥화공": [null, null, 0], "광동스판": [1.09, 0.82366, 1.048], "구미": [1.9, 10.24, null], "기타": [null, null, null], "닝샤스판": [5.8689075, 4.727134, null], "대구": [5.9, 3.4, null], "동나이": [9.52, 2.2195, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [1.6, 0.2, null], "주해스판": [0.331472, 1.0956, 0.62], "취저우스판": [1.95, 6.2672, null], "브라질스판": [48.4996546927273, 55.2417727, null], "인도스판": [7.2087, 8.17746876, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "수질오염물질 배출량 > T-N", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [1.52, 1.415, null], "가흥화공": [0.444686, 0.457668, 0.276253], "광동스판": [2.08, 1.444, 1.47], "구미": [4.07, 31, null], "기타": [null, null, null], "닝샤스판": [9.74802185, 9.06830747, null], "대구": [3.1, 3.3, null], "동나이": [10.45, 10.642, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [3, 0.48, null], "주해스판": [1.97541963, 2.0102, 1.1366], "취저우스판": [14.49, 23.0347, null], "브라질스판": [4.01817444102727, 7.158590255, null], "인도스판": [5.841, 10.37552539, null], "튀르키예스판": [null, null, null]}}, {"cat": "폐수 및 수질오염물질 배출", "label": "수질오염물질 배출량 > T-P", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [0.02, 0.019, null], "가흥화공": [0.007, null, 0.006344], "광동스판": [0.06, 0.038, 0.009], "구미": [0.1, 0.47, null], "기타": [null, null, null], "닝샤스판": [0.18916902, 0.865418092, null], "대구": [0.2, 0.1, null], "동나이": [0.22, 0.0441, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0.012, 0.002, null], "주해스판": [0.01303233, 0.0045, 0.0037], "취저우스판": [0.04, 0.0187, null], "브라질스판": [0.0822509267818182, 0.039820615, null], "인도스판": [0, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "친환경 제품 판매 및 구매", "label": "판매 > 친환경 제품 판매 실적", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [0, 0, 135596], "광동스판": [173526968.59, 177338822.83, null], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0, 0, null], "대구": [null, null, null], "동나이": [43613487332.59, 122948027878.48999, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [2711324.01, 19355681.65, 0], "취저우스판": [0, 0, null], "브라질스판": [0, 0, null], "인도스판": [0, 0, null], "튀르키예스판": [179897090.66857854, 286720952.90376896, null]}}, {"cat": "친환경 제품 판매 및 구매", "label": "구매 > 친환경 제품 구매 실적", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [0, 0, 110732], "광동스판": [0, 0, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0, 0, null], "대구": [null, null, null], "동나이": [87439498128.0, 27076777332, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [0, 0, 0], "취저우스판": [0, 0, null], "브라질스판": [9527503.16, 9913822.49, null], "인도스판": [96490120, 63835861, null], "튀르키예스판": [0, 0, null]}}, {"cat": "친환경 제품 판매 및 구매", "label": "구매 > 총 제품 구매 실적", "unit": "현지화", "data": {"가흥무역": [null, null, null], "가흥스판": [289542868.0, 296148272.9, null], "가흥화공": [1497136064.0, 1315462808.0, 1004649625], "광동스판": [582959821.0, 675472372.5515, 334554047.59], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [295711752.0, 368204136.7, null], "대구": [null, null, null], "동나이": [16982126447809.0, 20193314375623.5, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [276596562.0, 242819296.7872, 192316177], "취저우스판": [822750051.0, 730811132.4, null], "브라질스판": [268840348.0, 236421198.73, null], "인도스판": [6975555664.0, 6097398027.34, null], "튀르키예스판": [3334288728.05785, 3059968692.9745, null]}}, {"cat": "원재료 및 재생/재활용 원료 사용", "label": "재생 가능한 원료 사용량 (①)", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [0.0, 0.0, null], "가흥화공": [null, null, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [0, 0.0, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [0.0, 0.0, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "포장재 회수", "label": "포장재 > 포장재 총 출하량", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [1436.994, 1709.0970977200002, null], "가흥화공": [null, null, 0], "광동스판": [5599.215020000001, 7354.44016, 56241317.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [7710.335480618609, 8905.808436942505, null], "대구": [null, null, null], "동나이": [6061.25783264, 6065.482882350001, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [1733.07227, 1542.1171100000001, 18828105], "취저우스판": [7852.205086699999, 7911.4717535499985, null], "브라질스판": [2866.36203703, 2785.700884631094, null], "인도스판": [3974.9910416900007, 4522.005737809999, null], "튀르키예스판": [5742.708466781652, 6393.551183285001, null]}}, {"cat": "포장재 회수", "label": "포장재 > 포장재 회수량", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [26.400000000000006, 49.52, null], "가흥화공": [null, null, 0], "광동스판": [425.78410538674234, 570.4302718813665, 3044494.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [108.90425, 124.94671999999998, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [504.7581, 471.59745, null], "브라질스판": [254.13605994, 237.95132189521382, null], "인도스판": [13.16861, 38.575739999999996, null], "튀르키예스판": [348.60984700000006, 301.99024399999996, null]}}, {"cat": "환경투자", "label": "폐기물 처리 비용", "unit": "현지화", "data": {"가흥무역": [0.0, 0.0, null], "가흥스판": [2344621.17, 2077151.9100000001, null], "가흥화공": [2276008.12, 2265370.11, 1769614.06], "광동스판": [4545249.34, 5583193.78, 4039730.0], "구미": [672960520, 519800000, null], "기타": [null, null, null], "닝샤스판": [7210878.51, 7916010.555, null], "대구": [34800000, 34800000, null], "동나이": [18909723162.5, 20353884272.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [437851850, 367308000, null], "주해스판": [3529067.38, 3377571.7, 2850213], "취저우스판": [8098509.09, 6561519.75, null], "브라질스판": [674932.95, 796410.48, null], "인도스판": [20537317.9, 16379399.14, null], "튀르키예스판": [5472782.55, 4778628.64, null]}}, {"cat": "환경투자", "label": "폐수 처리 비용", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [3724547.7, 398764.8, null], "가흥화공": [878688.4, 817115.8, 770757], "광동스판": [1803753.0, 2343187.78, 1618418.06], "구미": [432614450, 350387000, null], "기타": [null, null, null], "닝샤스판": [2807800.69, 1013764, null], "대구": [357582610, 353786480, null], "동나이": [12071514387.5, 15134706416.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [540660000, 438413429, null], "주해스판": [832817.43, 789282.02, 770057], "취저우스판": [1560831.08, 1378628.54, null], "브라질스판": [137466.71, 100336.68, null], "인도스판": [5886843, 8117400, null], "튀르키예스판": [1069622.29, 523289, null]}}, {"cat": "환경투자", "label": "환경오염구제 책임보험", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [18000.0, 18000, null], "가흥화공": [238973, 246691, 217538], "광동스판": [56179.2, 54423.6, 37745.0], "구미": [32279900, 26000000, null], "기타": [null, null, null], "닝샤스판": [61500.0, 58500.0, null], "대구": [7201450, 5622501, null], "동나이": [0, 0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [37726098, 32235000, null], "주해스판": [20000, 19000, 19000], "취저우스판": [null, 0, null], "브라질스판": [0, 0, null], "인도스판": [25473, 21800, null], "튀르키예스판": [5015.75, 5216.38, null]}}, {"cat": "환경투자", "label": "환경배출물질 측정비용", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [25000, 60000, 487000], "광동스판": [346938.0, 299568.0, 322371.0], "구미": [292821480, 219000000, null], "기타": [null, null, null], "닝샤스판": [1027190.0, 0, null], "대구": [13224000, 31517000, null], "동나이": [307363712.5, 367578408.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [186928731, 189768000, null], "주해스판": [140500, 148960, 105000], "취저우스판": [null, 0, null], "브라질스판": [10341.5, 18026.08, null], "인도스판": [596766, 500930, null], "튀르키예스판": [111787.3, 132794.4, null]}}, {"cat": "환경투자", "label": "ISO 및 기타 환경 인증비용", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 15000, null], "가흥화공": [27825, 27825, 68670], "광동스판": [0, 0, 0.0], "구미": [11335000, 13000000, null], "기타": [null, null, null], "닝샤스판": [213000.0, 0, null], "대구": [26075576, 61731499, null], "동나이": [0, 0, null], "서울(공덕)": [101617000, 82757000, null], "서울(마포)": [0, 0, null], "울산": [6009000, 0, null], "주해스판": [0, 0, 0], "취저우스판": [null, 0, null], "브라질스판": [0, 0, null], "인도스판": [0, 0, null], "튀르키예스판": [105288, 598378.5, null]}}, {"cat": "환경투자", "label": "대기·화학물질 및 기타 환경 비용", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [414600, 409000, 22156.43], "광동스판": [0, 0, 0.0], "구미": [11441100, 0, null], "기타": [null, null, null], "닝샤스판": [0, 0, null], "대구": [3250000, 0, null], "동나이": [16446069242.6562, 16938724136.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [0, 0, null], "주해스판": [0, 0, 0], "취저우스판": [936815.56, 1086171.71, null], "브라질스판": [0, 0, null], "인도스판": [0, 0, null], "튀르키예스판": [40032, 43200, null]}}, {"cat": "환경투자", "label": "환경개선 시설투자", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [690200, 327000, 0], "광동스판": [209000.0, 5743000, 505000.0], "구미": [0, 148000000, null], "기타": [null, null, null], "닝샤스판": [370000.0, 1800346.0, null], "대구": [153000000, 2605818, null], "동나이": [2415137500, 2721849600.0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [735300000, 21375000, null], "주해스판": [248000, 2813763.0, 176000], "취저우스판": [422694, 595557.52, null], "브라질스판": [0, 0, null], "인도스판": [719966.0, 107250, null], "튀르키예스판": [0, 0, null]}}, {"cat": "환경투자", "label": "환경 기술 투자", "unit": "현지화", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [0, 0, 0], "광동스판": [0, 0, 0.0], "구미": [0, 0, null], "기타": [null, null, null], "닝샤스판": [0, 0, null], "대구": [0, 0, null], "동나이": [0, 0, null], "서울(공덕)": [0, 0, null], "서울(마포)": [0, 0, null], "울산": [0, 0, null], "주해스판": [0, 0, 0], "취저우스판": [0, 0, null], "브라질스판": [0, 0, null], "인도스판": [0, 0, null], "튀르키예스판": [0, 0, null]}}, {"cat": "화학물질 관리", "label": "유해화학물질 사용량", "unit": "Ton", "data": {"가흥무역": [0.0, null, null], "가흥스판": [3862.5039730000008, 4400.200172, null], "가흥화공": [0.0, 135425, 32.780123], "광동스판": [8947.720099000002, 11564.844852, 0.0], "구미": [4537, 5099, null], "기타": [null, null, null], "닝샤스판": [11947.206788000001, 13228.730313999997, null], "대구": [914, 839, null], "동나이": [164466.2734, 362831.419, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [332, 363, null], "주해스판": [3509.833380000001, 3921.8025159999993, 0], "취저우스판": [11434.850959999998, 11614.391567999997, null], "브라질스판": [4545.3682, 4371.548140000001, null], "인도스판": [7158.417, 8151.049, null], "튀르키예스판": [7916.476058999999, 8304.820941999997, null]}}, {"cat": "화학물질 관리", "label": "화학물질 배출량", "unit": "Ton", "data": {"가흥무역": [null, null, null], "가흥스판": [2.23, null, null], "가흥화공": [0.0, null, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [0.103, null, null], "기타": [null, null, null], "닝샤스판": [0.0, null, null], "대구": [0.003, null, null], "동나이": [0.0, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [0.235, null, null], "주해스판": [0.0, null, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [0.0, null, null], "인도스판": [0.0, null, null], "튀르키예스판": [0.0, null, null]}}, {"cat": "친환경 차량", "label": "비도로 차량 > 전기차", "unit": "대", "data": {"가흥무역": [0, 0, null], "가흥스판": [7, 7, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [16.0, 16.0, 11.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [6.0, 11.0, null], "대구": [6, 6, null], "동나이": [86.0, 86.0, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [3, 3, 3], "취저우스판": [5.0, 5.0, null], "브라질스판": [0, 0, null], "인도스판": [10.0, 10.0, null], "튀르키예스판": [7.0, 7, null]}}, {"cat": "친환경 차량", "label": "비도로 차량 > 수소차", "unit": "대", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [0.0, 0.0, 0], "광동스판": [0.0, 0.0, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [0.0, 0.0, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [0.0, 0.0, 0], "취저우스판": [0.0, 0.0, null], "브라질스판": [0, 0, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [0.0, 0.0, null]}}, {"cat": "친환경 차량", "label": "비도로 차량 > 기타 (가솔린, 디젤 등)", "unit": "대", "data": {"가흥무역": [0, 0, null], "가흥스판": [1, 1, null], "가흥화공": [1, 1, 1], "광동스판": [0.0, 0.0, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [0.0, 0.0, null], "대구": [null, null, null], "동나이": [90.0, 91.0, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [26, 9, null], "주해스판": [3.0, 4, 3], "취저우스판": [5.0, 5.0, null], "브라질스판": [11, 11, null], "인도스판": [0.0, 0.0, null], "튀르키예스판": [1.0, 1.0, null]}}, {"cat": "친환경 차량", "label": "도로 차량 > 전기차", "unit": "대", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [null, null, null], "동나이": [null, null, null], "서울(공덕)": [1, 1, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [0, 0, null], "인도스판": [null, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "친환경 차량", "label": "도로 차량 > 수소차", "unit": "대", "data": {"가흥무역": [0, 0, null], "가흥스판": [0, 0, null], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0], "구미": [null, null, null], "기타": [null, null, null], "닝샤스판": [null, null, null], "대구": [null, null, null], "동나이": [null, null, null], "서울(공덕)": [null, null, null], "서울(마포)": [null, null, null], "울산": [null, null, null], "주해스판": [null, null, 0], "취저우스판": [null, null, null], "브라질스판": [0, 0, null], "인도스판": [null, null, null], "튀르키예스판": [null, null, null]}}, {"cat": "원재료 및 재생/재활용 원료 사용", "label": "재활용된 원료 사용량", "unit": "Ton", "data": {"주해스판": [null, null, 407.1478], "가흥화공": [null, null, 0], "광동스판": [null, null, 1200.06]}}, {"cat": "원재료 및 재생/재활용 원료 사용", "label": "재사용된 원료 사용량", "unit": "Ton", "data": {"주해스판": [null, null, 29267], "가흥화공": [null, null, 0], "광동스판": [null, null, 53290.0]}}, {"cat": "원재료 및 재생/재활용 원료 사용", "label": "재생 불가능한 원료 사용량(②)", "unit": "Ton", "data": {"주해스판": [null, null, 15929.109078], "가흥화공": [null, null, 148616.025], "광동스판": [null, null, 29877.12]}}, {"cat": "친환경 차량", "label": "도로 차량 > 기타 (가솔린, 디젤 등)", "unit": "대", "data": {"주해스판": [null, null, 3], "가흥화공": [null, null, 8], "광동스판": [null, null, 7.0]}}, {"cat": "법률 및 규정 위반", "label": "환경 관련 법규 위반 건수", "unit": "건", "data": {"주해스판": [null, null, 0], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0]}}, {"cat": "법률 및 규정 위반", "label": "환경 관련 법규 위반에 따른 벌금", "unit": "현지화", "data": {"주해스판": [null, null, 0], "가흥화공": [null, null, 0], "광동스판": [null, null, 0.0]}}], "subs": ["가흥무역", "가흥스판", "가흥화공", "광동스판", "구미", "기타", "닝샤스판", "대구", "동나이", "브라질스판", "서울(공덕)", "서울(마포)", "울산", "인도스판", "주해스판", "취저우스판", "튀르키예스판"], "domestic": ["구미", "기타", "대구", "서울(공덕)", "서울(마포)", "울산"], "overseas": ["가흥무역", "가흥스판", "가흥화공", "광동스판", "닝샤스판", "동나이", "브라질스판", "인도스판", "주해스판", "취저우스판", "튀르키예스판"]};
+
+// FY-2025 엑셀 행번호 매핑 (label -> row)
+const ROW_MAP = {"일반 폐기물 배출량 > 위탁처리 > 재활용(①)":56,"일반 폐기물 배출량 > 위탁처리 > 소각":57,"일반 폐기물 배출량 > 위탁처리 > 매립":58,"지정 폐기물 배출량 > 자가처리(재활용)(②)":59,"지정 폐기물 배출량 > 위탁처리 > 재활용(③)":60,"지정 폐기물 배출량 > 위탁처리 > 소각":61,"지정 폐기물 배출량 > 위탁처리 > 매립":62,"지정 폐기물 배출량 > 위탁처리 > 기타":63,"일반대기오염물질 > 질소산화물(NOx)":64,"일반대기오염물질 > 황산화물(SOx)":65,"일반대기오염물질 > 먼지(PM)":66,"일반대기오염물질 > 총탄화수소(THC)":67,"휘발성유기화학물질(VOCs)":68,"유해대기오염물질(HAPs) > 염화수소(HCl)":69,"유해대기오염물질(HAPs) > 일산화탄소(CO)":70,"상수도 및 생활용수":71,"공업용수":72,"하수 재이용수":73,"지하수":74,"용수 재활용":75,"최종 방류지별 폐수 배출량 > 하수처리":76,"최종 방류지별 폐수 배출량 > 해양방류":77,"최종 방류지별 폐수 배출량 > 위탁처리":78,"수질오염물질 배출량 > BOD":79,"수질오염물질 배출량 > TOC":80,"수질오염물질 배출량 > COD":81,"수질오염물질 배출량 > SS":82,"수질오염물질 배출량 > T-N":83,"수질오염물질 배출량 > T-P":84,"판매 > 친환경 제품 판매 실적":85,"구매 > 친환경 제품 구매 실적":87,"구매 > 총 제품 구매 실적":88,"재생 가능한 원료 사용량 (①)":89,"재활용된 원료 사용량(②) > DMAc 재활용량":null,"재활용된 원료 사용량(②) > 폐원사 재활용":null,"재활용된 원료 사용량(②) > 기타":null,"재생 불가능한 원료 사용량(③)":null,"재활용된 원료 사용량":90,"재사용된 원료 사용량":91,"재생 불가능한 원료 사용량(②)":92,"포장재 > 포장재 총 출하량":93,"포장재 > 포장재 회수량":94,"폐기물 처리 비용":95,"폐수 처리 비용":96,"환경오염구제 책임보험":97,"환경배출물질 측정비용":98,"ISO 및 기타 환경 인증비용":99,"대기·화학물질 및 기타 환경 비용":100,"환경개선 시설투자":101,"환경 기술 투자":102,"유해화학물질 사용량":103,"화학물질 배출량":104,"비도로 차량 > 전기차":105,"비도로 차량 > 수소차":106,"비도로 차량 > 기타 (가솔린, 디젤 등)":107,"도로 차량 > 전기차":108,"도로 차량 > 수소차":109,"도로 차량 > 기타 (가솔린, 디젤 등)":110,"환경 관련 법규 위반 건수":111,"환경 관련 법규 위반에 따른 벌금":112,"오존층 파괴물질 > CFD(R-11)":null,"오존층 파괴물질 > HCFC(R-123)":null,"오존층 파괴물질 > HCFC(R-22)":null,"판매 > 총 제품 판매 실적":86,"매출액":null};
+const getRow = (label) => ROW_MAP[label] ?? null;
+
+const LANG = {
+  // UI texts
+  ui: {
+    title: {ko:"환경 데이터 검수 대시보드", en:"Environmental Data Verification Dashboard", zh:"环境数据审核仪表板"},
+    subtitle: {ko:"효성티앤씨 ESG 정량 데이터", en:"Hyosung TNC ESG Quantitative Data", zh:"晓星天禧 ESG 定量数据"},
+    desc: {ko:"온실가스/에너지 제외", en:"Excl. GHG/Energy", zh:"不含温室气体/能源"},
+    subs_count: {ko:"개 법인", en:" Subsidiaries", zh:"个法人"},
+    inds_count: {ko:"개 지표", en:" Indicators", zh:"个指标"},
+    bySub: {ko:"법인별 조회", en:"By Subsidiary", zh:"按法人查询"},
+    byIndicator: {ko:"지표별 비교", en:"By Indicator", zh:"按指标对比"},
+    all: {ko:"전체", en:"All", zh:"全部"},
+    missing: {ko:"미입력", en:"Missing", zh:"未填写"},
+    anomaly: {ko:"이상치", en:"Anomaly", zh:"异常值"},
+    domestic: {ko:"국내", en:"Domestic", zh:"国内"},
+    overseas: {ko:"해외", en:"Overseas", zh:"海外"},
+    total: {ko:"전체 지표", en:"Total Indicators", zh:"全部指标"},
+    filled: {ko:"입력 완료", en:"Filled", zh:"已填写"},
+    missing25: {ko:"2025 미입력", en:"2025 Missing", zh:"2025未填写"},
+    yoyAnomaly: {ko:"YoY 이상치", en:"YoY Anomaly", zh:"YoY异常"},
+    cat: {ko:"카테고리", en:"Category", zh:"类别"},
+    row: {ko:"행", en:"Row", zh:"行"},
+    indicator: {ko:"지표", en:"Indicator", zh:"指标"},
+    unit: {ko:"단위", en:"Unit", zh:"单位"},
+    trend: {ko:"추이", en:"Trend", zh:"趋势"},
+    status: {ko:"상태", en:"Status", zh:"状态"},
+    sub: {ko:"법인", en:"Subsidiary", zh:"法人"},
+    normal: {ko:"정상", en:"Normal", zh:"正常"},
+    noData: {ko:"데이터 없음", en:"No Data", zh:"无数据"},
+    notEntered: {ko:"미입력", en:"Not entered", zh:"未填写"},
+    showing: {ko:"개 지표 표시 중", en:" indicators shown", zh:"个指标显示中"},
+    subsHaveData: {ko:"개 법인 데이터 보유", en:" subsidiaries have data", zh:"个法人有数据"},
+  },
+  // Categories
+  cat: {
+    "폐기물 관리": {en:"Waste Management", zh:"废弃物管理"},
+    "대기오염물질 배출": {en:"Air Pollutant Emissions", zh:"大气污染物排放"},
+    "수자원 관리": {en:"Water Management", zh:"水资源管理"},
+    "폐수 및 수질오염물질 배출": {en:"Wastewater and Water Pollutant Discharge", zh:"废水及水质污染物排放"},
+    "친환경 제품 판매 및 구매": {en:"Eco-friendly Product Sales and Purchases", zh:"环保产品销售及采购"},
+    "원재료 및 재생/재활용 원료 사용": {en:"Raw, Renewable, and Recycled Material Consumption", zh:"原材料及再生/回收原料使用"},
+    "포장재 회수": {en:"Packaging Material Recovery", zh:"包装材料回收"},
+    "환경투자": {en:"Environmental Investment", zh:"环境投资"},
+    "화학물질 관리": {en:"Chemical Substances Management", zh:"化学物质管理"},
+    "친환경 차량": {en:"Eco-friendly Vehicles", zh:"环保车辆"},
+    "법률 및 규정 위반": {en:"Violation of Laws and Regulations", zh:"法律及规定违规"},
+  },
+  // Indicator labels
+  label: {
+    "일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {en:"Non-hazardous Waste > Outsourced Treatment > Recycling(①)", zh:"一般废弃物产生量 > 委托处理 > 再利用(回收利用)(①)"},
+    "일반 폐기물 배출량 > 위탁처리 > 소각": {en:"Non-hazardous Waste > Outsourced Treatment > Incineration", zh:"一般废弃物排放量 > 委托处理 > 焚烧"},
+    "일반 폐기물 배출량 > 위탁처리 > 매립": {en:"Non-hazardous Waste > Outsourced Treatment > Landfill", zh:"一般废弃物排放量 > 委托处理 > 填埋"},
+    "지정 폐기물 배출량 > 자가처리(재활용)(②)": {en:"Hazardous Waste > On-site Treatment (Recycling)(②)", zh:"危险废弃物产生量 > 自行处理（再利用）（②）"},
+    "지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {en:"Hazardous Waste > Outsourced Treatment > Recycling(③)", zh:"指定废弃物排放量 > 委托处理 > 再利用(回收利用)(③)"},
+    "지정 폐기물 배출량 > 위탁처리 > 소각": {en:"Hazardous Waste > Outsourced Treatment > Incineration", zh:"指定废弃物排放量 > 委托处理 > 焚烧"},
+    "지정 폐기물 배출량 > 위탁처리 > 매립": {en:"Hazardous Waste > Outsourced Treatment > Landfill", zh:"指定废弃物排放量 > 委托处理 > 填埋"},
+    "지정 폐기물 배출량 > 위탁처리 > 기타": {en:"Hazardous Waste > Outsourced Treatment > Others", zh:"指定废弃物排放量 > 委托处理 > 其他"},
+    "일반대기오염물질 > 질소산화물(NOx)": {en:"Common Air Pollutants > Nitrogen Oxides (NOx)", zh:"一般大气污染物 > 氮氧化物(NOx)"},
+    "일반대기오염물질 > 황산화물(SOx)": {en:"Common Air Pollutants > Sulfur Oxides (SOx)", zh:"一般大气污染物 > 硫氧化物(SOx)"},
+    "일반대기오염물질 > 먼지(PM)": {en:"Common Air Pollutants > Particulate Matter (PM)", zh:"一般大气污染物 > 颗粒物(PM)"},
+    "일반대기오염물질 > 총탄화수소(THC)": {en:"Common Air Pollutants > Total Hydrocarbons (THC)", zh:"一般大气污染物 > 总烃(THC)"},
+    "휘발성유기화학물질(VOCs)": {en:"VOCs", zh:"挥发性有机化合物(VOCs)"},
+    "유해대기오염물질(HAPs) > 염화수소(HCl)": {en:"Hazardous Air Pollutants (HAPs) > Hydrochloric Acid (HCl)", zh:"有害大气污染物(HAPs) > 氯化氢(HCl)"},
+    "유해대기오염물질(HAPs) > 일산화탄소(CO)": {en:"Hazardous Air Pollutants (HAPs) > Carbon Monoxide (CO)", zh:"有害大气污染物(HAPs) > 一氧化碳(CO)"},
+    "상수도 및 생활용수": {en:"Municipal Water & Domestic Water", zh:"自来水及生活用水"},
+    "공업용수": {en:"Industrial Water", zh:"工业用水"},
+    "하수 재이용수": {en:"Reclaimed Wastewater", zh:"再生污水"},
+    "지하수": {en:"Groundwater", zh:"地下水"},
+    "용수 재활용": {en:"Water Reused", zh:"用水回收利用"},
+    "최종 방류지별 폐수 배출량 > 하수처리": {en:"Wastewater Discharge by Final Destination > Wastewater Treatment", zh:"最终排放地别废水排放量 > 污水处理"},
+    "최종 방류지별 폐수 배출량 > 해양방류": {en:"Wastewater Discharge by Final Destination > Ocean Discharge", zh:"最终排放地别废水排放量 > 海洋排放"},
+    "최종 방류지별 폐수 배출량 > 위탁처리": {en:"Wastewater Discharge by Final Destination > Outsourced Treatment", zh:"最终排放地别废水排放量 > 委托处理"},
+    "수질오염물질 배출량 > BOD": {en:"Water Pollutant Discharged > BOD", zh:"水污染物排放量 > 生物需氧量(BOD)"},
+    "수질오염물질 배출량 > TOC": {en:"Water Pollutant Discharged > TOC", zh:"水质污染物排放量 > 总有机碳量(TOC)"},
+    "수질오염물질 배출량 > COD": {en:"Water Pollutant Discharged > COD", zh:"水质污染物排放量 > 化学需氧量(COD)"},
+    "수질오염물질 배출량 > SS": {en:"Water Pollutant Discharged > SS", zh:"水质污染物排放量 > 悬浮物质(SS)"},
+    "수질오염물질 배출량 > T-N": {en:"Water Pollutant Discharged > T-N", zh:"水质污染物排放量 > 总氮(T-N)"},
+    "수질오염물질 배출량 > T-P": {en:"Water Pollutant Discharged > T-P", zh:"水质污染物排放量 > 总磷(T-P)"},
+    "판매 > 친환경 제품 판매 실적": {en:"Sales > Eco-friendly Product Sales", zh:"销售 > 环保产品销售业绩"},
+    "구매 > 친환경 제품 구매 실적": {en:"Purchases > Eco-friendly Product Purchases", zh:"采购 > 环保产品采购业绩"},
+    "구매 > 총 제품 구매 실적": {en:"Purchases > Total Product Purchases", zh:"采购 > 总产品采购业绩"},
+    "재생 가능한 원료 사용량 (①)": {en:"Amount of Renewable Materials Used (①)", zh:"可再生原料使用量 (①)"},
+    "재활용된 원료 사용량": {en:"Amount of Recycled Materials Used", zh:"回收原料使用量"},
+    "재사용된 원료 사용량": {en:"Amount of Reused Materials Used", zh:"再利用原料用量"},
+    "재생 불가능한 원료 사용량(②)": {en:"Amount of Non-renewable Materials Used (②)", zh:"不可再生原料用量(②)"},
+    "포장재 > 포장재 총 출하량": {en:"Total Amount of Packaging Materials Sold", zh:"包装材料 > 包装材料总出货量"},
+    "포장재 > 포장재 회수량": {en:"Amount of Packaging Material Recovered", zh:"包装材料 > 包装材料回收量"},
+    "폐기물 처리 비용": {en:"Waste Treatment Costs", zh:"废弃物处理费用"},
+    "폐수 처리 비용": {en:"Wastewater Treatment Costs", zh:"废水处理费用"},
+    "환경오염구제 책임보험": {en:"Environmental Pollution Liability Insurance", zh:"环境污染救济责任保险"},
+    "환경배출물질 측정비용": {en:"Environmental Emission Measurement Costs", zh:"环境排放物质测量费用"},
+    "ISO 및 기타 환경 인증비용": {en:"ISO and Other Environmental Certification Costs", zh:"ISO及其他环境认证费用"},
+    "대기·화학물질 및 기타 환경 비용": {en:"Air, Chemical, and Other Environmental Costs", zh:"大气、化学物质及其他环境费用"},
+    "환경개선 시설투자": {en:"Investment in Facilities for Environmental Improvement", zh:"环境改善设施投资"},
+    "환경 기술 투자": {en:"Investment in Eco-friendly Technologies", zh:"环境技术投资"},
+    "유해화학물질 사용량": {en:"Hazardous Chemicals Consumption", zh:"有害化学物质使用量"},
+    "화학물질 배출량": {en:"Chemical Substance Emissions", zh:"化学物质排放量"},
+    "비도로 차량 > 전기차": {en:"Off-road Vehicles > Electric Vehicles", zh:"非道路车辆 > 电动车(EV)"},
+    "비도로 차량 > 수소차": {en:"Off-road Vehicles > Hydrogen Vehicles", zh:"非道路车辆 > 氢燃料电池车"},
+    "비도로 차량 > 기타 (가솔린, 디젤 등)": {en:"Off-road Vehicles > Others (Gasoline, Diesel, etc.)", zh:"非道路车辆 > 其他（汽油、柴油等）"},
+    "도로 차량 > 전기차": {en:"On-road Vehicles > Electric Vehicles", zh:"道路车辆 > 电动车(EV)"},
+    "도로 차량 > 수소차": {en:"On-road Vehicles > Hydrogen Vehicles", zh:"道路车辆 > 氢燃料电池车"},
+    "도로 차량 > 기타 (가솔린, 디젤 등)": {en:"On-road Vehicles > Others (Gasoline, Diesel, etc.)", zh:"道路车辆 > 其他（汽油、柴油等）"},
+    "환경 관련 법규 위반 건수": {en:"Number of Environmental Law Violations", zh:"环境相关法规违规次数"},
+    "환경 관련 법규 위반에 따른 벌금": {en:"Fines for Environmental Law and Regulation Violations", zh:"因环境相关法规违规而处的罚款"},
+  },
+  // Subsidiary names
+  sub: {
+    "가흥무역": {en:"Jiaxing Trading", zh:"嘉兴贸易"},
+    "가흥스판": {en:"Jiaxing Spandex", zh:"嘉兴氨纶"},
+    "가흥화공": {en:"Jiaxing Chemical", zh:"嘉兴化工"},
+    "광동스판": {en:"Guangdong Spandex", zh:"广东氨纶"},
+    "구미": {en:"Gumi", zh:"龟尾"},
+    "기타": {en:"Others", zh:"其他"},
+    "닝샤스판": {en:"Ningxia Spandex", zh:"宁夏氨纶"},
+    "대구": {en:"Daegu", zh:"大邱"},
+    "동나이": {en:"Dong Nai", zh:"同奈"},
+    "멕시코": {en:"Mexico", zh:"墨西哥"},
+    "브라질스판": {en:"Brazil Spandex", zh:"巴西氨纶"},
+    "서울(공덕)": {en:"Seoul (Gongdeok)", zh:"首尔(孔德)"},
+    "서울(마포)": {en:"Seoul (Mapo)", zh:"首尔(麻浦)"},
+    "울산": {en:"Ulsan", zh:"蔚山"},
+    "인도스판": {en:"India Spandex", zh:"印度氨纶"},
+    "주해스판": {en:"Zhuhai Spandex", zh:"珠海氨纶"},
+    "취저우스판": {en:"Quzhou Spandex", zh:"衢州氨纶"},
+    "튀르키예스판": {en:"Türkiye Spandex", zh:"土耳其氨纶"},
+  },
+  // Units
+  unit: {
+    "Ton": {en:"Ton", zh:"吨"},
+    "현지화": {en:"Local Currency", zh:"人民币"},
+    "대": {en:"Unit", zh:"辆"},
+    "건": {en:"Case", zh:"次"},
+    "EA": {en:"EA", zh:"EA"},
+  }
+};
+
+
+const CATS = [...new Set(RAW.indicators.map(i=>i.cat))];
+const SUBS = RAW.subs;
+const YEARS = ["2023","2024","2025"];
+const YOY_THRESHOLD = 0.3;
+
+function fmt(v) {
+  if (v === null || v === undefined) return null;
+  if (Number.isInteger(v)) return v.toLocaleString();
+  if (Math.abs(v) < 0.0001 && v !== 0) return v.toExponential(2);
+  if (Math.abs(v) < 1) return v.toFixed(4);
+  if (Math.abs(v) < 100) return v.toFixed(2);
+  return Math.round(v).toLocaleString();
+}
+
+function yoyPct(prev, cur) {
+  if (prev == null || cur == null) return null;
+  if (prev === 0 && cur === 0) return 0;
+  if (prev === 0) return cur > 0 ? 999 : -999;
+  return (cur - prev) / Math.abs(prev);
+}
+
+function cellStatus(vals) {
+  const [y23, y24, y25] = vals;
+  const flags = [];
+  // Missing 2025 when historical exists
+  const hasHist = y23 != null || y24 != null;
+  if (y25 == null && hasHist) flags.push("missing_2025");
+  if (y25 == null && !hasHist) flags.push("no_data");
+  // YoY anomalies
+  const chg24 = yoyPct(y23, y24);
+  const chg25 = yoyPct(y24, y25);
+  if (chg24 != null && Math.abs(chg24) > YOY_THRESHOLD) flags.push("yoy_24");
+  if (chg25 != null && Math.abs(chg25) > YOY_THRESHOLD) flags.push("yoy_25");
+  return flags;
+}
+
+function Sparkline({ vals }) {
+  const valid = vals.map((v,i)=>v!=null?{v,i}:null).filter(Boolean);
+  if (valid.length < 2) return <span style={{color:"#999",fontSize:10}}>—</span>;
+  const mn = Math.min(...valid.map(d=>d.v));
+  const mx = Math.max(...valid.map(d=>d.v));
+  const range = mx-mn || 1;
+  const pts = valid.map(d=>`${8+d.i*20},${30-((d.v-mn)/range)*24}`).join(" ");
+  return <svg width="56" height="34" style={{verticalAlign:"middle"}}><polyline points={pts} fill="none" stroke="#6366f1" strokeWidth="2"/>{valid.map(d=><circle key={d.i} cx={8+d.i*20} cy={30-((d.v-mn)/range)*24} r="2.5" fill="#6366f1"/>)}</svg>;
+}
+
+const Dashboard = function Dashboard() {
+  const [lang, setLang] = useState("ko");
+  const [selSub, setSelSub] = useState("주해스판");
+  const [selCat, setSelCat] = useState("전체");
+  const [filterMode, setFilterMode] = useState("all"); // all, missing, anomaly
+  const [viewMode, setViewMode] = useState("bySub"); // bySub, byIndicator
+  const [selIndicator, setSelIndicator] = useState(0);
+
+  const t = (section, key) => {
+    if (lang === "ko") return key;
+    const dict = LANG[section];
+    if (!dict) return key;
+    const entry = dict[key];
+    if (!entry) return key;
+    return entry[lang] || key;
+  };
+  const tui = (key) => {
+    const entry = LANG.ui[key];
+    if (!entry) return key;
+    return entry[lang] || entry.ko;
+  };
+
+  const filteredIndicators = useMemo(() => {
+    let list = RAW.indicators;
+    if (selCat !== "전체") list = list.filter(i => i.cat === selCat);
+    if (viewMode === "bySub") {
+      list = list.filter(i => i.data[selSub]);
+      if (filterMode === "missing") list = list.filter(i => {
+        const f = cellStatus(i.data[selSub]);
+        return f.includes("missing_2025");
+      });
+      if (filterMode === "anomaly") list = list.filter(i => {
+        const f = cellStatus(i.data[selSub]);
+        return f.includes("yoy_24") || f.includes("yoy_25");
+      });
+    }
+    return list;
+  }, [selSub, selCat, filterMode, viewMode]);
+
+  const stats = useMemo(() => {
+    const inds = RAW.indicators.filter(i => i.data[selSub]);
+    let total = 0, missing = 0, anomaly = 0, filled = 0;
+    inds.forEach(i => {
+      const d = i.data[selSub];
+      if (!d) return;
+      total++;
+      const f = cellStatus(d);
+      if (f.includes("missing_2025")) missing++;
+      if (f.includes("yoy_24") || f.includes("yoy_25")) anomaly++;
+      if (d[2] != null) filled++;
+    });
+    return { total, missing, anomaly, filled, pct: total ? Math.round(filled/total*100) : 0 };
+  }, [selSub]);
+
+  const bgColor = (flags) => {
+    if (flags.includes("missing_2025")) return "#fef3c7";
+    if (flags.includes("yoy_24") || flags.includes("yoy_25")) return "#fee2e2";
+    if (flags.includes("no_data")) return "#f9fafb";
+    return "#ecfdf5";
+  };
+
+  const renderBySubTable = () => (
+    <div style={{overflowX:"auto"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:13,fontFamily:"'Pretendard','Noto Sans KR',sans-serif"}}>
+        <thead>
+          <tr style={{background:"#1e293b",color:"#fff",position:"sticky",top:0,zIndex:2}}>
+            <th style={{padding:"10px 12px",textAlign:"left",minWidth:60}}>{tui("cat")}</th>
+            <th style={{padding:"10px 6px",textAlign:"center",width:40}}>{tui("row")}</th>
+            <th style={{padding:"10px 12px",textAlign:"left",minWidth:200}}>{tui("indicator")}</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:50}}>{tui("unit")}</th>
+            <th style={{padding:"10px 8px",textAlign:"right",width:130}}>2023</th>
+            <th style={{padding:"10px 8px",textAlign:"right",width:130}}>2024</th>
+            <th style={{padding:"10px 8px",textAlign:"right",width:130}}>2025</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:65}}>{tui("trend")}</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:70}}>YoY%</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:60}}>{tui("status")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredIndicators.map((ind, idx) => {
+            const d = ind.data[selSub] || [null,null,null];
+            const flags = cellStatus(d);
+            const chg = yoyPct(d[1], d[2]);
+            return (
+              <tr key={idx} style={{background: bgColor(flags), borderBottom:"1px solid #e2e8f0",transition:"background .15s"}}
+                onMouseEnter={e=>e.currentTarget.style.background="#f1f5f9"}
+                onMouseLeave={e=>e.currentTarget.style.background=bgColor(flags)}>
+                <td style={{padding:"8px 12px",color:"#64748b",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{t("cat",ind.cat)}</td>
+                <td style={{padding:"8px 6px",textAlign:"center",fontSize:11,fontWeight:700,color:"#6366f1",fontVariantNumeric:"tabular-nums",fontFamily:"monospace"}}>{getRow(ind.label) || "—"}</td>
+                <td style={{padding:"8px 12px",fontWeight:500}}>{t("label",ind.label)}</td>
+                <td style={{padding:"8px",textAlign:"center",color:"#94a3b8",fontSize:11}}>{t("unit",ind.unit)}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:d[0]==null?"#cbd5e1":"#334155"}}>{d[0]!=null?fmt(d[0]):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:d[1]==null?"#cbd5e1":"#334155",background:flags.includes("yoy_24")?"#fecaca33":"transparent"}}>{d[1]!=null?fmt(d[1]):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",fontWeight:600,color:d[2]==null?"#ef4444":"#0f172a",background:flags.includes("yoy_25")?"#fecaca55":"transparent"}}>{d[2]!=null?fmt(d[2]):<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>}</td>
+                <td style={{padding:"4px 8px",textAlign:"center"}}><Sparkline vals={d}/></td>
+                <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color: chg==null?"#94a3b8":Math.abs(chg)>YOY_THRESHOLD?"#dc2626":"#16a34a"}}>
+                  {chg!=null ? (chg>=0?"+":"") + (chg*100).toFixed(0)+"%" : "—"}
+                </td>
+                <td style={{padding:"8px",textAlign:"center"}}>
+                  {flags.includes("missing_2025") && <span title={tui("missing25")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
+                  {(flags.includes("yoy_24")||flags.includes("yoy_25")) && <span title={tui("yoyAnomaly")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
+                  {!flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && !flags.includes("no_data") && <span style={{color:"#22c55e",fontSize:14}}>✓</span>}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  const renderByIndicatorTable = () => {
+    const ind = RAW.indicators[selIndicator];
+    if (!ind) return null;
+    const subsWithData = SUBS.filter(s => ind.data[s] && ind.data[s].some(v => v != null));
+    return (
+      <div>
+        <div style={{marginBottom:12}}>
+          <select value={selIndicator} onChange={e=>setSelIndicator(+e.target.value)}
+            style={{padding:"8px 12px",borderRadius:6,border:"1px solid #cbd5e1",fontSize:13,width:"100%",background:"#fff"}}>
+            {RAW.indicators.map((ind,i) => <option key={i} value={i}>{getRow(ind.label) ? `${tui("row")}${getRow(ind.label)} ` : ""}[{t("cat",ind.cat)}] {t("label",ind.label)} ({t("unit",ind.unit)})</option>)}
+          </select>
+        </div>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:13,fontFamily:"'Pretendard','Noto Sans KR',sans-serif"}}>
+          <thead>
+            <tr style={{background:"#1e293b",color:"#fff"}}>
+              <th style={{padding:"10px 12px",textAlign:"left"}}>{tui("sub")}</th>
+              <th style={{padding:"10px 8px",textAlign:"right",width:130}}>2023</th>
+              <th style={{padding:"10px 8px",textAlign:"right",width:130}}>2024</th>
+              <th style={{padding:"10px 8px",textAlign:"right",width:130}}>2025</th>
+              <th style={{padding:"10px 8px",textAlign:"center",width:65}}>{tui("trend")}</th>
+              <th style={{padding:"10px 8px",textAlign:"center",width:80}}>YoY 24→25</th>
+              <th style={{padding:"10px 8px",textAlign:"center",width:60}}>{tui("status")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {subsWithData.map(sub => {
+              const d = ind.data[sub];
+              const flags = cellStatus(d);
+              const chg = yoyPct(d[1], d[2]);
+              const isDom = RAW.domestic.includes(sub);
+              return (
+                <tr key={sub} style={{background: bgColor(flags),borderBottom:"1px solid #e2e8f0"}}>
+                  <td style={{padding:"8px 12px",fontWeight:500}}>
+                    <span style={{display:"inline-block",width:6,height:6,borderRadius:3,background:isDom?"#3b82f6":"#f59e0b",marginRight:6}}/>
+                    {t("sub",sub)}
+                  </td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums"}}>{d[0]!=null?fmt(d[0]):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums"}}>{d[1]!=null?fmt(d[1]):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontWeight:600,color:d[2]==null?"#ef4444":"#0f172a"}}>{d[2]!=null?fmt(d[2]):<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>}</td>
+                  <td style={{padding:"4px 8px",textAlign:"center"}}><Sparkline vals={d}/></td>
+                  <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:chg==null?"#94a3b8":Math.abs(chg)>YOY_THRESHOLD?"#dc2626":"#16a34a"}}>
+                    {chg!=null?(chg>=0?"+":"")+(chg*100).toFixed(0)+"%":"—"}
+                  </td>
+                  <td style={{padding:"8px",textAlign:"center"}}>
+                    {flags.includes("missing_2025") && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
+                    {(flags.includes("yoy_24")||flags.includes("yoy_25")) && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
+                    {!flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && !flags.includes("no_data") && <span style={{color:"#22c55e",fontSize:14}}>✓</span>}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  return (
+    <div style={{fontFamily:"'Pretendard','Noto Sans KR',system-ui,sans-serif",background:"#f8fafc",minHeight:"100vh",color:"#0f172a"}}>
+      {/* Header */}
+      <div style={{background:"linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)",color:"#fff",padding:"20px 24px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+          <div>
+            <div style={{fontSize:11,fontWeight:600,letterSpacing:2,color:"#94a3b8",marginBottom:4}}>{tui("subtitle")}</div>
+            <div style={{fontSize:22,fontWeight:800,letterSpacing:-0.5}}>{tui("title")}</div>
+            <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")}</div>
+          </div>
+          <div style={{display:"flex",gap:2,borderRadius:6,overflow:"hidden",border:"1px solid #475569"}}>
+            {["ko","en","zh"].map(l=>(
+              <button key={l} onClick={()=>setLang(l)} style={{padding:"6px 12px",fontSize:12,fontWeight:700,border:"none",cursor:"pointer",background:lang===l?"#fff":"transparent",color:lang===l?"#0f172a":"#94a3b8"}}>
+                {l==="ko"?"KR":l==="en"?"EN":"CN"}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{padding:"16px 24px"}}>
+        {/* View mode toggle */}
+        <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap",alignItems:"center"}}>
+          <div style={{display:"flex",borderRadius:8,overflow:"hidden",border:"1px solid #cbd5e1"}}>
+            {[["bySub",tui("bySub")],["byIndicator",tui("byIndicator")]].map(([m,l])=>(
+              <button key={m} onClick={()=>setViewMode(m)} style={{padding:"8px 16px",fontSize:13,fontWeight:600,border:"none",cursor:"pointer",background:viewMode===m?"#1e293b":"#fff",color:viewMode===m?"#fff":"#64748b",transition:"all .15s"}}>{l}</button>
+            ))}
+          </div>
+          {viewMode==="bySub" && (
+            <>
+              <select value={selSub} onChange={e=>setSelSub(e.target.value)} style={{padding:"8px 12px",borderRadius:6,border:"1px solid #cbd5e1",fontSize:13,fontWeight:600,background:"#fff"}}>
+                <optgroup label={tui("domestic")}>{RAW.domestic.map(s=><option key={s} value={s}>{t("sub",s)}</option>)}</optgroup>
+                <optgroup label={tui("overseas")}>{RAW.overseas.map(s=><option key={s} value={s}>{t("sub",s)}</option>)}</optgroup>
+              </select>
+              <div style={{display:"flex",borderRadius:6,overflow:"hidden",border:"1px solid #cbd5e1"}}>
+                {[["all",tui("all")],["missing",tui("missing")],["anomaly",tui("anomaly")]].map(([m,l])=>(
+                  <button key={m} onClick={()=>setFilterMode(m)} style={{padding:"6px 14px",fontSize:12,fontWeight:500,border:"none",cursor:"pointer",background:filterMode===m?"#475569":"#fff",color:filterMode===m?"#fff":"#64748b"}}>{l}</button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Category tabs */}
+        <div style={{display:"flex",gap:4,marginBottom:16,flexWrap:"wrap"}}>
+          <button onClick={()=>setSelCat("전체")} style={{padding:"5px 12px",borderRadius:16,border:selCat==="전체"?"2px solid #1e293b":"1px solid #e2e8f0",background:selCat==="전체"?"#1e293b":"#fff",color:selCat==="전체"?"#fff":"#64748b",fontSize:12,fontWeight:600,cursor:"pointer"}}>{tui("all")}</button>
+          {CATS.map(c=>(
+            <button key={c} onClick={()=>setSelCat(c)} style={{padding:"5px 12px",borderRadius:16,border:selCat===c?"2px solid #1e293b":"1px solid #e2e8f0",background:selCat===c?"#1e293b":"#fff",color:selCat===c?"#fff":"#64748b",fontSize:11,fontWeight:500,cursor:"pointer",whiteSpace:"nowrap"}}>{t("cat",c.trim())}</button>
+          ))}
+        </div>
+
+        {/* KPI cards (bySub mode) */}
+        {viewMode==="bySub" && (
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:10,marginBottom:16}}>
+            {[
+              {label:tui("total"),value:stats.total,color:"#3b82f6",icon:"📊"},
+              {label:tui("filled"),value:stats.filled,color:"#22c55e",icon:"✅",sub:`${stats.pct}%`},
+              {label:tui("missing25"),value:stats.missing,color:"#f59e0b",icon:"⚠️"},
+              {label:tui("yoyAnomaly"),value:stats.anomaly,color:"#ef4444",icon:"🔴"},
+            ].map(({label,value,color,icon,sub})=>(
+              <div key={label} style={{background:"#fff",borderRadius:10,padding:"14px 16px",borderLeft:`4px solid ${color}`,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
+                <div style={{fontSize:11,color:"#94a3b8",fontWeight:600}}>{icon} {label}</div>
+                <div style={{fontSize:26,fontWeight:800,color,marginTop:2,fontVariantNumeric:"tabular-nums"}}>{value}{sub && <span style={{fontSize:13,fontWeight:500,color:"#64748b",marginLeft:4}}>{sub}</span>}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Legend */}
+        <div style={{display:"flex",gap:16,marginBottom:12,fontSize:11,color:"#64748b",flexWrap:"wrap"}}>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#ecfdf5",border:"1px solid #bbf7d0",verticalAlign:"middle",marginRight:4}}/>{tui("normal")}</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#fef3c7",border:"1px solid #fde68a",verticalAlign:"middle",marginRight:4}}/>{tui("missing25")}</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#fee2e2",border:"1px solid #fecaca",verticalAlign:"middle",marginRight:4}}/>YoY ±30%</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#f9fafb",border:"1px solid #e5e7eb",verticalAlign:"middle",marginRight:4}}/>{tui("noData")}</span>
+        </div>
+
+        {/* Table */}
+        <div style={{background:"#fff",borderRadius:12,overflow:"hidden",boxShadow:"0 1px 4px rgba(0,0,0,0.08)",maxHeight:"calc(100vh - 340px)",overflowY:"auto"}}>
+          {viewMode==="bySub" ? renderBySubTable() : renderByIndicatorTable()}
+        </div>
+
+        <div style={{marginTop:12,fontSize:11,color:"#94a3b8",textAlign:"center"}}>
+          {viewMode==="bySub" ? `${t("sub",selSub)}: ${filteredIndicators.length}${tui("showing")}` : `${SUBS.filter(s=>RAW.indicators[selIndicator]?.data[s]?.some(v=>v!=null)).length}${tui('subsHaveData')}`}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Dashboard));
+</script>
+</body>
+</html>
