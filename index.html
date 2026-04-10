@@ -180,7 +180,11 @@ function fmt(v) {
   if (Math.abs(v) < 0.0001 && v !== 0) return v.toExponential(2);
   if (Math.abs(v) < 1) return v.toFixed(4);
   if (Math.abs(v) < 100) return v.toFixed(2);
-  return Math.round(v).toLocaleString();
+  const s = v.toString();
+  const dotIdx = s.indexOf('.');
+  if (dotIdx === -1) return v.toLocaleString();
+  const decimals = Math.min(s.length - dotIdx - 1, 6);
+  return v.toLocaleString(undefined, {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
 }
 
 function yoyPct(prev, cur) {
