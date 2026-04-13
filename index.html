@@ -58,8 +58,42 @@ const VERIFIED = {
   "가흥화공:대기·화학물질 및 기타 환경 비용": "수정 확정 (22156→449156.43, LDAR·자행감측·배출권 등 발票 11건 합계 일치)",
   "가흥화공:유해화학물질 사용량": "2024년 135425→25.8 잠정 수정 (BDO 오기입 제거, 부탄올만 반영. 수소 포함 여부 법인 회신 대기)"
 };
+const NOT_APPLICABLE = {
+  "가흥화공:최종 방류지별 폐수 배출량 > 해양방류": "내륙 법인, 해양방류 시설 없음",
+  "광동스판:최종 방류지별 폐수 배출량 > 해양방류": "내륙 법인, 해양방류 시설 없음",
+  "주해스판:최종 방류지별 폐수 배출량 > 해양방류": "내륙 법인, 해양방류 시설 없음",
+  "가흥화공:최종 방류지별 폐수 배출량 > 위탁처리": "전량 하수처리장 방류, 위탁처리 구조 아님",
+  "광동스판:최종 방류지별 폐수 배출량 > 위탁처리": "전량 하수처리장 방류, 위탁처리 구조 아님",
+  "주해스판:최종 방류지별 폐수 배출량 > 위탁처리": "전량 하수처리장 방류, 위탁처리 구조 아님",
+  "가흥화공:하수 재이용수": "재이용 시설 미보유",
+  "광동스판:하수 재이용수": "재이용 시설 미보유",
+  "주해스판:하수 재이용수": "재이용 시설 미보유",
+  "가흥화공:지하수": "지하수 취수 시설 없음",
+  "광동스판:지하수": "지하수 취수 시설 없음",
+  "주해스판:지하수": "지하수 취수 시설 없음",
+  "가흥화공:일반대기오염물질 > 총탄화수소(THC)": "측정 대상 외 (측정 장비·의무 없음)",
+  "광동스판:일반대기오염물질 > 총탄화수소(THC)": "측정 대상 외 (NMHC만 측정, THC 근거 부재)",
+  "주해스판:일반대기오염물질 > 총탄화수소(THC)": "측정 대상 외 (VOCs와 중복, 삭제 처리)",
+  "가흥화공:유해대기오염물질(HAPs) > 염화수소(HCl)": "배출원(소각로 등) 없음",
+  "광동스판:유해대기오염물질(HAPs) > 염화수소(HCl)": "배출원(소각로 등) 없음",
+  "주해스판:유해대기오염물질(HAPs) > 염화수소(HCl)": "배출원(소각로 등) 없음",
+  "가흥화공:유해대기오염물질(HAPs) > 일산화탄소(CO)": "배출원 없음",
+  "광동스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": "배출원 없음",
+  "주해스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": "배출원 없음",
+  "가흥화공:일반대기오염물질 > 질소산화물(NOx)": "자체 연소시설(보일러) 미보유, 스팀 외부 구매",
+  "가흥화공:일반대기오염물질 > 황산화물(SOx)": "자체 연소시설(보일러) 미보유, 스팀 외부 구매",
+  "가흥화공:일반대기오염물질 > 먼지(PM)": "자체 연소시설(보일러) 미보유, 스팀 외부 구매",
+  "가흥화공:수질오염물질 배출량 > BOD": "배출 허가 조건 미포함, 미측정 (COD 기준 관리)",
+  "가흥화공:수질오염물질 배출량 > SS": "배출 허가 조건 미포함, 미측정 (COD 기준 관리)",
+  "가흥화공:포장재 > 포장재 총 출하량": "화공 법인, 벌크 출하 방식 (포장재 해당 없음)",
+  "가흥화공:포장재 > 포장재 회수량": "화공 법인, 벌크 출하 방식 (포장재 해당 없음)",
+  "가흥화공:재활용된 원료 사용량": "화공 법인, 폐원사(废丝) 해당 없음",
+  "가흥화공:재사용된 원료 사용량": "화공 법인, 폐원사(废丝) 해당 없음"
+};
 function isVerified(sub, label) { return VERIFIED[sub+":"+label] || null; }
+function isNA(sub, label) { return NOT_APPLICABLE[sub+":"+label] || null; }
 function effectiveFlags(sub, label, data) {
+  if (isNA(sub, label)) return ["na"];
   const flags = cellStatus(data);
   if (isVerified(sub, label)) return flags.filter(f => f !== "yoy_25" && f !== "yoy_24");
   return flags;
@@ -277,6 +311,10 @@ const Dashboard = function Dashboard() {
     if (selCat !== "전체") list = list.filter(i => i.cat === selCat);
     if (viewMode === "bySub") {
       list = list.filter(i => i.data[selSub]);
+      if (filterMode === "all") list = list.filter(i => {
+        const f = effectiveFlags(selSub, i.label, i.data[selSub]);
+        return !f.includes("na");
+      });
       if (filterMode === "missing") list = list.filter(i => {
         const f = effectiveFlags(selSub, i.label, i.data[selSub]);
         return f.includes("missing_2025");
@@ -284,6 +322,10 @@ const Dashboard = function Dashboard() {
       if (filterMode === "anomaly") list = list.filter(i => {
         const f = effectiveFlags(selSub, i.label, i.data[selSub]);
         return f.includes("yoy_24") || f.includes("yoy_25");
+      });
+      if (filterMode === "na") list = list.filter(i => {
+        const f = effectiveFlags(selSub, i.label, i.data[selSub]);
+        return f.includes("na");
       });
     }
     return list;
@@ -295,8 +337,9 @@ const Dashboard = function Dashboard() {
     inds.forEach(i => {
       const d = i.data[selSub];
       if (!d) return;
-      total++;
       const f = effectiveFlags(selSub, i.label, d);
+      if (f.includes("na")) return;
+      total++;
       if (f.includes("missing_2025")) missing++;
       if (f.includes("yoy_24") || f.includes("yoy_25")) anomaly++;
       if (d[2] != null) filled++;
@@ -305,9 +348,9 @@ const Dashboard = function Dashboard() {
   }, [selSub]);
 
   const bgColor = (flags) => {
+    if (flags.includes("na")) return "#f1f5f9";
     if (flags.includes("missing_2025")) return "#fef3c7";
     if (flags.includes("yoy_24") || flags.includes("yoy_25")) return "#fee2e2";
-    if (flags.includes("no_data")) return "#f9fafb";
     return "#ecfdf5";
   };
 
@@ -333,25 +376,28 @@ const Dashboard = function Dashboard() {
             const flags = effectiveFlags(selSub, ind.label, d);
             const chg = yoyPct(d[1], d[2]);
             const vNote = isVerified(selSub, ind.label);
+            const naNote = isNA(selSub, ind.label);
+            const isNARow = flags.includes("na");
             return (
               <tr key={idx} style={{background: bgColor(flags), borderBottom:"1px solid #e2e8f0",transition:"background .15s"}}
-                onMouseEnter={e=>e.currentTarget.style.background="#f1f5f9"}
+                onMouseEnter={e=>e.currentTarget.style.background=isNARow?bgColor(flags):"#f1f5f9"}
                 onMouseLeave={e=>e.currentTarget.style.background=bgColor(flags)}>
-                <td style={{padding:"8px 12px",color:"#64748b",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{t("cat",ind.cat)}</td>
-                <td style={{padding:"8px 6px",textAlign:"center",fontSize:11,fontWeight:700,color:"#6366f1",fontVariantNumeric:"tabular-nums",fontFamily:"monospace"}}>{getRow(ind.label) || "—"}</td>
-                <td style={{padding:"8px 12px",fontWeight:500}}>{t("label",ind.label)}</td>
+                <td style={{padding:"8px 12px",color:isNARow?"#94a3b8":"#64748b",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{t("cat",ind.cat)}</td>
+                <td style={{padding:"8px 6px",textAlign:"center",fontSize:11,fontWeight:700,color:isNARow?"#94a3b8":"#6366f1",fontVariantNumeric:"tabular-nums",fontFamily:"monospace"}}>{getRow(ind.label) || "—"}</td>
+                <td style={{padding:"8px 12px",fontWeight:500,color:isNARow?"#94a3b8":"#0f172a",cursor:isNARow?"help":"default"}} title={naNote||""}>{t("label",ind.label)}</td>
                 <td style={{padding:"8px",textAlign:"center",color:"#94a3b8",fontSize:11}}>{t("unit",ind.unit)}</td>
-                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:d[0]==null?"#cbd5e1":"#334155"}}>{d[0]!=null?fmt(d[0]):"—"}</td>
-                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:d[1]==null?"#cbd5e1":"#334155",background:flags.includes("yoy_24")?"#fecaca33":"transparent"}}>{d[1]!=null?fmt(d[1]):"—"}</td>
-                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",fontWeight:600,color:d[2]==null?"#ef4444":"#0f172a",background:flags.includes("yoy_25")?"#fecaca55":"transparent"}}>{d[2]!=null?fmt(d[2]):<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>}</td>
-                <td style={{padding:"4px 8px",textAlign:"center"}}><Sparkline vals={d}/></td>
-                <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color: chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
-                  {chg!=null ? (chg>=0?"+":"") + (chg*100).toFixed(0)+"%" : "—"}
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0]):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1]):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2]):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
+                <td style={{padding:"4px 8px",textAlign:"center"}}>{isNARow?<span style={{color:"#cbd5e1",fontSize:10}}>—</span>:<Sparkline vals={d}/>}</td>
+                <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:isNARow?"#cbd5e1":chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
+                  {isNARow?"—":chg!=null ? (chg>=0?"+":"") + (chg*100).toFixed(0)+"%" : "—"}
                 </td>
-                <td style={{padding:"8px",textAlign:"center"}} title={vNote || ""}>
-                  {flags.includes("missing_2025") && <span title={tui("missing25")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
-                  {(flags.includes("yoy_24")||flags.includes("yoy_25")) && <span title={tui("yoyAnomaly")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
-                  {!flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && !flags.includes("no_data") && <span title={vNote||""} style={{color:"#22c55e",fontSize:14,cursor:vNote?"help":"default"}}>✓</span>}
+                <td style={{padding:"8px",textAlign:"center"}} title={naNote||vNote||""}>
+                  {isNARow && <span title={naNote} style={{color:"#94a3b8",fontSize:13,cursor:"help"}}>─</span>}
+                  {!isNARow && flags.includes("missing_2025") && <span title={tui("missing25")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
+                  {!isNARow && (flags.includes("yoy_24")||flags.includes("yoy_25")) && <span title={tui("yoyAnomaly")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
+                  {!isNARow && !flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && <span title={vNote||""} style={{color:"#22c55e",fontSize:14,cursor:vNote?"help":"default"}}>✓</span>}
                 </td>
               </tr>
             );
@@ -391,23 +437,26 @@ const Dashboard = function Dashboard() {
               const chg = yoyPct(d[1], d[2]);
               const isDom = RAW.domestic.includes(sub);
               const vNote = isVerified(sub, ind.label);
+              const naNote = isNA(sub, ind.label);
+              const isNARow = flags.includes("na");
               return (
                 <tr key={sub} style={{background: bgColor(flags),borderBottom:"1px solid #e2e8f0"}}>
-                  <td style={{padding:"8px 12px",fontWeight:500}}>
+                  <td style={{padding:"8px 12px",fontWeight:500,color:isNARow?"#94a3b8":"#0f172a",cursor:isNARow?"help":"default"}} title={naNote||""}>
                     <span style={{display:"inline-block",width:6,height:6,borderRadius:3,background:isDom?"#3b82f6":"#f59e0b",marginRight:6}}/>
                     {t("sub",sub)}
                   </td>
-                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums"}}>{d[0]!=null?fmt(d[0]):"—"}</td>
-                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums"}}>{d[1]!=null?fmt(d[1]):"—"}</td>
-                  <td style={{padding:"8px",textAlign:"right",fontWeight:600,color:d[2]==null?"#ef4444":"#0f172a"}}>{d[2]!=null?fmt(d[2]):<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>}</td>
-                  <td style={{padding:"4px 8px",textAlign:"center"}}><Sparkline vals={d}/></td>
-                  <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
-                    {chg!=null?(chg>=0?"+":"")+(chg*100).toFixed(0)+"%":"—"}
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0]):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1]):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2]):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
+                  <td style={{padding:"4px 8px",textAlign:"center"}}>{isNARow?<span style={{color:"#cbd5e1",fontSize:10}}>—</span>:<Sparkline vals={d}/>}</td>
+                  <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:isNARow?"#cbd5e1":chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
+                    {isNARow?"—":chg!=null?(chg>=0?"+":"")+(chg*100).toFixed(0)+"%":"—"}
                   </td>
-                  <td style={{padding:"8px",textAlign:"center"}} title={vNote || ""}>
-                    {flags.includes("missing_2025") && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
-                    {(flags.includes("yoy_24")||flags.includes("yoy_25")) && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
-                    {!flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && !flags.includes("no_data") && <span title={vNote||""} style={{color:"#22c55e",fontSize:14,cursor:vNote?"help":"default"}}>✓</span>}
+                  <td style={{padding:"8px",textAlign:"center"}} title={naNote||vNote||""}>
+                    {isNARow && <span title={naNote} style={{color:"#94a3b8",fontSize:13,cursor:"help"}}>─</span>}
+                    {!isNARow && flags.includes("missing_2025") && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
+                    {!isNARow && (flags.includes("yoy_24")||flags.includes("yoy_25")) && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
+                    {!isNARow && !flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && <span title={vNote||""} style={{color:"#22c55e",fontSize:14,cursor:vNote?"help":"default"}}>✓</span>}
                   </td>
                 </tr>
               );
@@ -453,7 +502,7 @@ const Dashboard = function Dashboard() {
                 <optgroup label={tui("overseas")}>{RAW.overseas.map(s=><option key={s} value={s}>{t("sub",s)}</option>)}</optgroup>
               </select>
               <div style={{display:"flex",borderRadius:6,overflow:"hidden",border:"1px solid #cbd5e1"}}>
-                {[["all",tui("all")],["missing",tui("missing")],["anomaly",tui("anomaly")]].map(([m,l])=>(
+                {[["all",tui("all")],["missing",tui("missing")],["anomaly",tui("anomaly")],["na","N/A"]].map(([m,l])=>(
                   <button key={m} onClick={()=>setFilterMode(m)} style={{padding:"6px 14px",fontSize:12,fontWeight:500,border:"none",cursor:"pointer",background:filterMode===m?"#475569":"#fff",color:filterMode===m?"#fff":"#64748b"}}>{l}</button>
                 ))}
               </div>
@@ -491,7 +540,7 @@ const Dashboard = function Dashboard() {
           <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#ecfdf5",border:"1px solid #bbf7d0",verticalAlign:"middle",marginRight:4}}/>{tui("normal")}</span>
           <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#fef3c7",border:"1px solid #fde68a",verticalAlign:"middle",marginRight:4}}/>{tui("missing25")}</span>
           <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#fee2e2",border:"1px solid #fecaca",verticalAlign:"middle",marginRight:4}}/>YoY ±30%</span>
-          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#f9fafb",border:"1px solid #e5e7eb",verticalAlign:"middle",marginRight:4}}/>{tui("noData")}</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#f1f5f9",border:"1px solid #e2e8f0",verticalAlign:"middle",marginRight:4}}/>N/A</span>
         </div>
 
         {/* Table */}
