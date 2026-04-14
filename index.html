@@ -540,13 +540,13 @@ const Dashboard = function Dashboard() {
     <div style={{fontFamily:"'Pretendard','Noto Sans KR',system-ui,sans-serif",background:"#f8fafc",minHeight:"100vh",color:"#0f172a"}}>
       {/* Header */}
       <div style={{background:"linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)",color:"#fff",padding:"20px 24px"}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-          <div>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:12}}>
+          <div style={{minWidth:0,flex:"1 1 auto"}}>
             <div style={{fontSize:11,fontWeight:600,letterSpacing:2,color:"#94a3b8",marginBottom:4}}>{tui("subtitle")}</div>
             <div style={{fontSize:22,fontWeight:800,letterSpacing:-0.5}}>{tui("title")}</div>
             <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")}</div>
           </div>
-          <div style={{display:"flex",gap:2,borderRadius:6,overflow:"hidden",border:"1px solid #475569"}}>
+          <div style={{display:"flex",gap:2,borderRadius:6,overflow:"visible",border:"1px solid #475569",flexShrink:0}}>
             {["ko","en","zh"].map(l=>(
               <button key={l} onClick={()=>setLang(l)} style={{padding:"6px 12px",fontSize:12,fontWeight:700,border:"none",cursor:"pointer",background:lang===l?"#fff":"transparent",color:lang===l?"#0f172a":"#94a3b8"}}>
                 {l==="ko"?"KR":l==="en"?"EN":"CN"}
