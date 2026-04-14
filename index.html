@@ -117,6 +117,7 @@ const VERIFIED = {
 };
 const NOT_APPLICABLE = {
   "가흥화공:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인, 해양방류 시설 없음",en:"Inland facility, no ocean discharge",zh:"内陆法人，无海洋排放设施"},
+  "가흥스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인(嘉兴), 해양방류 시설 없음 (타 중국 법인 3곳 동일 N/A)",en:"Inland facility (Jiaxing), no ocean discharge (3 other CN entities all N/A)",zh:"内陆法人（嘉兴），无海洋排放设施（其他3家中国法人均N/A）"},
   "광동스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인, 해양방류 시설 없음",en:"Inland facility, no ocean discharge",zh:"内陆法人，无海洋排放设施"},
   "주해스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인, 해양방류 시설 없음",en:"Inland facility, no ocean discharge",zh:"内陆法人，无海洋排放设施"},
   "가흥화공:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"전량 하수처리장 방류, 위탁처리 구조 아님",en:"All wastewater to municipal treatment, no outsourced treatment",zh:"全量排入污水处理厂，非委托处理结构"},
@@ -129,12 +130,15 @@ const NOT_APPLICABLE = {
   "광동스판:지하수": {ko:"지하수 취수 시설 없음",en:"No groundwater extraction facility",zh:"无地下水取水设施"},
   "주해스판:지하수": {ko:"지하수 취수 시설 없음",en:"No groundwater extraction facility",zh:"无地下水取水设施"},
   "가흥화공:일반대기오염물질 > 총탄화수소(THC)": {ko:"측정 대상 외 (측정 장비·의무 없음)",en:"Not subject to measurement (no equipment/obligation)",zh:"非监测对象（无监测设备及义务）"},
+  "가흥스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"측정 대상 외 (타 중국 법인 3곳 동일 N/A, 템플릿 전각공백 입력)",en:"Not subject to measurement (3 other CN entities all N/A, template blank entry)",zh:"非监测对象（其他3家中国法人均N/A，模板空白录入）"},
   "광동스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"관리항목 아님 (법인 확인. NMHC만 측정, THC 근거 부재)",en:"Not a managed item (entity confirmed. Only NMHC measured, no THC basis)",zh:"非管理项目（法人确认。仅监测NMHC，THC无依据）"},
   "주해스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"측정 대상 외 (VOCs와 중복, 삭제 처리)",en:"Not subject to measurement (duplicate of VOCs, removed)",zh:"非监测对象（与VOCs重复，已删除）"},
   "가흥화공:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음",en:"No emission source (no incinerator, etc.)",zh:"无排放源（无焚烧炉等）"},
+  "가흥스판:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음 (타 중국 법인 3곳 동일 N/A)",en:"No emission source (no incinerator, etc.; 3 other CN entities all N/A)",zh:"无排放源（无焚烧炉等；其他3家中国法人均N/A）"},
   "광동스판:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음",en:"No emission source (no incinerator, etc.)",zh:"无排放源（无焚烧炉等）"},
   "주해스판:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음",en:"No emission source (no incinerator, etc.)",zh:"无排放源（无焚烧炉等）"},
   "가흥화공:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음",en:"No emission source",zh:"无排放源"},
+  "가흥스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음 (타 중국 법인 3곳 동일 N/A)",en:"No emission source (3 other CN entities all N/A)",zh:"无排放源（其他3家中国法人均N/A）"},
   "광동스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음",en:"No emission source",zh:"无排放源"},
   "주해스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음",en:"No emission source",zh:"无排放源"},
   "가흥화공:일반대기오염물질 > 질소산화물(NOx)": {ko:"자체 연소시설(보일러) 미보유, 스팀 외부 구매",en:"No on-site boiler, steam purchased externally",zh:"无自有锅炉，蒸汽外购"},
