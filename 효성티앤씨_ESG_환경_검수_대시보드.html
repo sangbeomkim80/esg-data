@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>효성티앤씨 ESG 환경 데이터 검수 대시보드</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+  select { outline: none; }
+  button { outline: none; }
+  @media print {
+    .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+
+
+const RAW = {"indicators":[{"cat":"폐기물 관리","label":"일반 폐기물 배출량 > 위탁처리 > 재활용(①)","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[0,32.31,24.99],"가흥화공":[0.0,0.0,1.82],"광동스판":[481.32,160.41,123.0],"구미":[3358.366,3192.35,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[1164.09,1204.31,null],"동나이":[1707.52,1196.02,null],"서울(공덕)":[12.81,6.05,null],"서울(마포)":[9.65,8.97,null],"울산":[5114.556,5356.774,null],"주해스판":[9.91,16.68,4.62],"취저우스판":[3811.98,3836.44,null],"브라질스판":[568.83,525.46,486.74],"인도스판":[0.0,0.0,null],"튀르키예스판":[988.108,868.571,null]}},{"cat":"폐기물 관리","label":"일반 폐기물 배출량 > 위탁처리 > 소각","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[59.14,208.12,269.95],"가흥화공":[145.52,174.07,117.89],"광동스판":[373.09,430.22,198.0],"구미":[568.87,475.19,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[2.37,10.7,null],"동나이":[309.54,375.25,null],"서울(공덕)":[15.71,5.32,null],"서울(마포)":[6.16,5.43,null],"울산":[435.16,238.54,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[0,54.1,66.49],"인도스판":[0.0,0.0,null],"튀르키예스판":[325.54,170.01,null]}},{"cat":"폐기물 관리","label":"일반 폐기물 배출량 > 위탁처리 > 매립","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[0.0,0.0,0],"가흥화공":[0.0,0.0,0],"광동스판":[0.0,0.0,0.0],"구미":[65,35.15,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[0.21,null,null],"동나이":[63.75,6.22,null],"서울(공덕)":[0.05,0.09,null],"서울(마포)":[0,0.03,null],"울산":[173.93,116.86,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[765.71,802.07,637.93],"인도스판":[0.0,0.0,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"폐기물 관리","label":"지정 폐기물 배출량 > 자가처리(재활용)(②)","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[0.0,0.0,0],"가흥화공":[0.0,0.0,0],"광동스판":[0.0,0.0,0.0],"구미":[56,107,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[null,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[0,0,0],"인도스판":[0.0,0.0,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"폐기물 관리","label":"지정 폐기물 배출량 > 위탁처리 > 재활용(③)","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[49.0,80.0,84.537],"가흥화공":[0.0,0.0,0],"광동스판":[79.31,106.53,72.0],"구미":[109.95,169.25,null],"기타":[null,null,null],"닝샤스판":[2781.975,2711.165,null],"대구":[null,0.76,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[335.46,204.62,null],"주해스판":[198,212,196.88],"취저우스판":[91.26,103.38,null],"브라질스판":[0,4.81,18.0],"인도스판":[0.0,0.0,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"폐기물 관리","label":"지정 폐기물 배출량 > 위탁처리 > 소각","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[531,496,417.93],"가흥화공":[689.34,650.18,542.75],"광동스판":[2294.04,1534.215,1183.8],"구미":[1551.26,151.85,null],"기타":[null,null,null],"닝샤스판":[0.0,234.69,null],"대구":[null,null,null],"동나이":[2867.269,3301.675,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[147.55,144.71,null],"주해스판":[929.125,1035.89,785.9],"취저우스판":[2095.284,2124.843,null],"브라질스판":[282.05,715.07,552.65],"인도스판":[501.636,641.932,null],"튀르키예스판":[2689.47,2376.5,null]}},{"cat":"폐기물 관리","label":"지정 폐기물 배출량 > 위탁처리 > 매립","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[0.0,0.0,0],"가흥화공":[0.0,0.0,0],"광동스판":[0.0,1.11,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[0,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[774.21,264.49,0],"인도스판":[11.97,8.1,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"폐기물 관리","label":"지정 폐기물 배출량 > 위탁처리 > 기타","unit":"Ton","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[0.0,0.0,0],"가흥화공":[0.0,0.0,0],"광동스판":[0.0,0.0,0.0],"구미":[1.42,2.2,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[1714.817,1694.69,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[null,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[0,0,0],"인도스판":[0.0,0.0,null],"튀르키예스판":[null,0.0,null]}},{"cat":"대기오염물질 배출","label":"일반대기오염물질 > 질소산화물(NOx)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[3.847,4.07,3.643],"가흥화공":[0.0,0.0,0],"광동스판":[34.872,26.054,14.518],"구미":[24.5,null,null],"기타":[null,null,null],"닝샤스판":[7.349029,8.096236000000001,null],"대구":[0.57,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[21.95,null,null],"주해스판":[5.484521184,3.7187,2.2143],"취저우스판":[8.3358982656,4.6305,null],"브라질스판":[31.02158564,43.452786888,60.416411256],"인도스판":[3.20184,3.46836683064677,null],"튀르키예스판":[128.2464,0.0876,null]}},{"cat":"대기오염물질 배출","label":"일반대기오염물질 > 황산화물(SOx)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[0.221,0.234,0.209],"가흥화공":[0.0,0.0,0],"광동스판":[0.013,0.01,0.005],"구미":[2.45,null,null],"기타":[null,null,null],"닝샤스판":[7.082718,3.379985,null],"대구":[0.17,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0.59,null,null],"주해스판":[0.190426752,0,0.0225],"취저우스판":[10.69298468352,2.5817,null],"브라질스판":[0.527342364,0.0,0],"인도스판":[6.02215,7.45028888888889,null],"튀르키예스판":[1.5768,0,null]}},{"cat":"대기오염물질 배출","label":"일반대기오염물질 > 먼지(PM)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[0.0,0.0,0],"가흥화공":[0.0,0.0,0],"광동스판":[0.0,0.0,0.59021],"구미":[1.54,null,null],"기타":[null,null,null],"닝샤스판":[3.153387,1.968073,null],"대구":[0.56,null,null],"동나이":[24.95,24.7509328508404,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[1.48,null,null],"주해스판":[0.019980168,0.2608,0.1297],"취저우스판":[2.252174976,0.5689,null],"브라질스판":[26.33194347,15.1332878928,18.4764409776],"인도스판":[8.78848,9.4934417115576,null],"튀르키예스판":[0.011388,0.00876,null]}},{"cat":"대기오염물질 배출","label":"일반대기오염물질 > 총탄화수소(THC)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,0],"광동스판":[null,null,null],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[0.06,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[1.56,null,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[null,null,0],"인도스판":[null,null,null],"튀르키예스판":[0.011388,null,null]}},{"cat":"대기오염물질 배출","label":"휘발성유기화학물질(VOCs)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[2.23,2.494476,2.311],"가흥화공":[2.521733,2.47,2.13],"광동스판":[4.853,5.839241,3.998],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[8.089366,9.659978,null],"대구":[0,null,null],"동나이":[0.0,0.00220729344,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0.17,null,null],"주해스판":[1.46,0.6154,0.735],"취저우스판":[31.46,6.279865331,null],"브라질스판":[0.31,4.8,0.34090416],"인도스판":[null,null,null],"튀르키예스판":[0.032412,null,null]}},{"cat":"대기오염물질 배출","label":"유해대기오염물질(HAPs) > 염화수소(HCl)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"구미":[0.34,null,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[0,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0.01,null,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[null,null,0],"인도스판":[null,null,null],"튀르키예스판":[null,null,null]}},{"cat":"대기오염물질 배출","label":"유해대기오염물질(HAPs) > 일산화탄소(CO)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"구미":[5.5,null,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[0,null,null],"동나이":[null,0.0,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0,null,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[3.210269316,60.07250329200001,46.8325806],"인도스판":[null,null,null],"튀르키예스판":[9.173471999999999,0.06132,null]}},{"cat":"수자원 관리","label":"상수도 및 생활용수","unit":"Ton","data":{"가흥무역":[0.0,null,null],"가흥스판":[0.0,0,0],"가흥화공":[4278,4766,4690],"광동스판":[13639.0,16094.0,12826.0],"구미":[62199,521963,null],"기타":[null,null,null],"닝샤스판":[11336.0,11796,null],"대구":[6565,7733,null],"동나이":[2396525,2585457,null],"서울(공덕)":[5331,5375,null],"서울(마포)":[3759,4305,null],"울산":[null,null,null],"주해스판":[0,0,0],"취저우스판":[0.0,null,null],"브라질스판":[null,null,null],"인도스판":[0.0,null,null],"튀르키예스판":[null,null,null]}},{"cat":"수자원 관리","label":"공업용수","unit":"Ton","data":{"가흥무역":[0.0,null,null],"가흥스판":[276688,276275,279750],"가흥화공":[372183,398312,380019],"광동스판":[611067,603346,384699.0],"구미":[749687,422123,null],"기타":[null,null,null],"닝샤스판":[574173.0,605255,null],"대구":[551323,612960,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[2702210,1716273,null],"주해스판":[227760,237902,247807],"취저우스판":[512727,548231.22,null],"브라질스판":[null,null,null],"인도스판":[354346,444796,null],"튀르키예스판":[12806,16518,null]}},{"cat":"수자원 관리","label":"하수 재이용수","unit":"Ton","data":{"가흥무역":[0.0,null,null],"가흥스판":[null,null,null],"가흥화공":[0.0,null,0],"광동스판":[0.0,0.0,0.0],"구미":[1013108,1155483,null],"기타":[null,null,null],"닝샤스판":[0.0,null,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[null,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,null,null],"브라질스판":[null,null,null],"인도스판":[0.0,null,null],"튀르키예스판":[null,null,null]}},{"cat":"수자원 관리","label":"지하수","unit":"Ton","data":{"가흥무역":[0.0,null,null],"가흥스판":[null,null,null],"가흥화공":[0.0,null,0],"광동스판":[0.0,0.0,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0.0,null,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[null,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,null,null],"브라질스판":[278952,280013.0,264497],"인도스판":[0.0,null,null],"튀르키예스판":[359315,342071,null]}},{"cat":"수자원 관리","label":"용수 재활용","unit":"Ton","data":{"가흥무역":[0.0,null,null],"가흥스판":[7653.0,18675.0,13532],"가흥화공":[52583.0,59907,51676],"광동스판":[5898.0,39368.0,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[24592.0,48342.0,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[3747425,2501461,null],"주해스판":[0.0,0.0,0],"취저우스판":[15011.0,24752.0,null],"브라질스판":[null,null,null],"인도스판":[36218,43586.0,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"최종 방류지별 폐수 배출량 > 하수처리","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[88698,81251,79885],"광동스판":[241218,164732,131041.0],"구미":[175383,193231,null],"기타":[null,null,null],"닝샤스판":[193930,187734,null],"대구":[506530,559200,null],"동나이":[567235,416214.0,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[68739,70980,59651],"취저우스판":[123883,109951,null],"브라질스판":[69657.02,64745.3,62248.8],"인도스판":[94486,162348,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"최종 방류지별 폐수 배출량 > 해양방류","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[null,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[509175,78005,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[null,null,null],"인도스판":[null,null,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"최종 방류지별 폐수 배출량 > 위탁처리","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[148937,142416,150497],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"구미":[null,62,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[null,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[null,null,null],"인도스판":[null,null,null],"튀르키예스판":[145925.0,156886.0,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"수질오염물질 배출량 > BOD","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,0],"광동스판":[0.55,0.8071868,0.714],"구미":[0.45,2.01,null],"기타":[null,null,null],"닝샤스판":[6.423507575,6.2770737,null],"대구":[3.4,3.5,null],"동나이":[12.56,2.5484,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0.6,0.07,null],"주해스판":[0.4122084,0.6941,0.6264],"취저우스판":[0.21,2.0698,null],"브라질스판":[3.8662169616,4.488913321,5.39],"인도스판":[2.4701,3.16659774,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"수질오염물질 배출량 > TOC","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,null],"광동스판":[null,null,1.494],"구미":[0.99,3.54,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[14.4,9.1,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[1.93,0.36,null],"주해스판":[null,null,0.4855],"취저우스판":[null,null,null],"브라질스판":[null,null,0],"인도스판":[null,null,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"수질오염물질 배출량 > COD","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[3.871,2.529,2.21968],"가흥화공":[2.369041,7.294536,2.441035],"광동스판":[2.18,1.476,2.883],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[28.6528,19.5876,null],"대구":[null,null,null],"동나이":[75.79,93.796,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[3.570438,3.531822,2.7782],"취저우스판":[6.7,4.8378,null],"브라질스판":[12.8193208818182,18.64294,19.43],"인도스판":[10.1251,15.01813703,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"수질오염물질 배출량 > SS","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[null,null,null],"가흥화공":[null,null,0],"광동스판":[1.09,0.82366,1.048],"구미":[1.9,10.24,null],"기타":[null,null,null],"닝샤스판":[5.8689075,4.727134,null],"대구":[5.9,3.4,null],"동나이":[9.52,2.2195,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[1.6,0.2,null],"주해스판":[0.331472,1.0956,0.62],"취저우스판":[1.95,6.2672,null],"브라질스판":[48.4996546927273,55.2417727,32.75],"인도스판":[7.2087,8.17746876,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"수질오염물질 배출량 > T-N","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[1.52,1.415,1.59677],"가흥화공":[0.444686,0.457668,0.276253],"광동스판":[2.08,1.444,1.47],"구미":[4.07,31,null],"기타":[null,null,null],"닝샤스판":[9.74802185,9.06830747,null],"대구":[3.1,3.3,null],"동나이":[10.45,10.642,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[3,0.48,null],"주해스판":[1.97541963,2.0102,1.1366],"취저우스판":[14.49,23.0347,null],"브라질스판":[4.01817444102727,7.158590255,5.02],"인도스판":[5.841,10.37552539,null],"튀르키예스판":[null,null,null]}},{"cat":"폐수 및 수질오염물질 배출","label":"수질오염물질 배출량 > T-P","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[0.02,0.019,0.02739],"가흥화공":[0.007,null,0.006344],"광동스판":[0.06,0.038,0.009],"구미":[0.1,0.47,null],"기타":[null,null,null],"닝샤스판":[0.18916902,0.865418092,null],"대구":[0.2,0.1,null],"동나이":[0.22,0.0441,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0.012,0.002,null],"주해스판":[0.01303233,0.0045,0.0037],"취저우스판":[0.04,0.0187,null],"브라질스판":[0.0822509267818182,0.039820615,0.11],"인도스판":[0,null,null],"튀르키예스판":[null,null,null]}},{"cat":"친환경 제품 판매 및 구매","label":"판매 > 친환경 제품 판매 실적","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,null],"가흥화공":[0,0,135596],"광동스판":[173526968.59,177338822.83,null],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0,0,null],"대구":[null,null,null],"동나이":[43613487332.59,122948027878.48999,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[2711324.01,19355681.65,0],"취저우스판":[0,0,null],"브라질스판":[0,0,null],"인도스판":[0,0,null],"튀르키예스판":[179897090.66857854,286720952.90376896,null]}},{"cat":"친환경 제품 판매 및 구매","label":"구매 > 친환경 제품 구매 실적","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[0,0,110732],"광동스판":[0,0,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0,0,null],"대구":[null,null,null],"동나이":[87439498128.0,27076777332,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[0,0,0],"취저우스판":[0,0,null],"브라질스판":[9527503.16,9913822.49,9952121.09],"인도스판":[96490120,63835861,null],"튀르키예스판":[0,0,null]}},{"cat":"친환경 제품 판매 및 구매","label":"구매 > 총 제품 구매 실적","unit":"현지화","data":{"가흥무역":[null,null,null],"가흥스판":[309658718.0,285120657.0,238301405.0],"가흥화공":[1497136064.0,1315462808.0,1009584417.31],"광동스판":[633671182.0,661915094.0,371536238.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[377442407.0,412730476.0,508306037.0],"대구":[null,null,null],"동나이":[37147036.0,35419369.0,29785821.0],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[299323802.0,235832144.0,212582521.0],"취저우스판":[895308004.0,715235440.0,656069246.0],"브라질스판":[310508190.0,280922801.0,261806005.0],"인도스판":[6999760430.0,6382103028.0,5742734126.0],"튀르키예스판":[101620137.0,98547885.0,80753537.0]}},{"cat":"원재료 및 재생/재활용 원료 사용","label":"재생 가능한 원료 사용량 (①)","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[0.0,0.0,0],"가흥화공":[null,null,0],"광동스판":[0.0,0.0,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[null,null,null],"인도스판":[0.0,0.0,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"원재료 및 재생/재활용 원료 사용","label":"재활용된 원료 사용량","unit":"Ton","data":{"주해스판":[null,null,407.1478],"가흥화공":[null,null,0],"광동스판":[null,null,1200.06],"브라질스판":[null,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"닝샤스판":[null,null,null],"가흥무역":[null,null,null],"구미":[null,null,null],"대구":[null,null,null],"서울(마포)":[null,null,null],"기타":[null,null,null],"가흥스판":[null,null,null],"울산":[null,null,null],"취저우스판":[null,null,null],"튀르키예스판":[null,null,null],"인도스판":[null,null,null]}},{"cat":"원재료 및 재생/재활용 원료 사용","label":"재사용된 원료 사용량","unit":"Ton","data":{"가흥스판":[23942.6308189658,27599.2554366077,26079.18],"주해스판":[null,null,29267],"가흥화공":[null,null,0],"광동스판":[null,null,53290.0],"브라질스판":[31037.931446391918,29597.61753948721,32335.484287789957],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"닝샤스판":[null,null,null],"가흥무역":[null,null,null],"구미":[null,null,null],"대구":[null,null,null],"서울(마포)":[null,null,null],"기타":[null,null,null],"울산":[null,null,null],"취저우스판":[null,null,null],"튀르키예스판":[null,null,null],"인도스판":[null,null,null]}},{"cat":"원재료 및 재생/재활용 원료 사용","label":"재생 불가능한 원료 사용량(②)","unit":"Ton","data":{"가흥스판":[39706.0970645208,45722.1356152895,17407.92],"주해스판":[null,null,15929.109078],"가흥화공":[null,null,148616.025],"광동스판":[null,null,29877.12],"브라질스판":[51326.81904564617,49060.09572264825,56981.69026709015],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"닝샤스판":[null,null,null],"가흥무역":[null,null,null],"구미":[null,null,null],"대구":[null,null,null],"서울(마포)":[null,null,null],"기타":[null,null,null],"울산":[null,null,null],"취저우스판":[null,null,null],"튀르키예스판":[null,null,null],"인도스판":[null,null,null]}},{"cat":"포장재 회수","label":"포장재 > 포장재 총 출하량","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[1436.994,1709.0970977200002,null],"가흥화공":[null,null,0],"광동스판":[5599.215020000001,7354.44016,56241317.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[7710.335480618609,8905.808436942505,null],"대구":[null,null,null],"동나이":[6061.25783264,6065.482882350001,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[1733.07227,1542.1171100000001,18828105],"취저우스판":[7852.205086699999,7911.4717535499985,null],"브라질스판":[2866.36203703,2785.700884631094,null],"인도스판":[3974.9910416900007,4522.005737809999,null],"튀르키예스판":[5742.708466781652,6393.551183285001,null]}},{"cat":"포장재 회수","label":"포장재 > 포장재 회수량","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[26.400000000000006,49.52,null],"가흥화공":[null,null,0],"광동스판":[425.78410538674234,570.4302718813665,3044494.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[108.90425,124.94671999999998,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[504.7581,471.59745,null],"브라질스판":[254.13605994,237.95132189521382,238.76],"인도스판":[13.16861,38.575739999999996,null],"튀르키예스판":[348.60984700000006,301.99024399999996,null]}},{"cat":"환경투자","label":"폐기물 처리 비용","unit":"현지화","data":{"가흥무역":[0.0,0.0,null],"가흥스판":[2344621.17,2077151.9100000001,1952893.08],"가흥화공":[2276008.12,2265370.11,1653066.08],"광동스판":[4545249.34,5583193.78,3767625.96],"구미":[672960520,519800000,null],"기타":[null,null,null],"닝샤스판":[7210878.51,7916010.555,null],"대구":[34800000,34800000,null],"동나이":[18909723162.5,20353884272.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[437851850,367308000,null],"주해스판":[3529067.38,3377571.7,2701897.52],"취저우스판":[8098509.09,6561519.75,null],"브라질스판":[674932.95,796410.48,1260947.92],"인도스판":[20537317.9,16379399.14,null],"튀르키예스판":[5472782.55,4778628.64,null]}},{"cat":"환경투자","label":"폐수 처리 비용","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[3724547.7,398764.8,421391.6],"가흥화공":[878688.4,817115.8,727129.24],"광동스판":[1803753.0,2343187.78,1618418.06],"구미":[432614450,350387000,null],"기타":[null,null,null],"닝샤스판":[2807800.69,1013764,null],"대구":[357582610,353786480,null],"동나이":[12071514387.5,15134706416.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[540660000,438413429,null],"주해스판":[832817.43,789282.02,770057],"취저우스판":[1560831.08,1378628.54,null],"브라질스판":[137466.71,100336.68,80300.3],"인도스판":[5886843,8117400,null],"튀르키예스판":[1069622.29,523289,null]}},{"cat":"환경투자","label":"환경오염구제 책임보험","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[16981.13,16981.13,16981.13],"가흥화공":[238973,246691,205224.53],"광동스판":[56179.2,54423.6,35608.87],"구미":[32279900,26000000,null],"기타":[null,null,null],"닝샤스판":[61500.0,58500.0,null],"대구":[7201450,5622501,null],"동나이":[0,0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[37726098,32235000,null],"주해스판":[20000,19000,17924.53],"취저우스판":[null,0,null],"브라질스판":[0,0,0],"인도스판":[25473,21800,null],"튀르키예스판":[5015.75,5216.38,null]}},{"cat":"환경투자","label":"환경배출물질 측정비용","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[25000,60000,56603.78],"광동스판":[346938.0,299568.0,304123.58],"구미":[292821480,219000000,null],"기타":[null,null,null],"닝샤스판":[1027190.0,0,null],"대구":[13224000,31517000,null],"동나이":[307363712.5,367578408.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[186928731,189768000,null],"주해스판":[140500,148960,103960.38],"취저우스판":[null,0,null],"브라질스판":[10341.5,18026.08,31001.26],"인도스판":[596766,500930,null],"튀르키예스판":[111787.3,132794.4,null]}},{"cat":"환경투자","label":"ISO 및 기타 환경 인증비용","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,15000,22641.51],"가흥화공":[27825,27825,64783.02],"광동스판":[0,0,0.0],"구미":[11335000,13000000,null],"기타":[null,null,null],"닝샤스판":[213000.0,0,null],"대구":[26075576,61731499,null],"동나이":[0,0,null],"서울(공덕)":[101617000,82757000,null],"서울(마포)":[0,0,null],"울산":[6009000,0,null],"주해스판":[0,0,0],"취저우스판":[null,0,null],"브라질스판":[0,0,0],"인도스판":[0,0,null],"튀르키예스판":[105288,598378.5,null]}},{"cat":"환경투자","label":"대기·화학물질 및 기타 환경 비용","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[414600,409000,424659.18],"광동스판":[0,0,0.0],"구미":[11441100,0,null],"기타":[null,null,null],"닝샤스판":[0,0,null],"대구":[3250000,0,null],"동나이":[16446069242.6562,16938724136.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[0,0,null],"주해스판":[0,0,0],"취저우스판":[936815.56,1086171.71,null],"브라질스판":[0,0,0],"인도스판":[0,0,null],"튀르키예스판":[40032,43200,null]}},{"cat":"환경투자","label":"환경개선 시설투자","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[690200,327000,0],"광동스판":[209000.0,5743000,446902.65],"구미":[0,148000000,null],"기타":[null,null,null],"닝샤스판":[370000.0,1800346.0,null],"대구":[153000000,2605818,null],"동나이":[2415137500,2721849600.0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[735300000,21375000,null],"주해스판":[248000,2813763.0,240008.85],"취저우스판":[422694,595557.52,null],"브라질스판":[0,0,0],"인도스판":[719966.0,107250,null],"튀르키예스판":[0,0,null]}},{"cat":"환경투자","label":"환경 기술 투자","unit":"현지화","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[0,0,0],"광동스판":[0,0,0.0],"구미":[0,0,null],"기타":[null,null,null],"닝샤스판":[0,0,null],"대구":[0,0,null],"동나이":[0,0,null],"서울(공덕)":[0,0,null],"서울(마포)":[0,0,null],"울산":[0,0,null],"주해스판":[0,0,0],"취저우스판":[0,0,null],"브라질스판":[0,0,0],"인도스판":[0,0,null],"튀르키예스판":[0,0,null]}},{"cat":"화학물질 관리","label":"유해화학물질 사용량","unit":"Ton","data":{"가흥무역":[0.0,null,null],"가흥스판":[3505.74,3966.55,3687.31],"가흥화공":[0.0,25.8,32.780123],"광동스판":[8680.07,10904.59,6883.89],"구미":[4537,5099,null],"기타":[null,null,null],"닝샤스판":[12506.0,12647.09,19239.91],"대구":[914,839,null],"동나이":[9129.68,9406.07,8701.3],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[332,363,null],"주해스판":[3570.06,3895.04,4620.64],"취저우스판":[12338.11,12492.08,14021.57],"브라질스판":[4316.02,4407.25,4521.47],"인도스판":[7344.74,8041.6,7924.23],"튀르키예스판":[7901.27,8806.19,8167.68]}},{"cat":"화학물질 관리","label":"화학물질 배출량","unit":"Ton","data":{"가흥무역":[null,null,null],"가흥스판":[2.23,2.49,2.31],"가흥화공":[0.0,null,0],"광동스판":[0.0,0.0,0.0],"구미":[0.103,null,null],"기타":[null,null,null],"닝샤스판":[0.0,null,null],"대구":[0.003,null,null],"동나이":[0.0,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[0.235,null,null],"주해스판":[0.0,null,0],"취저우스판":[0.0,0.0,null],"브라질스판":[0.0,0,0.34090416],"인도스판":[0.0,null,null],"튀르키예스판":[0.0,null,null]}},{"cat":"친환경 차량","label":"비도로 차량 > 전기차","unit":"대","data":{"가흥무역":[0,0,null],"가흥스판":[7,7,7],"가흥화공":[0.0,0.0,0],"광동스판":[16.0,16.0,11.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[6.0,11.0,null],"대구":[6,6,null],"동나이":[86.0,86.0,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[3,3,3],"취저우스판":[5.0,5.0,null],"브라질스판":[0,0,4],"인도스판":[10.0,10.0,null],"튀르키예스판":[7.0,7,null]}},{"cat":"친환경 차량","label":"비도로 차량 > 수소차","unit":"대","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[0.0,0.0,0],"광동스판":[0.0,0.0,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[0.0,0.0,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[0.0,0.0,0],"취저우스판":[0.0,0.0,null],"브라질스판":[null,null,null],"인도스판":[0.0,0.0,null],"튀르키예스판":[0.0,0.0,null]}},{"cat":"친환경 차량","label":"비도로 차량 > 기타 (가솔린, 디젤 등)","unit":"대","data":{"가흥무역":[0,0,null],"가흥스판":[1,1,1],"가흥화공":[1,1,1],"광동스판":[0.0,0.0,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[0.0,0.0,null],"대구":[null,null,null],"동나이":[90.0,91.0,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[26,9,null],"주해스판":[3.0,4,3],"취저우스판":[5.0,5.0,null],"브라질스판":[11,11,11],"인도스판":[0.0,0.0,null],"튀르키예스판":[1.0,1.0,null]}},{"cat":"친환경 차량","label":"도로 차량 > 전기차","unit":"대","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[null,null,null],"동나이":[null,null,null],"서울(공덕)":[1,1,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[null,null,null],"인도스판":[null,null,null],"튀르키예스판":[null,null,null]}},{"cat":"친환경 차량","label":"도로 차량 > 수소차","unit":"대","data":{"가흥무역":[0,0,null],"가흥스판":[0,0,0],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"구미":[null,null,null],"기타":[null,null,null],"닝샤스판":[null,null,null],"대구":[null,null,null],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"서울(마포)":[null,null,null],"울산":[null,null,null],"주해스판":[null,null,0],"취저우스판":[null,null,null],"브라질스판":[null,null,null],"인도스판":[null,null,null],"튀르키예스판":[null,null,null]}},{"cat":"친환경 차량","label":"도로 차량 > 기타 (가솔린, 디젤 등)","unit":"대","data":{"가흥스판":[null,null,4],"주해스판":[null,null,3],"가흥화공":[null,null,8],"광동스판":[null,null,7.0],"브라질스판":[10,12,12],"동나이":[null,null,null],"서울(공덕)":[null,null,null],"닝샤스판":[null,null,null],"가흥무역":[77,90,79],"구미":[null,null,null],"대구":[null,null,null],"서울(마포)":[null,null,null],"기타":[null,null,null],"울산":[null,null,null],"취저우스판":[null,null,null],"튀르키예스판":[null,null,null],"인도스판":[null,null,null]}},{"cat":"법률 및 규정 위반","label":"환경 관련 법규 위반 건수","unit":"건","data":{"가흥스판":[null,null,0],"닝샤스판":[null,null,0],"동나이":[null,null,0],"브라질스판":[null,null,0],"인도스판":[null,null,0],"주해스판":[null,null,0],"취저우스판":[null,null,0],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"튀르키예스판":[null,null,0],"서울(공덕)":[null,null,null],"가흥무역":[null,null,null],"구미":[null,null,null],"대구":[null,null,null],"서울(마포)":[null,null,null],"기타":[null,null,null],"울산":[null,null,null]}},{"cat":"법률 및 규정 위반","label":"환경 관련 법규 위반에 따른 벌금","unit":"현지화","data":{"가흥스판":[null,null,0],"닝샤스판":[null,null,0],"동나이":[null,null,0],"브라질스판":[null,null,0],"인도스판":[null,null,0],"주해스판":[null,null,0],"취저우스판":[null,null,0],"가흥화공":[null,null,0],"광동스판":[null,null,0.0],"튀르키예스판":[null,null,0],"서울(공덕)":[null,null,null],"가흥무역":[null,null,null],"구미":[null,null,null],"대구":[null,null,null],"서울(마포)":[null,null,null],"기타":[null,null,null],"울산":[null,null,null]}}],"subs":["가흥무역","가흥스판","가흥화공","광동스판","구미","기타","닝샤스판","대구","동나이","브라질스판","서울(공덕)","서울(마포)","울산","인도스판","주해스판","취저우스판","튀르키예스판"],"domestic":["구미","기타","대구","서울(공덕)","서울(마포)","울산"],"overseas":["가흥무역","가흥스판","가흥화공","광동스판","닝샤스판","동나이","브라질스판","인도스판","주해스판","취저우스판","튀르키예스판"]};
+
+// FY-2025 엑셀 행번호 매핑 (label -> row)
+const ROW_MAP = {"일반 폐기물 배출량 > 위탁처리 > 재활용(①)":56,"일반 폐기물 배출량 > 위탁처리 > 소각":57,"일반 폐기물 배출량 > 위탁처리 > 매립":58,"지정 폐기물 배출량 > 자가처리(재활용)(②)":59,"지정 폐기물 배출량 > 위탁처리 > 재활용(③)":60,"지정 폐기물 배출량 > 위탁처리 > 소각":61,"지정 폐기물 배출량 > 위탁처리 > 매립":62,"지정 폐기물 배출량 > 위탁처리 > 기타":63,"일반대기오염물질 > 질소산화물(NOx)":64,"일반대기오염물질 > 황산화물(SOx)":65,"일반대기오염물질 > 먼지(PM)":66,"일반대기오염물질 > 총탄화수소(THC)":67,"휘발성유기화학물질(VOCs)":68,"유해대기오염물질(HAPs) > 염화수소(HCl)":69,"유해대기오염물질(HAPs) > 일산화탄소(CO)":70,"상수도 및 생활용수":71,"공업용수":72,"하수 재이용수":73,"지하수":74,"용수 재활용":75,"최종 방류지별 폐수 배출량 > 하수처리":76,"최종 방류지별 폐수 배출량 > 해양방류":77,"최종 방류지별 폐수 배출량 > 위탁처리":78,"수질오염물질 배출량 > BOD":79,"수질오염물질 배출량 > TOC":80,"수질오염물질 배출량 > COD":81,"수질오염물질 배출량 > SS":82,"수질오염물질 배출량 > T-N":83,"수질오염물질 배출량 > T-P":84,"판매 > 친환경 제품 판매 실적":85,"구매 > 친환경 제품 구매 실적":87,"구매 > 총 제품 구매 실적":88,"재생 가능한 원료 사용량 (①)":89,"재활용된 원료 사용량(②) > DMAc 재활용량":null,"재활용된 원료 사용량(②) > 폐원사 재활용":null,"재활용된 원료 사용량(②) > 기타":null,"재생 불가능한 원료 사용량(③)":null,"재활용된 원료 사용량":90,"재사용된 원료 사용량":91,"재생 불가능한 원료 사용량(②)":92,"포장재 > 포장재 총 출하량":93,"포장재 > 포장재 회수량":94,"폐기물 처리 비용":95,"폐수 처리 비용":96,"환경오염구제 책임보험":97,"환경배출물질 측정비용":98,"ISO 및 기타 환경 인증비용":99,"대기·화학물질 및 기타 환경 비용":100,"환경개선 시설투자":101,"환경 기술 투자":102,"유해화학물질 사용량":103,"화학물질 배출량":104,"비도로 차량 > 전기차":105,"비도로 차량 > 수소차":106,"비도로 차량 > 기타 (가솔린, 디젤 등)":107,"도로 차량 > 전기차":108,"도로 차량 > 수소차":109,"도로 차량 > 기타 (가솔린, 디젤 등)":110,"환경 관련 법규 위반 건수":111,"환경 관련 법규 위반에 따른 벌금":112,"오존층 파괴물질 > CFD(R-11)":null,"오존층 파괴물질 > HCFC(R-123)":null,"오존층 파괴물질 > HCFC(R-22)":null,"판매 > 총 제품 판매 실적":86,"매출액":null};
+const getRow = (label) => ROW_MAP[label] ?? null;
+
+const REPORTING_STANDARDS = {
+  "일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "일반 폐기물 배출량 > 위탁처리 > 소각": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "일반 폐기물 배출량 > 위탁처리 > 매립": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "지정 폐기물 배출량 > 자가처리(재활용)(②)": {ko:"보고 기준: 처리량 (발생량 아님).",en:"Basis: disposal quantity (not generation).",zh:"报告基准：处理量（非产生量）。"},
+  "지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "지정 폐기물 배출량 > 위탁처리 > 소각": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "지정 폐기물 배출량 > 위탁처리 > 매립": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "지정 폐기물 배출량 > 위탁처리 > 기타": {ko:"보고 기준: 위탁처리량 (발생량 아님). 기말 미처리 재고는 실제 처리 연도에 반영.",en:"Basis: disposal quantity (not generation). Year-end untreated inventory reported when actually disposed.",zh:"报告基准：委托处理量（非产生量）。年末未处理库存在实际处理年度计入。"},
+  "용수 재활용": {ko:"보고 기준: 청구서(고지서) 증빙 기준. 계량기 고장 등 차감분은 청구서 반영값 적용.",en:"Basis: billing evidence. Meter adjustments (e.g. valve failure) reflected per billing documents.",zh:"报告基准：按缴费单据。计量表故障等扣减按缴费单据反映值。"},
+  "폐기물 처리 비용": {ko:"보고 기준: 不含税(세전) 금액. 증빙 = SAP 전표 또는 발票 金额.",en:"Basis: pre-tax (excl. VAT) amount. Evidence = SAP voucher or invoice 金额 field.",zh:"报告基准：不含税金额。凭证=SAP凭证或发票金额栏。"},
+  "폐수 처리 비용": {ko:"보고 기준: 不含税(세전) 금액. 증빙 = SAP 전표 또는 발票 金额.",en:"Basis: pre-tax (excl. VAT) amount. Evidence = SAP voucher or invoice 金额 field.",zh:"报告基准：不含税金额。凭证=SAP凭证或发票金额栏。"},
+  "환경오염구제 책임보험": {ko:"보고 기준: 不含税(세전) 금액.",en:"Basis: pre-tax (excl. VAT) amount.",zh:"报告基准：不含税金额。"},
+  "환경배출물질 측정비용": {ko:"보고 기준: 不含税(세전) 금액.",en:"Basis: pre-tax (excl. VAT) amount.",zh:"报告基准：不含税金额。"},
+  "ISO 및 기타 환경 인증비용": {ko:"보고 기준: 不含税(세전) 금액.",en:"Basis: pre-tax (excl. VAT) amount.",zh:"报告基准：不含税金额。"},
+  "대기·화학물질 및 기타 환경 비용": {ko:"보고 기준: 不含税(세전) 금액. 비과세 항목(배출권 등)은 금액 그대로.",en:"Basis: pre-tax (excl. VAT). Non-taxable items (emission rights, etc.) at face value.",zh:"报告基准：不含税金额。非应税项目（排污权等）按原金额。"},
+  "환경개선 시설투자": {ko:"보고 기준: 不含税(세전) 금액.",en:"Basis: pre-tax (excl. VAT) amount.",zh:"报告基准：不含税金额。"},
+  "구매 > 총 제품 구매 실적": {ko:"보고 기준: 재고수불부 SAP 구매입고금액, 평가클래스 3000(원재료)+3010(부재료)+4000(포장재). 가흥화공은 화공법인 특성상 구매SAP 기간내발표금액 적용.",en:"Basis: inventory ledger SAP purchase receipt amount, valuation class 3000+3010+4000. Jiaxing Chemical uses purchase SAP period release amount.",zh:"报告基准：库存收发簿SAP采购入库金额，评价类3000+3010+4000。嘉兴化工因化工法人特性采用采购SAP期间内公布金额。"},
+  "포장재 > 포장재 총 출하량": {ko:"보고 기준: EA 단위 (전사 통일). GRI 외부 공시 시 ton 환산 필요.",en:"Basis: EA unit (company-wide). Conversion to tons required for GRI external disclosure.",zh:"报告基准：EA单位（全公司统一）。GRI对外披露时需换算为吨。"},
+  "유해화학물질 사용량": {ko:"보고 기준: UN GHS 8차 개정판 글로벌 통합 마스터 리스트(140종). 마스터 미포함 물질(예: BDO) 제외. 연도 간 포함 물질 범위 일관 유지.",en:"Basis: UN GHS Rev.8 global master list (140 substances). Substances not on master list (e.g. BDO) excluded. Consistent substance scope across years.",zh:"报告基准：UN GHS第8修订版全球主列表（140种）。未列入主列表的物质（如BDO）不计入。各年度涵盖物质范围保持一致。"}
+};
+function getStandard(label) { const s = REPORTING_STANDARDS[label]; return s ? s : null; }
+
+const INDICATOR_MANUAL = {
+  "비도로 차량 > 전기차": {
+    definition:{ko:"법인이 소유하거나 운영통제하는 비도로(산업용) 전기 동력 차량",en:"Off-road (industrial) electric-powered vehicles owned or operationally controlled by the subsidiary",zh:"法人拥有或运营控制的非道路（工业用）电动车辆"},
+    include:{ko:["법인 명의 등록 또는 자산 대장 등재 전기 지게차·전동 카트 등","법인이 배차·운행·정비를 직접 수행하는 리스 차량"],en:["Electric forklifts, carts registered under subsidiary or on asset ledger","Leased vehicles where subsidiary directly manages dispatch, operation, maintenance"],zh:["法人名下登记或列入资产台账的电动叉车·电动搬运车等","法人直接负责调度·运行·维护的租赁车辆"]},
+    exclude:{ko:["외부업체 소유·운영 차량 (물류사 지게차 등)","단기 렌트 (월 미만)"],en:["Vehicles owned/operated by external companies","Short-term rentals (less than 1 month)"],zh:["外部公司所有·运营的车辆","短期租赁（不足1个月）"]},
+    cutoff:{ko:"보고연도 12.31 기준 유효 등록 차량",en:"Vehicles registered as of Dec 31 of reporting year",zh:"报告年度12.31基准有效登记车辆"},
+    evidence:{ko:"특종장비 등록 대장 또는 자산 관리 대장",en:"Special equipment register or asset management ledger",zh:"特种设备登记台账或资产管理台账"},
+    gri:{ko:"자체 지표 (GRI 305-1 Scope 1 조직 경계 기준 준용)",en:"Custom indicator (aligned with GRI 305-1 Scope 1 organizational boundary)",zh:"自定义指标（参照GRI 305-1 Scope 1组织边界标准）"},
+    updated:"2026-04-16"
+  },
+  "비도로 차량 > 수소차": {
+    definition:{ko:"법인이 소유하거나 운영통제하는 비도로(산업용) 수소 동력 차량",en:"Off-road (industrial) hydrogen-powered vehicles owned or operationally controlled by the subsidiary",zh:"法人拥有或运营控制的非道路（工业用）氢能车辆"},
+    include:{ko:["법인 명의 등록 수소 지게차 등"],en:["Hydrogen forklifts registered under subsidiary"],zh:["法人名下登记的氢能叉车等"]},
+    exclude:{ko:["외부업체 소유·운영 차량","단기 렌트"],en:["Vehicles owned/operated by external companies","Short-term rentals"],zh:["外部公司所有·运营的车辆","短期租赁"]},
+    cutoff:{ko:"보고연도 12.31 기준",en:"As of Dec 31 of reporting year",zh:"报告年度12.31基准"},
+    evidence:{ko:"특종장비 등록 대장 또는 자산 관리 대장",en:"Special equipment register or asset management ledger",zh:"特种设备登记台账或资产管理台账"},
+    gri:{ko:"자체 지표 (GRI 305-1 조직 경계 준용)",en:"Custom indicator (aligned with GRI 305-1)",zh:"自定义指标（参照GRI 305-1）"},
+    updated:"2026-04-16"
+  },
+  "비도로 차량 > 기타 (가솔린, 디젤 등)": {
+    definition:{ko:"법인이 소유하거나 운영통제하는 비도로(산업용) 내연기관 차량 (LPG·디젤·가솔린)",en:"Off-road (industrial) ICE vehicles (LPG/diesel/gasoline) owned or operationally controlled by the subsidiary",zh:"法人拥有或运营控制的非道路（工业用）内燃机车辆（LPG·柴油·汽油）"},
+    include:{ko:["법인 명의 내연 지게차, 로더, 굴삭기 등","법인이 배차·운행·정비를 직접 수행하는 리스 장비"],en:["ICE forklifts, loaders, excavators registered under subsidiary","Leased equipment where subsidiary directly manages operation"],zh:["法人名下内燃叉车·装载机·挖掘机等","法人直接负责运营的租赁设备"]},
+    exclude:{ko:["외부업체 소유·운영 장비","단기 렌트"],en:["Equipment owned/operated by external companies","Short-term rentals"],zh:["外部公司所有·运营的设备","短期租赁"]},
+    cutoff:{ko:"보고연도 12.31 기준",en:"As of Dec 31 of reporting year",zh:"报告年度12.31基准"},
+    evidence:{ko:"특종장비 등록 대장 또는 자산 관리 대장 (중국: 浙江特种设备在线 등)",en:"Special equipment register (China: Zhejiang Special Equipment Online, etc.)",zh:"特种设备登记台账（中国：浙江特种设备在线等）"},
+    gri:{ko:"자체 지표 (GRI 305-1 조직 경계 준용)",en:"Custom indicator (aligned with GRI 305-1)",zh:"自定义指标（参照GRI 305-1）"},
+    updated:"2026-04-16"
+  },
+  "도로 차량 > 전기차": {
+    definition:{ko:"법인이 소유하거나 운영통제하는 도로 등록 전기차 (BEV)",en:"Road-registered battery electric vehicles (BEV) owned or operationally controlled by the subsidiary",zh:"法人拥有或运营控制的道路注册纯电动汽车（BEV）"},
+    include:{ko:["법인 명의 등록 전기 승용차·화물차","법인이 배차·운행·정비를 직접 수행하는 리스 전기차"],en:["Electric passenger/cargo vehicles registered under subsidiary","Leased EVs where subsidiary directly manages operation"],zh:["法人名下登记的电动乘用车·货车","法人直接负责运营的租赁电动车"]},
+    exclude:{ko:["HEV(하이브리드)는 '기타'로 분류","외부업체 소유·운영 차량","임직원 자가용"],en:["HEVs classified under 'Others'","Vehicles owned/operated by external companies","Employee personal vehicles"],zh:["HEV（混动）归入'其他'","外部公司所有·运营的车辆","员工私家车"]},
+    cutoff:{ko:"보고연도 12.31 기준 차량등록부 유효 차량",en:"Vehicles valid per registration as of Dec 31",zh:"报告年度12.31基准车辆登记簿有效车辆"},
+    evidence:{ko:"차량 등록 목록 (차량번호, 연료 유형, 소유/리스 구분, 취득일)",en:"Vehicle registration list (plate no., fuel type, own/lease, acquisition date)",zh:"车辆登记清单（车牌号·燃料类型·自有/租赁·取得日期）"},
+    gri:{ko:"자체 지표 (GRI 305-1 조직 경계 준용)",en:"Custom indicator (aligned with GRI 305-1)",zh:"自定义指标（参照GRI 305-1）"},
+    updated:"2026-04-16"
+  },
+  "도로 차량 > 수소차": {
+    definition:{ko:"법인이 소유하거나 운영통제하는 도로 등록 수소 연료전지차 (FCEV)",en:"Road-registered fuel cell electric vehicles (FCEV) owned or operationally controlled by the subsidiary",zh:"法人拥有或运营控制的道路注册氢燃料电池汽车（FCEV）"},
+    include:{ko:["법인 명의 등록 수소 승용차"],en:["Hydrogen passenger vehicles registered under subsidiary"],zh:["法人名下登记的氢能乘用车"]},
+    exclude:{ko:["외부업체 소유·운영 차량","임직원 자가용"],en:["Vehicles owned/operated by external companies","Employee personal vehicles"],zh:["外部公司所有·运营的车辆","员工私家车"]},
+    cutoff:{ko:"보고연도 12.31 기준",en:"As of Dec 31 of reporting year",zh:"报告年度12.31基准"},
+    evidence:{ko:"차량 등록 목록",en:"Vehicle registration list",zh:"车辆登记清单"},
+    gri:{ko:"자체 지표 (GRI 305-1 조직 경계 준용)",en:"Custom indicator (aligned with GRI 305-1)",zh:"自定义指标（参照GRI 305-1）"},
+    updated:"2026-04-16"
+  },
+  "도로 차량 > 기타 (가솔린, 디젤 등)": {
+    definition:{ko:"법인이 소유하거나 운영통제하는 도로 등록 차량 중 전기·수소 외 차량 (가솔린, 디젤, LPG, HEV 포함)",en:"Road-registered vehicles other than EV/hydrogen, owned or operationally controlled by the subsidiary (gasoline, diesel, LPG, HEV)",zh:"法人拥有或运营控制的道路注册车辆中电动·氢能以外的车辆（汽油·柴油·LPG·HEV）"},
+    include:{ko:["법인 명의 등록 차량 (자가 구매, 금융리스 포함)","법인이 배차·운행·정비를 직접 수행하는 차량 (운용리스, 장기임차)","법인 소유 통근버스 (자가 운영 시)"],en:["Vehicles registered under subsidiary (purchase, finance lease)","Vehicles where subsidiary directly manages dispatch/operation/maintenance (operating lease, long-term hire)","Company-owned commuter buses (if self-operated)"],zh:["法人名下登记车辆（自购·融资租赁）","法人直接负责调度·运行·维护的车辆（经营租赁·长期租用）","法人自有通勤巴士（自行运营时）"]},
+    exclude:{ko:["외부업체 소유·운영 차량 (위탁 통근버스, 택배, 외부 물류사 차량 등)","단기 렌트 (월 미만), 출장용 렌터카","임직원 자가용 (통근·출장 포함)"],en:["Vehicles owned/operated by external companies (outsourced commuter buses, couriers, external logistics)","Short-term rentals (less than 1 month), business trip car rentals","Employee personal vehicles (including commute/business trips)"],zh:["外部公司所有·运营的车辆（委托通勤巴士·快递·外部物流车辆等）","短期租赁（不足1个月）·出差用租车","员工私家车（含通勤·出差）"]},
+    cutoff:{ko:"보고연도 12.31 기준 차량등록부 유효 차량",en:"Vehicles valid per registration as of Dec 31",zh:"报告年度12.31基准车辆登记簿有效车辆"},
+    evidence:{ko:"차량 등록 목록 (차량번호, 연료 유형, 소유/리스 구분, 취득일, 용도)",en:"Vehicle registration list (plate no., fuel type, own/lease, acquisition date, purpose)",zh:"车辆登记清单（车牌号·燃料类型·自有/租赁·取得日期·用途）"},
+    decisionTree:{ko:"법인 소유? → Y: 포함 / N → 법인이 배차·운행·정비 직접 수행? → Y: 포함 / N: 제외",en:"Owned by subsidiary? → Y: Include / N → Subsidiary directly manages dispatch/operation/maintenance? → Y: Include / N: Exclude",zh:"法人所有？→ 是：计入 / 否 → 法人直接负责调度·运行·维护？→ 是：计入 / 否：不计入"},
+    gri:{ko:"자체 지표 (GRI 305-1 Scope 1 조직 경계 기준 준용 — 운영통제 접근법)",en:"Custom indicator (aligned with GRI 305-1 Scope 1 organizational boundary — operational control approach)",zh:"自定义指标（参照GRI 305-1 Scope 1组织边界标准——运营控制法）"},
+    updated:"2026-04-16"
+  },
+  "폐기물 처리 비용": {
+    definition:{ko:"법인의 폐기물 위탁처리에 소요된 연간 비용 (세전)",en:"Annual cost of outsourced waste treatment (pre-tax)",zh:"法人委托废弃物处理的年度费用（税前）"},
+    include:{ko:["위탁 수거·운반·처리 비용 (재활용·소각·매립 포함)","위험폐기물 이전·처리 비용"],en:["Outsourced collection, transport, treatment costs (recycling, incineration, landfill)","Hazardous waste transfer and treatment costs"],zh:["委托收集·运输·处理费用（含回收·焚烧·填埋）","危险废物转运·处理费用"]},
+    exclude:{ko:["자가처리 설비 운영비 (행100 대기·화학물질 비용에 해당 시)","폐수처리 비용 (행96 별도)","세금 (VAT, ISS 등)"],en:["Self-treatment facility operating costs","Wastewater treatment costs (separate row 96)","Taxes (VAT, ISS, etc.)"],zh:["自处理设施运营费","废水处理费用（行96单列）","税金（增值税·ISS等）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 발생 비용 (발생주의)",en:"Costs incurred Jan 1 – Dec 31 of reporting year (accrual basis)",zh:"报告年度1.1–12.31发生的费用（权责发生制）"},
+    evidence:{ko:"SAP 전표, 세금계산서/发票 金额(不含税), NF-e VALOR LÍQUIDO",en:"SAP vouchers, invoices (pre-tax amount), NF-e net value",zh:"SAP凭证、发票金额（不含税）、NF-e净值"},
+    gri:{ko:"자체 지표 (GRI 306 폐기물 관련 관리비용)",en:"Custom indicator (related to GRI 306 waste management costs)",zh:"自定义指标（关联GRI 306废弃物管理费用）"},
+    updated:"2026-04-16"
+  },
+  "폐수 처리 비용": {
+    definition:{ko:"법인의 폐수 처리에 소요된 연간 비용 (세전). 자체 전처리 약품비·위탁처리비 포함",en:"Annual wastewater treatment cost (pre-tax). Includes on-site pretreatment chemicals and outsourced treatment",zh:"法人废水处理的年度费用（税前）。含自行预处理药品费·委托处理费"},
+    include:{ko:["자체 폐수처리 약품 구매비","외부 폐수처리장 위탁 비용","하수도 사용료 중 처리 관련 부분"],en:["On-site WWT chemical purchase costs","External WWT outsourcing costs","Sewer usage fees related to treatment"],zh:["自行废水处理药品采购费","外部废水处理委托费","下水道使用费中处理相关部分"]},
+    exclude:{ko:["폐기물 처리 비용 (행95 별도)","세금"],en:["Waste treatment costs (separate row 95)","Taxes"],zh:["废弃物处理费用（行95单列）","税金"]},
+    cutoff:{ko:"보고연도 1.1–12.31 발생 비용",en:"Costs incurred Jan 1 – Dec 31",zh:"报告年度1.1–12.31发生的费用"},
+    evidence:{ko:"SAP 전표, 세금계산서/发票 金额(不含税), NF-e",en:"SAP vouchers, invoices (pre-tax), NF-e",zh:"SAP凭证、发票金额（不含税）、NF-e"},
+    gri:{ko:"자체 지표 (GRI 303 수자원 관련 관리비용)",en:"Custom indicator (related to GRI 303 water management costs)",zh:"自定义指标（关联GRI 303水资源管理费用）"},
+    updated:"2026-04-16"
+  },
+  "환경오염구제 책임보험": {
+    definition:{ko:"환경오염 사고 대비 법정·임의 책임보험 연간 보험료 (세전)",en:"Annual premium for environmental pollution liability insurance (pre-tax)",zh:"环境污染事故责任保险年度保费（税前）"},
+    include:{ko:["법정 환경책임보험료","임의 환경배상책임보험료"],en:["Statutory environmental liability insurance","Voluntary environmental liability insurance"],zh:["法定环境责任保险费","自愿环境赔偿责任保险费"]},
+    exclude:{ko:["일반 재산보험·화재보험","세금"],en:["General property/fire insurance","Taxes"],zh:["一般财产·火灾保险","税金"]},
+    cutoff:{ko:"보고연도 내 납부 보험료",en:"Premiums paid within reporting year",zh:"报告年度内缴纳的保费"},
+    evidence:{ko:"보험증서, SAP 전표",en:"Insurance policy, SAP vouchers",zh:"保险凭证、SAP凭证"},
+    gri:{ko:"자체 지표",en:"Custom indicator",zh:"自定义指标"},
+    updated:"2026-04-16"
+  },
+  "환경배출물질 측정비용": {
+    definition:{ko:"대기·수질·소음 등 환경배출물질 법정·자발적 측정에 소요된 비용 (세전)",en:"Cost of statutory/voluntary measurement of air, water, noise emissions (pre-tax)",zh:"大气·水质·噪声等环境排放物质法定·自愿监测费用（税前）"},
+    include:{ko:["외부 측정기관 용역비 (대기질, 수질, 소음 등)","자체 측정 장비 교정·인증 비용"],en:["External lab service fees (air, water, noise)","Calibration/certification costs for in-house equipment"],zh:["外部监测机构服务费（大气·水质·噪声等）","自有监测设备校准·认证费用"]},
+    exclude:{ko:["측정 장비 구매 (행101 시설투자)","세금 (ISS 등)"],en:["Equipment purchase (row 101 capex)","Taxes (ISS, etc.)"],zh:["监测设备购置（行101设施投资）","税金（ISS等）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 발생 비용",en:"Costs incurred Jan 1 – Dec 31",zh:"报告年度1.1–12.31发生的费用"},
+    evidence:{ko:"측정기관 인보이스/发票, SAP 전표",en:"Lab invoices, SAP vouchers",zh:"监测机构发票、SAP凭证"},
+    gri:{ko:"자체 지표",en:"Custom indicator",zh:"自定义指标"},
+    updated:"2026-04-16"
+  },
+  "ISO 및 기타 환경 인증비용": {
+    definition:{ko:"ISO 14001 등 환경 관련 인증 취득·유지·갱신에 소요된 비용 (세전)",en:"Cost of obtaining/maintaining/renewing ISO 14001 and other environmental certifications (pre-tax)",zh:"ISO 14001等环境认证取得·维持·更新费用（税前）"},
+    include:{ko:["ISO 14001 심사·인증 비용","기타 환경 인증 (ZDHC, OEKO-TEX 등) 비용"],en:["ISO 14001 audit/certification costs","Other environmental certifications (ZDHC, OEKO-TEX, etc.)"],zh:["ISO 14001审核·认证费用","其他环境认证（ZDHC、OEKO-TEX等）费用"]},
+    exclude:{ko:["품질 인증 (ISO 9001 등)","세금"],en:["Quality certifications (ISO 9001, etc.)","Taxes"],zh:["质量认证（ISO 9001等）","税金"]},
+    cutoff:{ko:"보고연도 1.1–12.31 발생 비용",en:"Costs incurred Jan 1 – Dec 31",zh:"报告年度1.1–12.31发生的费用"},
+    evidence:{ko:"인증기관 인보이스, SAP 전표",en:"Certification body invoices, SAP vouchers",zh:"认证机构发票、SAP凭证"},
+    gri:{ko:"자체 지표",en:"Custom indicator",zh:"自定义指标"},
+    updated:"2026-04-16"
+  },
+  "대기·화학물질 및 기타 환경 비용": {
+    definition:{ko:"대기오염 방지, 화학물질 관리, 배출권 구매 등 기타 환경 관련 경상비용 (세전)",en:"Other environmental operating costs: air pollution prevention, chemical management, emission rights purchase (pre-tax)",zh:"大气污染防治·化学品管理·排污权购买等其他环境经常性费用（税前）"},
+    include:{ko:["대기오염 방지 약품·소모품비","화학물질 관리 비용","배출권·오염권 구매 비용 (비과세 항목은 금액 그대로)"],en:["Air pollution prevention chemicals/consumables","Chemical management costs","Emission/pollution rights purchase (non-taxable items at face value)"],zh:["大气污染防治药品·耗材费","化学品管理费用","排污权·排放权购买费用（非应税项目按原金额）"]},
+    exclude:{ko:["폐기물·폐수 처리 비용 (행95·96 별도)","시설투자 (행101 별도)"],en:["Waste/wastewater costs (rows 95/96)","Capital investment (row 101)"],zh:["废弃物·废水处理费用（行95·96单列）","设施投资（行101单列）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 발생 비용",en:"Costs incurred Jan 1 – Dec 31",zh:"报告年度1.1–12.31发生的费用"},
+    evidence:{ko:"SAP 전표, 발票/인보이스",en:"SAP vouchers, invoices",zh:"SAP凭证、发票"},
+    gri:{ko:"자체 지표 (GRI 305 대기배출 관련 관리비용)",en:"Custom indicator (related to GRI 305 emissions management costs)",zh:"自定义指标（关联GRI 305大气排放管理费用）"},
+    updated:"2026-04-16"
+  },
+  "환경개선 시설투자": {
+    definition:{ko:"환경오염 방지·저감을 위한 설비 신규 취득·개량에 투입된 자본적 지출 (세전)",en:"Capital expenditure for acquisition/improvement of environmental pollution prevention/reduction facilities (pre-tax)",zh:"用于环保设施新增·改良的资本性支出（税前）"},
+    include:{ko:["폐수처리 설비 신설·증설","대기오염 방지 설비 (집진기, 스크러버 등)","폐기물 처리·보관 시설 개선"],en:["New/expanded WWT facilities","Air pollution control equipment (dust collectors, scrubbers)","Waste treatment/storage facility improvements"],zh:["废水处理设施新建·扩建","大气污染防治设备（除尘器·洗涤塔等）","废弃物处理·储存设施改善"]},
+    exclude:{ko:["경상 유지보수비 (행95–100에 해당)","환경 기술 R&D (행102 별도)","세금"],en:["Recurring maintenance (rows 95–100)","Environmental R&D (row 102)","Taxes"],zh:["经常性维护费（行95–100）","环保技术研发（行102单列）","税金"]},
+    cutoff:{ko:"보고연도 내 자산 취득일 기준",en:"Based on asset acquisition date within reporting year",zh:"以报告年度内资产取得日为准"},
+    evidence:{ko:"SAP 자산 취득 전표, 발票/인보이스",en:"SAP asset acquisition vouchers, invoices",zh:"SAP资产取得凭证、发票"},
+    gri:{ko:"자체 지표",en:"Custom indicator",zh:"自定义指标"},
+    updated:"2026-04-16"
+  },
+  "환경 기술 투자": {
+    definition:{ko:"환경 관련 기술 연구개발(R&D)에 투입된 비용 (세전)",en:"Cost invested in environmental technology R&D (pre-tax)",zh:"环保相关技术研发（R&D）投入费用（税前）"},
+    include:{ko:["환경 기술 자체 R&D 비용","환경 기술 외부 공동연구 비용"],en:["In-house environmental R&D costs","External collaborative environmental R&D costs"],zh:["自主环保技术研发费用","外部合作环保技术研发费用"]},
+    exclude:{ko:["설비 취득 (행101 별도)","일반 공정 개선 R&D"],en:["Equipment acquisition (row 101)","General process improvement R&D"],zh:["设备购置（行101单列）","一般工艺改进研发"]},
+    cutoff:{ko:"보고연도 1.1–12.31 발생 비용",en:"Costs incurred Jan 1 – Dec 31",zh:"报告年度1.1–12.31发生的费用"},
+    evidence:{ko:"R&D 프로젝트 전표, SAP",en:"R&D project vouchers, SAP",zh:"研发项目凭证、SAP"},
+    gri:{ko:"자체 지표",en:"Custom indicator",zh:"自定义指标"},
+    updated:"2026-04-16"
+  },
+  "일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {
+    definition:{ko:"일반(비지정) 폐기물 중 외부 위탁 재활용 처리된 수량",en:"Non-hazardous waste recycled through outsourced treatment",zh:"一般（非危险）废弃物中委托外部回收处理的数量"},
+    include:{ko:["위탁업체가 실제 재활용 처리 완료한 수량","금속·플라스틱·종이·목재·유리 재활용","폐배터리·케이블 재활용","보고연도 중 처리 완료분 (발생연도 불문)"],en:["Quantity actually recycled by contractor","Metal, plastic, paper, wood, glass recycling","Waste batteries, cables recycling","Treated during reporting year (regardless of generation year)"],zh:["委托方实际完成回收处理的数量","金属·塑料·纸·木材·玻璃回收","废电池·电缆回收","报告年度内处理完成量（不论产生年度）"]},
+    exclude:{ko:["자가처리 재활용 (행59)","코프로세싱/시멘트 킬른 공동처리 (행57 일반 소각으로 분류)","에너지 회수 소각 R1 (행57)","발생 후 미처리 기말 재고 (처리 완료 연도에 반영)"],en:["Self-treated recycling (row 59)","Co-processing/cement kiln (classified to row 57 incineration)","Incineration with energy recovery R1 (row 57)","Year-end untreated inventory (reported when treated)"],zh:["自行处理回收（行59）","协同处置/水泥窑共处理（归入行57焚烧）","能量回收焚烧R1（行57）","年末未处理库存（在实际处理年度计入）"]},
+    cutoff:{ko:"위탁업체 처리 완료일 기준 (발생량 아닌 처리량)",en:"Based on contractor treatment completion date (disposal qty, not generation)",zh:"以委托方处理完成日为准（处理量非产生量）"},
+    evidence:{ko:"[공통] 위탁처리 계약서, 처리실적 보고서, 매니페스트. [중국] 危废转移联单. [브라질] DMR 반기별 신고서 (IMA 발행)",en:"[Common] Treatment contracts, disposal records, manifests. [China] Hazardous waste transfer form. [Brazil] DMR semi-annual declaration (issued by IMA)",zh:"[通用] 委托处理合同·处理实绩报告·转移联单。[中国] 危废转移联单。[巴西] DMR半年度申报书（IMA颁发）"},
+    gri:{ko:"GRI 306-4 (2020) — 처분에서 전환된 폐기물",en:"GRI 306-4 (2020) — Waste diverted from disposal",zh:"GRI 306-4 (2020)——从处置中转移的废弃物"},
+    updated:"2026-04-16"
+  },
+  "일반 폐기물 배출량 > 위탁처리 > 소각": {
+    definition:{ko:"일반(비지정) 폐기물 중 외부 위탁 열처리된 수량. GRI 306-5 에너지 회수 소각(R1) 포함",en:"Non-hazardous waste thermally treated via outsourced services, including incineration with energy recovery (R1) per GRI 306-5",zh:"一般（非危险）废弃物中委托外部热处理的数量。含GRI 306-5能量回收焚烧（R1）"},
+    include:{ko:["일반 소각 D10 (에너지 비회수)","에너지 회수 소각 R1 (폐열 활용)","시멘트 킬른 코프로세싱 (예: 브라질 040220 폐수처리 슬러지)","멸균처리 (열처리 기반)"],en:["Incineration D10 (without energy recovery)","Incineration R1 with energy recovery","Cement kiln co-processing (e.g. Brazil 040220 WWT sludge)","Sterilization (thermal-based)"],zh:["一般焚烧D10（非能量回收）","能量回收焚烧R1（余热利用）","水泥窑协同处置（例：巴西040220废水处理污泥）","灭菌处理（基于热处理）"]},
+    exclude:{ko:["순수 물질 재활용 (행56)","자가 소각","발생 후 미처리 기말 재고"],en:["Pure material recycling (row 56)","Self-incineration","Year-end untreated inventory"],zh:["纯物质回收（行56）","自行焚烧","年末未处理库存"]},
+    cutoff:{ko:"위탁업체 처리 완료일 기준",en:"Based on contractor treatment completion date",zh:"以委托方处理完成日为准"},
+    evidence:{ko:"[공통] 처리실적 보고서, 매니페스트. [브라질] DMR 반기별 신고서 (처리방법 Tecnologia 컬럼: Incineração, Blendagem para Coprocessamento, Esterilização)",en:"[Common] Disposal records, manifests. [Brazil] DMR (Tecnologia column: Incineração, Blendagem para Coprocessamento, Esterilização)",zh:"[通用] 处理实绩报告·转移联单。[巴西] DMR（处理方法栏：Incineração·Blendagem para Coprocessamento·Esterilização）"},
+    decisionTree:{ko:"처리방법이 열처리(소각·코프로세싱·멸균) 기반인가? → Y: 소각 / N → 물질 회수(금속·플라스틱 등) 기반인가? → Y: 재활용(행56) / N → 매립(행58)",en:"Thermal treatment (incineration/co-processing/sterilization)? → Y: Incineration / N → Material recovery (metal/plastic etc.)? → Y: Recycling (row 56) / N → Landfill (row 58)",zh:"热处理（焚烧·协同处置·灭菌）？→ 是：焚烧 / 否 → 物质回收（金属·塑料等）？→ 是：回收（行56）/ 否 → 填埋（行58）"},
+    gri:{ko:"GRI 306-5 (2020) — 처분으로 향한 폐기물 (에너지 회수 소각 포함)",en:"GRI 306-5 (2020) — Waste directed to disposal (incl. incineration with energy recovery)",zh:"GRI 306-5 (2020)——导向处置的废弃物（含能量回收焚烧）"},
+    updated:"2026-04-16"
+  },
+  "일반 폐기물 배출량 > 위탁처리 > 매립": {
+    definition:{ko:"일반(비지정) 폐기물 중 외부 위탁 매립 처리된 수량 및 매립 외 처분 방법(일반 '기타' 행 부재로 통합)",en:"Non-hazardous waste landfilled via outsourced services, plus other non-hazardous disposal methods consolidated here (no 'others' row for non-hazardous)",zh:"一般（非危险）废弃物中委托外部填埋处理的数量及其他处置方式（一般废弃物无'其他'栏故合并）"},
+    include:{ko:["관리형·차단형 매립","건설폐기물 매립 (Classe A)","보일러재·도시폐기물·섬유폐기물 매립","정화조 슬러지 폐수처리 (200304) — 일반 '기타' 행 부재로 매립에 통합"],en:["Managed/engineered landfill","Construction waste landfill (Classe A)","Boiler ash, urban waste, textile waste landfill","Septic tank sludge effluent treatment (200304) — consolidated here as no non-hazardous 'others' row exists"],zh:["管理型·隔断型填埋","建设废弃物填埋（Classe A）","锅炉灰·城市废弃物·纺织废弃物填埋","化粪池污泥废水处理（200304）——因一般废弃物无'其他'栏故合并于此"]},
+    exclude:{ko:["자가 매립","발생 후 미처리 기말 재고"],en:["Self-landfilling","Year-end untreated inventory"],zh:["自行填埋","年末未处理库存"]},
+    cutoff:{ko:"위탁업체 처리 완료일 기준",en:"Based on contractor treatment completion date",zh:"以委托方处理完成日为准"},
+    evidence:{ko:"[공통] 처리실적 보고서, 매니페스트. [브라질] DMR 반기별 신고서 (Tecnologia: Aterro, Tratamento de Efluentes)",en:"[Common] Disposal records, manifests. [Brazil] DMR (Tecnologia: Aterro, Tratamento de Efluentes)",zh:"[通用] 处理实绩报告·转移联单。[巴西] DMR（Tecnologia：Aterro·Tratamento de Efluentes）"},
+    gri:{ko:"GRI 306-5 (2020) — 처분 (매립 D1–D5, 물리화학적 처리 D9 포함)",en:"GRI 306-5 (2020) — Disposal (landfill D1–D5, physico-chemical D9 incl.)",zh:"GRI 306-5 (2020)——处置（含填埋D1–D5·物化处理D9）"},
+    updated:"2026-04-16"
+  },
+  "지정 폐기물 배출량 > 자가처리(재활용)(②)": {
+    definition:{ko:"지정(위험) 폐기물 중 법인 자체 시설에서 재활용 처리한 수량",en:"Hazardous waste recycled through in-house treatment facilities",zh:"危险废弃物中法人自有设施回收处理的数量"},
+    include:{ko:["자체 재활용 설비에서 처리 완료된 수량","DMAc 자체 회수는 행91(재사용 원료)로 별도 계상"],en:["Quantity processed in on-site recycling facilities","DMAc self-recovery counted separately in row 91 (reused materials)"],zh:["自有回收设施处理完成的数量","DMAc自回收另计入行91（再利用原料）"]},
+    exclude:{ko:["위탁 재활용 (행60)","DMAc 회수 (행91)"],en:["Outsourced recycling (row 60)","DMAc recovery (row 91)"],zh:["委托回收（行60）","DMAc回收（行91）"]},
+    cutoff:{ko:"자체 처리 완료일 기준",en:"Based on in-house treatment completion date",zh:"以自行处理完成日为准"},
+    evidence:{ko:"자가처리 실적 대장, 환경허가증에 자가처리 권한 명시 필요",en:"In-house treatment records; environmental permit must authorize self-treatment",zh:"自处理实绩台账，环保许可证须明确授权自处理"},
+    gri:{ko:"GRI 306-4 (2020) — 법인 내부 회수",en:"GRI 306-4 (2020) — On-site recovery",zh:"GRI 306-4 (2020)——法人内部回收"},
+    updated:"2026-04-16"
+  },
+  "지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {
+    definition:{ko:"지정(위험) 폐기물 중 외부 위탁 재활용·재정제 처리된 수량",en:"Hazardous waste recycled or re-refined through outsourced treatment",zh:"危险废弃物中委托外部回收·再精炼处理的数量"},
+    include:{ko:["금속 회수 재활용","폐원사 재활용 (주해스판 사례)","폐윤활유 재정제 Rerrefino (R9, 130201*)","기타 물질 회수"],en:["Metal recovery recycling","Waste yarn recycling (Zhuhai case)","Used oil re-refining Rerrefino (R9, 130201*)","Other material recovery"],zh:["金属回收","废丝回收（珠海氨纶案例）","废润滑油再精炼Rerrefino（R9, 130201*）","其他物质回收"]},
+    exclude:{ko:["자가 재활용 (행59)","코프로세싱 (행61 소각으로 분류)","멸균처리 (행61)","발생 후 미처리 기말 재고"],en:["Self-recycling (row 59)","Co-processing (classified to row 61 incineration)","Sterilization (row 61)","Year-end untreated inventory"],zh:["自行回收（行59）","协同处置（归入行61焚烧）","灭菌处理（行61）","年末未处理库存"]},
+    cutoff:{ko:"위탁업체 처리 완료일 기준",en:"Based on contractor treatment completion date",zh:"以委托方处理完成日为准"},
+    evidence:{ko:"[공통] 처리실적, 매니페스트. [중국] 危废转移联单. [브라질] DMR 반기별 신고서 (Tecnologia: Reciclagem, Rerrefino)",en:"[Common] Disposal records, manifests. [China] Hazardous waste transfer form. [Brazil] DMR (Tecnologia: Reciclagem, Rerrefino)",zh:"[通用] 处理实绩·转移联单。[中国] 危废转移联单。[巴西] DMR（Tecnologia：Reciclagem·Rerrefino）"},
+    gri:{ko:"GRI 306-4 (2020) — R2–R9 회수 작업 (재정제 R9 포함)",en:"GRI 306-4 (2020) — R2–R9 recovery operations (incl. re-refining R9)",zh:"GRI 306-4 (2020)——R2–R9回收作业（含再精炼R9）"},
+    updated:"2026-04-16"
+  },
+  "지정 폐기물 배출량 > 위탁처리 > 소각": {
+    definition:{ko:"지정(위험) 폐기물 중 외부 위탁 열처리된 수량. GRI 306-5 에너지 회수 소각(R1) 포함",en:"Hazardous waste thermally treated via outsourced services, incl. incineration with energy recovery (R1)",zh:"危险废弃物中委托外部热处理的数量。含GRI 306-5能量回收焚烧（R1）"},
+    include:{ko:["위험폐기물 전용 소각 D10","에너지 회수 소각 R1","시멘트 킬른 코프로세싱 — 040214* 유기용매, 190306* 고형위험, 150110* 오염포장재 등 (브라질 사례)","멸균처리 — 180401* 날카로운 물질, 의료폐기물 Grupo A"],en:["Dedicated hazardous incineration D10","Incineration with energy recovery R1","Cement kiln co-processing — e.g. 040214* organic solvents, 190306* solidified hazardous, 150110* contaminated packaging (Brazil case)","Sterilization — 180401* sharps, medical waste Grupo A"],zh:["危险废弃物专用焚烧D10","能量回收焚烧R1","水泥窑协同处置——例：040214*有机溶剂·190306*固化危险·150110*污染包装（巴西案例）","灭菌处理——180401*锐器·医疗废弃物Grupo A"]},
+    exclude:{ko:["순수 물질 회수 (행60)","폐윤활유 재정제 Rerrefino (행60)","발생 후 미처리 기말 재고 (행63)"],en:["Pure material recovery (row 60)","Used oil re-refining Rerrefino (row 60)","Year-end untreated inventory (row 63)"],zh:["纯物质回收（行60）","废润滑油再精炼Rerrefino（行60）","年末未处理库存（行63）"]},
+    cutoff:{ko:"위탁업체 처리 완료일 기준",en:"Based on contractor treatment completion date",zh:"以委托方处理完成日为准"},
+    evidence:{ko:"[공통] 처리실적, 매니페스트. [중국] 危废转移联单 (焚烧/綜合利用 포함). [브라질] DMR 반기별 신고서 (Tecnologia: Incineração, Blendagem para Coprocessamento, Esterilização)",en:"[Common] Disposal records, manifests. [China] Hazardous waste transfer form (incl. incineration/comprehensive utilization). [Brazil] DMR (Tecnologia: Incineração, Blendagem para Coprocessamento, Esterilização)",zh:"[通用] 处理实绩·转移联单。[中国] 危废转移联单（含焚烧/综合利用）。[巴西] DMR（Tecnologia：Incineração·Blendagem para Coprocessamento·Esterilização）"},
+    decisionTree:{ko:"열처리(소각·코프로세싱·멸균)인가? → Y: 소각(행61) / N → 물질 재활용(재정제 포함)? → Y: 재활용(행60) / N → 매립(행62) 또는 기타(행63)",en:"Thermal treatment (incineration/co-processing/sterilization)? → Y: Incineration (row 61) / N → Material recycling (incl. re-refining)? → Y: Recycling (row 60) / N → Landfill (row 62) or Others (row 63)",zh:"热处理（焚烧·协同处置·灭菌）？→ 是：焚烧（行61）/ 否 → 物质回收（含再精炼）？→ 是：回收（行60）/ 否 → 填埋（行62）或其他（行63）"},
+    gri:{ko:"GRI 306-5 (2020) — D10 소각, R1 에너지 회수 소각",en:"GRI 306-5 (2020) — D10 incineration, R1 incineration with energy recovery",zh:"GRI 306-5 (2020)——D10焚烧·R1能量回收焚烧"},
+    updated:"2026-04-16"
+  },
+  "지정 폐기물 배출량 > 위탁처리 > 매립": {
+    definition:{ko:"지정(위험) 폐기물 중 외부 위탁 매립 처리된 수량",en:"Hazardous waste landfilled through outsourced treatment",zh:"危险废弃物中委托外部填埋处理的数量"},
+    include:{ko:["차단형·관리형 매립 D1–D5","안정화 후 매립"],en:["Engineered/managed landfill D1–D5","Landfill after stabilization"],zh:["隔断型·管理型填埋D1–D5","稳定化后填埋"]},
+    exclude:{ko:["코프로세싱 (행61 소각)","물리화학적 처리 (행63 기타)","발생 후 미처리 기말 재고 (행63)"],en:["Co-processing (row 61 incineration)","Physico-chemical treatment (row 63 others)","Year-end untreated inventory (row 63)"],zh:["协同处置（行61焚烧）","物化处理（行63其他）","年末未处理库存（行63）"]},
+    cutoff:{ko:"위탁업체 처리 완료일 기준",en:"Based on contractor treatment completion date",zh:"以委托方处理完成日为准"},
+    evidence:{ko:"[공통] 처리실적, 매니페스트. [브라질] DMR 반기별 신고서 (Tecnologia: Aterro)",en:"[Common] Disposal records, manifests. [Brazil] DMR (Tecnologia: Aterro)",zh:"[通用] 处理实绩·转移联单。[巴西] DMR（Tecnologia：Aterro）"},
+    gri:{ko:"GRI 306-5 (2020) — D1–D5 매립",en:"GRI 306-5 (2020) — D1–D5 landfill",zh:"GRI 306-5 (2020)——D1–D5填埋"},
+    updated:"2026-04-16"
+  },
+  "지정 폐기물 배출량 > 위탁처리 > 기타": {
+    definition:{ko:"지정(위험) 폐기물 중 재활용·소각·매립 외 방법 또는 기말 보관분",en:"Hazardous waste by methods other than recycling/incineration/landfill, or year-end storage",zh:"危险废弃物中以回收·焚烧·填埋以外方式处理或年末暂存"},
+    include:{ko:["물리화학적 처리 D8·D9 (중화, 고화 등)","기말 현장 보관분 (차기 연도 처리 예정, 주해스판 S02 사례)"],en:["Physico-chemical treatment D8/D9 (neutralization, solidification)","Year-end on-site storage (pending next year treatment, Zhuhai S02 case)"],zh:["物化处理D8·D9（中和·固化等）","年末现场暂存（待下年度处理，珠海氨纶S02案例）"]},
+    exclude:{ko:["코프로세싱 → 행61 소각","재정제 Rerrefino → 행60 재활용","멸균처리 → 행61 소각","폐수처리는 지정폐기물 해당 시 사안별 판단"],en:["Co-processing → row 61 incineration","Re-refining Rerrefino → row 60 recycling","Sterilization → row 61 incineration","Effluent treatment: case-by-case for hazardous"],zh:["协同处置 → 行61焚烧","再精炼Rerrefino → 行60回收","灭菌处理 → 行61焚烧","废水处理：危险废弃物情况逐案判断"]},
+    cutoff:{ko:"위탁업체 처리 완료일 또는 기말 재고 기준",en:"Based on treatment completion date or year-end inventory",zh:"以处理完成日或年末库存为准"},
+    evidence:{ko:"[공통] 처리실적, 매니페스트, 기말 재고 대장",en:"[Common] Disposal records, manifests, year-end inventory ledger",zh:"[通用] 处理实绩·转移联单·年末库存台账"},
+    decisionTree:{ko:"코프로세싱/소각/멸균인가? → Y: 행61 / N → 재정제/금속 회수? → Y: 행60 / N → 매립? → Y: 행62 / N → 기타(행63, 물리화학적 처리·기말 보관 등)",en:"Co-processing/incineration/sterilization? → Y: row 61 / N → Re-refining/metal recovery? → Y: row 60 / N → Landfill? → Y: row 62 / N → Others (row 63, physico-chemical/year-end storage)",zh:"协同处置/焚烧/灭菌？→ 是：行61 / 否 → 再精炼/金属回收？→ 是：行60 / 否 → 填埋？→ 是：行62 / 否 → 其他（行63，物化处理·年末暂存）"},
+    gri:{ko:"GRI 306-5 (2020) — D8 생물학적·D9 물리화학적 처리",en:"GRI 306-5 (2020) — D8 biological, D9 physico-chemical treatment",zh:"GRI 306-5 (2020)——D8生物·D9物化处理"},
+    updated:"2026-04-16"
+  },
+  "유해화학물질 사용량": {
+    definition:{ko:"UN GHS 8차 개정판 기준 유해 분류 화학물질의 연간 사용량",en:"Annual usage of hazardous-classified chemicals per UN GHS Rev.8",zh:"按联合国GHS第8修订版分类为有害的化学物质年度使用量"},
+    include:{ko:["글로벌 통합 마스터 리스트(140종)에 포함된 물질","원료·부재료·공소품에 포함된 유해물질 함유량"],en:["Substances on the global master list (140 substances)","Hazardous content in raw materials, sub-materials, consumables"],zh:["全球统一主列表（140种）中的物质","原辅材料·消耗品中所含有害物质含量"]},
+    exclude:{ko:["마스터 리스트 미포함 물질 (예: BDO, PTMG, TiO2, Hydrotalcite, GPPS, 방사유제)","완제품에 포함된 잔류 화학물질","에너지 연료(LNG 등)"],en:["Substances not on master list (e.g., BDO, PTMG, TiO2, Hydrotalcite, GPPS, spinning oils)","Residual chemicals in finished products","Energy fuels (LNG etc.)"],zh:["未列入主列表的物质（如BDO、PTMG、TiO2、水滑石、GPPS、纺丝油剂）","成品中的残留化学物质","能源燃料（LNG等）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 입고 수량 (재고수불부 기준, KG 단위)",en:"Receipt qty during Jan 1 – Dec 31 (per inventory ledger, KG unit)",zh:"报告年度1.1–12.31入库数量（按库存收发簿，KG单位）"},
+    evidence:{ko:"재고수불부 Raw 시트 × GHS 8차 마스터 리스트 140종 CAS 교차 대조. 추출 조건: ① 평가클래스 = 3000(원재료) + 3010(부재료) + 5000(저장품 중 화학물질), ② 단위 = KG, ③ 입고(수량) 컬럼 합산. 자재명 첫 단어로 1차 매칭 후 CAS 확정",en:"Inventory ledger Raw sheet × GHS Rev.8 master list (140 substances) cross-checked by CAS. Extraction: ① Valuation Class 3000(raw)+3010(sub)+5000(consumable chemicals), ② Unit=KG, ③ sum 입고(수량) column. First-word match on material name then CAS confirmation",zh:"库存收发簿Raw表 × GHS第8版主列表140种物质按CAS交叉核对。提取条件：① 估价类别=3000(原材料)+3010(辅材料)+5000(消耗品中化学物质)，② 单位=KG，③ 入库(数量)列汇总。物料名称首词匹配后确认CAS"},
+    standardMapping:{ko:"표준 매핑 키워드 9종 (FY2025 통일 적용): MDI*→101-68-8 / DMAC*·DMA→127-19-5(DMAc) / EDA*→107-15-3(에틸렌디아민) / DEAM*→111-42-2(Diethanolamine, 광동스판 한정) / DEA*→109-89-7(Diethylamine) / DETA→111-40-0 / PDA→78-90-0(1,2-Propylenediamine) / 盐酸·HCl→7647-01-0 / 液碱·苛性钠·NaOH→1310-73-2",en:"Standard mapping keywords (9, FY2025 unified): MDI*→101-68-8 / DMAC*·DMA→127-19-5 / EDA*→107-15-3 / DEAM*→111-42-2 (Guangdong only) / DEA*→109-89-7 / DETA→111-40-0 / PDA→78-90-0 / HCl→7647-01-0 / NaOH→1310-73-2",zh:"标准映射关键词9种（FY2025统一适用）：MDI*→101-68-8 / DMAC*·DMA→127-19-5 / EDA*→107-15-3 / DEAM*→111-42-2（仅广东）/ DEA*→109-89-7 / DETA→111-40-0 / PDA→78-90-0 / 盐酸·HCl→7647-01-0 / 液碱·苛性钠·NaOH→1310-73-2"},
+    decisionTree:{ko:"① 재고수불부 Raw에서 법인·평가클래스(3000/3010/5000)·KG 필터 → ② 자재명 첫 단어(언더바·공백 분할) 추출 → ③ 표준 매핑 키워드 9종과 대조 → ④ 매칭 시 CAS 확정 → ⑤ GHS 마스터 140종 검증 → ⑥ 입고수량 합산 (kg→ton 환산). 연도 간 포함 물질 범위 일관 유지 필수. 신규 자재 출현 시 표준 매핑 보강",en:"① Filter inventory Raw by entity·VC(3000/3010/5000)·KG → ② Extract first word from material name (split by underscore/space) → ③ Match against 9 standard keywords → ④ Confirm CAS → ⑤ Verify against GHS 140 master list → ⑥ Sum receipt qty (kg→ton). Maintain consistent substance scope across years. Update mapping when new materials appear",zh:"① 库存Raw按法人·估价类别(3000/3010/5000)·KG筛选 → ② 提取物料名称首词（按下划线/空格分割）→ ③ 与9种标准关键词比对 → ④ 确认CAS → ⑤ 与GHS主列表140种核对 → ⑥ 入库数量汇总（kg→吨）。各年度涵盖物质范围保持一致。出现新物料时补充映射"},
+    gri:{ko:"GRI 2016 자체 지표 (UN GHS Rev.8 기준)",en:"Custom indicator (UN GHS Rev.8 basis)",zh:"自定义指标（联合国GHS第8修订版标准）"},
+    updated:"2026-04-16"
+  },
+  "화학물질 배출량": {
+    definition:{ko:"대기·수계·토양으로 배출된 화학물질 총량 (주로 VOCs와 동일하거나 법인 자체 집계)",en:"Total chemical emissions to air/water/soil (often equals VOCs or subsidiary's own aggregation)",zh:"向大气·水体·土壤排放的化学物质总量（通常与VOCs相同或法人自行汇总）"},
+    include:{ko:["대기 배출 화학물질 (VOCs 등)","수계·토양 배출 화학물질 (해당 시)"],en:["Airborne chemical emissions (VOCs, etc.)","Waterborne/soil chemical emissions (if applicable)"],zh:["大气排放化学物质（VOCs等）","水体·土壤排放化学物质（如适用）"]},
+    exclude:{ko:["GHG 배출 (Scope 1/2/3 별도 관리)","NOx, SOx, PM (행64–66 별도)"],en:["GHG emissions (managed separately as Scope 1/2/3)","NOx, SOx, PM (separate rows 64–66)"],zh:["温室气体排放（Scope 1/2/3单独管理）","NOx·SOx·PM（行64–66单列）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 배출량",en:"Emissions during Jan 1 – Dec 31",zh:"报告年度1.1–12.31排放量"},
+    evidence:{ko:"배출량 산출표, 환경모니터링 보고서",en:"Emission calculation sheets, environmental monitoring reports",zh:"排放量计算表、环境监测报告"},
+    gri:{ko:"GRI 305-7 (2016) — 기타 유의미한 대기 배출",en:"GRI 305-7 (2016) — Other significant air emissions",zh:"GRI 305-7 (2016)——其他重大大气排放"},
+    updated:"2026-04-16"
+  },
+  "판매 > 친환경 제품 판매 실적": {
+    definition:{ko:"환경 인증 또는 친환경 기준을 충족하는 제품의 연간 판매 금액 (현지 통화)",en:"Annual sales revenue from products meeting environmental certification or green criteria (local currency)",zh:"符合环保认证或绿色标准的产品年度销售额（当地货币）"},
+    include:{ko:["환경 인증 취득 제품 매출","고객사 친환경 요구 충족 제품 매출"],en:["Revenue from environmentally certified products","Revenue from products meeting customer green requirements"],zh:["获得环保认证的产品销售额","满足客户绿色要求的产品销售额"]},
+    exclude:{ko:["일반 제품 매출","친환경 인증이 없는 제품"],en:["General product revenue","Products without green certification"],zh:["一般产品销售额","无环保认证的产品"]},
+    cutoff:{ko:"보고연도 1.1–12.31 매출 인식 기준",en:"Revenue recognized during Jan 1 – Dec 31",zh:"报告年度1.1–12.31确认的销售额"},
+    evidence:{ko:"매출 전표, 인증서",en:"Sales vouchers, certificates",zh:"销售凭证、认证证书"},
+    gri:{ko:"자체 지표",en:"Custom indicator",zh:"自定义指标"},
+    updated:"2026-04-16"
+  },
+  "구매 > 친환경 제품 구매 실적": {
+    definition:{ko:"친환경 인증 원부재료·에너지원의 연간 구매 금액 (현지 통화)",en:"Annual purchase amount of green-certified raw materials/energy sources (local currency)",zh:"绿色认证原辅材料·能源的年度采购金额（当地货币）"},
+    include:{ko:["바이오매스 연료 (Cavaco 등)","재생에너지 구매 계약","친환경 인증 원료"],en:["Biomass fuel (Cavaco, etc.)","Renewable energy purchase agreements","Green-certified raw materials"],zh:["生物质燃料（木片等）","可再生能源采购合同","绿色认证原料"]},
+    exclude:{ko:["일반 원부재료 구매 (행88)"],en:["General raw material purchases (row 88)"],zh:["一般原辅材料采购（行88）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 구매 금액",en:"Purchase amount during Jan 1 – Dec 31",zh:"报告年度1.1–12.31采购金额"},
+    evidence:{ko:"SAP 구매전표, VALOR LÍQUIDO(브라질)",en:"SAP purchase vouchers, VALOR LÍQUIDO (Brazil)",zh:"SAP采购凭证"},
+    gri:{ko:"자체 지표 (GRI 301 원재료 관련)",en:"Custom indicator (related to GRI 301 Materials)",zh:"自定义指标（关联GRI 301原材料）"},
+    updated:"2026-04-16"
+  },
+  "구매 > 총 제품 구매 실적": {
+    definition:{ko:"원재료·부재료·포장재의 연간 구매입고 금액 합계 (현지 통화, 재고수불부 기준)",en:"Total annual purchase receipt amount for raw materials, sub-materials, packaging (local currency, per inventory ledger)",zh:"原材料·辅材·包装材料年度采购入库金额合计（当地货币，按库存收发簿）"},
+    include:{ko:["Valuation Class 3000 (원재료)","Valuation Class 3010 (부재료)","Valuation Class 4000 (포장재)"],en:["Valuation Class 3000 (raw materials)","Valuation Class 3010 (sub-materials)","Valuation Class 4000 (packaging)"],zh:["评价类3000（原材料）","评价类3010（辅材）","评价类4000（包装材料）"]},
+    exclude:{ko:["저장품·소모품 (Class 2000 등)","서비스 구매","가흥화공은 화공법인 특성상 구매SAP 기간내발표금액 적용"],en:["Supplies/consumables (Class 2000, etc.)","Service purchases","Jiaxing Chemical uses purchase SAP period release amount due to chemical entity characteristics"],zh:["储备品·消耗品（Class 2000等）","服务采购","嘉兴化工因化工法人特性采用采购SAP期间内公布金额"]},
+    cutoff:{ko:"보고연도 재고수불부 구매입고 금액 합산",en:"Sum of purchase receipt amounts in inventory ledger for reporting year",zh:"报告年度库存收发簿采购入库金额合计"},
+    evidence:{ko:"SAP 재고수불부 (구매입고 금액 컬럼, VC 3000/3010/4000)",en:"SAP inventory ledger (purchase receipt amount, VC 3000/3010/4000)",zh:"SAP库存收发簿（采购入库金额列，VC 3000/3010/4000）"},
+    gri:{ko:"자체 지표 (GRI 204 조달 관련)",en:"Custom indicator (related to GRI 204 Procurement)",zh:"自定义指标（关联GRI 204采购）"},
+    updated:"2026-04-16"
+  },
+  "환경 관련 법규 위반 건수": {
+    definition:{ko:"보고연도 중 환경 관련 법률·규정 위반으로 행정처분·과태료·벌금을 받은 건수",en:"Number of administrative actions/fines received for environmental law violations during reporting year",zh:"报告年度内因违反环境法律·法规而受到行政处罚·罚款的次数"},
+    include:{ko:["환경부·지자체 행정처분 (시정명령, 조업정지 등)","과태료·벌금 부과 건","법원 판결에 의한 환경 위반"],en:["Government administrative actions (correction orders, operation suspension)","Fines/penalties imposed","Court rulings for environmental violations"],zh:["环保部门·地方政府行政处罚（整改令·停产等）","罚款·处罚","法院判决的环境违规"]},
+    exclude:{ko:["경고·권고 (행정처분 미달)","자발적 시정"],en:["Warnings/advisories (below administrative action threshold)","Voluntary corrections"],zh:["警告·建议（未达行政处罚标准）","自愿整改"]},
+    cutoff:{ko:"보고연도 1.1–12.31 처분 확정일 기준",en:"Based on action finalization date during Jan 1 – Dec 31",zh:"以报告年度1.1–12.31处罚确定日为准"},
+    evidence:{ko:"행정처분 통지서, 과태료 납부 영수증",en:"Administrative action notices, fine payment receipts",zh:"行政处罚通知书、罚款缴纳收据"},
+    gri:{ko:"GRI 2-27 (2021) — 법률 및 규정 준수",en:"GRI 2-27 (2021) — Compliance with laws and regulations",zh:"GRI 2-27 (2021)——法律法规合规"},
+    updated:"2026-04-16"
+  },
+  "환경 관련 법규 위반에 따른 벌금": {
+    definition:{ko:"보고연도 중 환경 관련 법규 위반으로 부과된 벌금·과태료 총액 (현지 통화)",en:"Total fines/penalties imposed for environmental law violations during reporting year (local currency)",zh:"报告年度内因违反环境法规而被处以的罚款·罚金总额（当地货币）"},
+    include:{ko:["과태료","벌금 (법원 판결)","행정 제재금"],en:["Administrative fines","Court-imposed penalties","Regulatory sanctions"],zh:["罚款","法院判决罚金","行政制裁金"]},
+    exclude:{ko:["소송 비용·변호사 비용","자발적 환경 복구 비용"],en:["Litigation/attorney costs","Voluntary environmental remediation costs"],zh:["诉讼费·律师费","自愿环境修复费用"]},
+    cutoff:{ko:"보고연도 1.1–12.31 부과 확정 금액",en:"Amount finalized during Jan 1 – Dec 31",zh:"报告年度1.1–12.31确定的处罚金额"},
+    evidence:{ko:"과태료 부과 통지서, 납부 영수증",en:"Fine imposition notices, payment receipts",zh:"罚款通知书、缴纳收据"},
+    gri:{ko:"GRI 2-27 (2021) — 법률 및 규정 준수",en:"GRI 2-27 (2021) — Compliance with laws and regulations",zh:"GRI 2-27 (2021)——法律法规合规"},
+    updated:"2026-04-16"
+  },
+  "일반대기오염물질 > 질소산화물(NOx)": {
+    definition:{ko:"고정 연소원(보일러, 히터 등)에서 배출되는 질소산화물(NO+NO₂)의 연간 총배출량",en:"Annual total NOx emissions (NO+NO₂) from stationary combustion sources (boilers, heaters, etc.)",zh:"固定燃烧源（锅炉·加热器等）排放的氮氧化物（NO+NO₂）年度总排放量"},
+    include:{ko:["전체 고정 배출원의 NOx 합산","보정농도(mg/Nm³) × 유량(Nm³/h) × 연간운전시간 × 10⁻⁹ 산출값"],en:["Sum of NOx from all stationary sources","Calculated as corrected concentration × flow rate × annual operating hours × 10⁻⁹"],zh:["所有固定排放源NOx合计","校正浓度(mg/Nm³) × 流量(Nm³/h) × 年运行小时 × 10⁻⁹ 计算值"]},
+    exclude:{ko:["이동 배출원 (차량 등)","Scope 1 온실가스 산정과 별도 관리"],en:["Mobile sources (vehicles)","Managed separately from Scope 1 GHG accounting"],zh:["移动排放源（车辆等）","与Scope 1温室气体核算分别管理"]},
+    cutoff:{ko:"보고연도 1.1–12.31 배출량. 정부 연보 값이 자체 측정값보다 우선",en:"Emissions during Jan 1 – Dec 31. Government annual report values take precedence over self-measurement",zh:"报告年度1.1–12.31排放量。政府年报数值优先于自测值"},
+    evidence:{ko:"정부 생태환경통계 연보(중국), 대기측정 보고서(Orgânica Lab 등), Excel 산출표",en:"Government eco-environment statistical yearbook (China), air monitoring reports, Excel calculation sheets",zh:"政府生态环境统计年报（中国）、大气监测报告、Excel计算表"},
+    gri:{ko:"GRI 305-7 (2016) — NOx, SOx 및 기타 유의미한 대기 배출",en:"GRI 305-7 (2016) — NOx, SOx, and other significant air emissions",zh:"GRI 305-7 (2016)——NOx·SOx及其他重大大气排放"},
+    updated:"2026-04-16"
+  },
+  "일반대기오염물질 > 황산화물(SOx)": {
+    definition:{ko:"고정 연소원에서 배출되는 황산화물(SO₂)의 연간 총배출량",en:"Annual total SOx (SO₂) emissions from stationary combustion sources",zh:"固定燃烧源排放的硫氧化物（SO₂）年度总排放量"},
+    include:{ko:["전체 고정 배출원의 SOx 합산"],en:["Sum of SOx from all stationary sources"],zh:["所有固定排放源SOx合计"]},
+    exclude:{ko:["이동 배출원"],en:["Mobile sources"],zh:["移动排放源"]},
+    cutoff:{ko:"보고연도 배출량. 정부 연보 값 우선",en:"Reporting year emissions. Government annual report values take precedence",zh:"报告年度排放量。政府年报数值优先"},
+    evidence:{ko:"정부 연보, 대기측정 보고서, Excel 산출표",en:"Government yearbook, air monitoring reports, Excel calc sheets",zh:"政府年报、大气监测报告、Excel计算表"},
+    gri:{ko:"GRI 305-7 (2016)",en:"GRI 305-7 (2016)",zh:"GRI 305-7 (2016)"},
+    updated:"2026-04-16"
+  },
+  "일반대기오염물질 > 먼지(PM)": {
+    definition:{ko:"고정 배출원에서 배출되는 입자상물질(PM, Particulate Matter)의 연간 총배출량",en:"Annual total particulate matter (PM) emissions from stationary sources",zh:"固定排放源排放的颗粒物（PM）年度总排放量"},
+    include:{ko:["등속흡인(isokinetic) 측정 기반 PM 배출량","총먼지(TSP) 또는 PM10/PM2.5 (법인별 측정 항목에 따름)"],en:["PM emissions based on isokinetic sampling","TSP or PM10/PM2.5 (per subsidiary measurement scope)"],zh:["基于等速吸引采样的PM排放量","总悬浮颗粒物(TSP)或PM10/PM2.5（按法人监测项目）"]},
+    exclude:{ko:["비산먼지 (공정 외 발생)"],en:["Fugitive dust (non-process)"],zh:["扬尘（非工艺过程）"]},
+    cutoff:{ko:"보고연도 배출량",en:"Reporting year emissions",zh:"报告年度排放量"},
+    evidence:{ko:"등속흡인 측정 보고서(가스분석 PDF와 별도), Excel 산출표",en:"Isokinetic sampling reports (separate from gas analysis PDFs), Excel calc sheets",zh:"等速吸引采样报告（与气体分析PDF分开）、Excel计算表"},
+    gri:{ko:"GRI 305-7 (2016)",en:"GRI 305-7 (2016)",zh:"GRI 305-7 (2016)"},
+    updated:"2026-04-16"
+  },
+  "일반대기오염물질 > 총탄화수소(THC)": {
+    definition:{ko:"배출가스 중 총탄화수소(THC, Total Hydrocarbons)의 연간 배출량",en:"Annual total hydrocarbon (THC) emissions in exhaust gas",zh:"排放气体中总碳氢化合物（THC）年度排放量"},
+    include:{ko:["THC 측정 장비·의무가 있는 법인만 해당"],en:["Only applicable to subsidiaries with THC measurement equipment/obligations"],zh:["仅适用于有THC监测设备·义务的法人"]},
+    exclude:{ko:["VOCs (행68 별도)","측정 장비·의무 없는 법인은 N/A"],en:["VOCs (separate row 68)","N/A for subsidiaries without measurement equipment/obligations"],zh:["VOCs（行68单列）","无监测设备·义务的法人为N/A"]},
+    cutoff:{ko:"보고연도 배출량",en:"Reporting year emissions",zh:"报告年度排放量"},
+    evidence:{ko:"대기 측정 보고서",en:"Air monitoring reports",zh:"大气监测报告"},
+    gri:{ko:"GRI 305-7 (2016)",en:"GRI 305-7 (2016)",zh:"GRI 305-7 (2016)"},
+    updated:"2026-04-16"
+  },
+  "휘발성유기화학물질(VOCs)": {
+    definition:{ko:"공정에서 배출되는 휘발성유기화합물(VOCs)의 연간 총배출량",en:"Annual total volatile organic compound (VOC) emissions from processes",zh:"工艺过程排放的挥发性有机化合物（VOCs）年度总排放量"},
+    include:{ko:["공정 배출(굴뚝) VOCs","무조직 배출(fugitive) VOCs (측정 시)"],en:["Process (stack) VOC emissions","Fugitive VOC emissions (if measured)"],zh:["工艺排放（烟囱）VOCs","无组织排放VOCs（如监测）"]},
+    exclude:{ko:["THC (행67 별도, 해당 법인만)"],en:["THC (separate row 67, applicable subsidiaries only)"],zh:["THC（行67单列，仅适用法人）"]},
+    cutoff:{ko:"보고연도 배출량. 중국 법인은 정부 연보 값 우선",en:"Reporting year emissions. Chinese subsidiaries: government yearbook values take precedence",zh:"报告年度排放量。中国法人以政府年报数值优先"},
+    evidence:{ko:"정부 연보(중국), 대기측정 보고서, Excel 산출표",en:"Government yearbook (China), air monitoring reports, Excel calc sheets",zh:"政府年报（中国）、大气监测报告、Excel计算表"},
+    gri:{ko:"GRI 305-7 (2016)",en:"GRI 305-7 (2016)",zh:"GRI 305-7 (2016)"},
+    updated:"2026-04-16"
+  },
+  "유해대기오염물질(HAPs) > 염화수소(HCl)": {
+    definition:{ko:"공정에서 배출되는 염화수소(HCl)의 연간 배출량",en:"Annual hydrogen chloride (HCl) emissions from processes",zh:"工艺过程排放的氯化氢（HCl）年度排放量"},
+    include:{ko:["HCl 측정·배출 실적이 있는 법인"],en:["Subsidiaries with HCl measurement/emission records"],zh:["有HCl监测·排放实绩的法人"]},
+    exclude:{ko:["측정 대상 외 법인은 N/A 또는 0"],en:["N/A or 0 for subsidiaries not subject to measurement"],zh:["非监测对象法人为N/A或0"]},
+    cutoff:{ko:"보고연도 배출량",en:"Reporting year emissions",zh:"报告年度排放量"},
+    evidence:{ko:"대기 측정 보고서",en:"Air monitoring reports",zh:"大气监测报告"},
+    gri:{ko:"GRI 305-7 (2016) — HAPs",en:"GRI 305-7 (2016) — HAPs",zh:"GRI 305-7 (2016)——HAPs"},
+    updated:"2026-04-16"
+  },
+  "유해대기오염물질(HAPs) > 일산화탄소(CO)": {
+    definition:{ko:"고정 연소원에서 배출되는 일산화탄소(CO)의 연간 총배출량",en:"Annual total carbon monoxide (CO) emissions from stationary combustion sources",zh:"固定燃烧源排放的一氧化碳（CO）年度总排放量"},
+    include:{ko:["전체 보일러·히터의 CO 합산","보정농도 × 유량 × 연간운전시간 산출"],en:["Sum of CO from all boilers/heaters","Calculated as corrected concentration × flow rate × annual operating hours"],zh:["所有锅炉·加热器CO合计","校正浓度 × 流量 × 年运行小时计算"]},
+    exclude:{ko:["이동 배출원"],en:["Mobile sources"],zh:["移动排放源"]},
+    cutoff:{ko:"보고연도 배출량",en:"Reporting year emissions",zh:"报告年度排放量"},
+    evidence:{ko:"가스분석 보고서, Excel 산출표",en:"Gas analysis reports, Excel calc sheets",zh:"气体分析报告、Excel计算表"},
+    gri:{ko:"GRI 305-7 (2016) — HAPs",en:"GRI 305-7 (2016) — HAPs",zh:"GRI 305-7 (2016)——HAPs"},
+    updated:"2026-04-16"
+  },
+  "상수도 및 생활용수": {
+    definition:{ko:"공공 상수도망에서 공급받은 연간 취수량 (생활용수 포함)",en:"Annual water withdrawal from public water supply (including domestic use)",zh:"从公共自来水管网取得的年度取水量（含生活用水）"},
+    include:{ko:["수도 요금 고지서 기반 사용량","공장 내 생활용수 (음용·위생 등)"],en:["Usage based on water bill","Domestic water in factory (drinking, sanitation)"],zh:["按水费账单的用量","工厂内生活用水（饮用·卫生等）"]},
+    exclude:{ko:["공업용수 (행72 별도)","지하수 (행74 별도)","상수도 미연결 법인은 N/A"],en:["Industrial water (row 72)","Groundwater (row 74)","N/A for subsidiaries without public water connection"],zh:["工业用水（行72单列）","地下水（行74单列）","未连接自来水的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 사용량 (수도 고지서 기준)",en:"Usage during Jan 1 – Dec 31 (per water bill)",zh:"报告年度1.1–12.31用量（按水费账单）"},
+    evidence:{ko:"수도 요금 고지서·세금계산서",en:"Water bills/invoices",zh:"水费账单·发票"},
+    gri:{ko:"GRI 303-3 (2018) — 취수",en:"GRI 303-3 (2018) — Water withdrawal",zh:"GRI 303-3 (2018)——取水"},
+    updated:"2026-04-16"
+  },
+  "공업용수": {
+    definition:{ko:"산업용수 공급 시설에서 공급받은 연간 취수량",en:"Annual water withdrawal from industrial water supply facilities",zh:"从工业供水设施取得的年度取水量"},
+    include:{ko:["산업용수 전용 배관·계량기 기반 사용량"],en:["Usage based on dedicated industrial water pipes/meters"],zh:["工业用水专用管道·计量表的用量"]},
+    exclude:{ko:["상수도 (행71 별도)","공업용수 시설 미연결 법인은 N/A"],en:["Public water (row 71)","N/A for subsidiaries without industrial water connection"],zh:["自来水（行71单列）","未连接工业供水的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 사용량",en:"Usage during Jan 1 – Dec 31",zh:"报告年度1.1–12.31用量"},
+    evidence:{ko:"수도 요금 고지서·세금계산서",en:"Water bills/invoices",zh:"水费账单·发票"},
+    gri:{ko:"GRI 303-3 (2018) — 취수",en:"GRI 303-3 (2018) — Water withdrawal",zh:"GRI 303-3 (2018)——取水"},
+    updated:"2026-04-16"
+  },
+  "하수 재이용수": {
+    definition:{ko:"외부 하수처리장에서 처리 후 재이용수로 공급받은 연간 사용량",en:"Annual usage of reclaimed water supplied from external wastewater treatment plants",zh:"从外部污水处理厂处理后作为再生水供应的年度使用量"},
+    include:{ko:["중수도 공급량"],en:["Reclaimed water supply volume"],zh:["中水道供水量"]},
+    exclude:{ko:["자체 폐수 재이용 (행75 용수 재활용)","재이용수 공급 인프라 없는 법인은 N/A"],en:["On-site wastewater reuse (row 75)","N/A for subsidiaries without reclaimed water infrastructure"],zh:["自行废水回用（行75用水循环利用）","无再生水供水设施的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 사용량",en:"Usage during Jan 1 – Dec 31",zh:"报告年度1.1–12.31用量"},
+    evidence:{ko:"재이용수 사용량 고지서",en:"Reclaimed water usage bills",zh:"再生水用量账单"},
+    gri:{ko:"GRI 303-3 (2018) — 취수 (제3자 용수)",en:"GRI 303-3 (2018) — Water withdrawal (third-party water)",zh:"GRI 303-3 (2018)——取水（第三方水源）"},
+    updated:"2026-04-16"
+  },
+  "지하수": {
+    definition:{ko:"법인 부지 내 관정(우물)에서 취수한 연간 지하수 사용량",en:"Annual groundwater withdrawal from on-site wells",zh:"法人厂区内水井取得的年度地下水使用量"},
+    include:{ko:["자가 관정 취수량 (유량계 또는 전력 환산)"],en:["Self-owned well withdrawal (flowmeter or power conversion)"],zh:["自有水井取水量（流量计或电力换算）"]},
+    exclude:{ko:["지하수 취수 시설 없는 법인은 N/A"],en:["N/A for subsidiaries without groundwater facilities"],zh:["无地下水取水设施的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 취수량",en:"Withdrawal during Jan 1 – Dec 31",zh:"报告年度1.1–12.31取水量"},
+    evidence:{ko:"유량계 기록, 지하수 사용 허가서",en:"Flowmeter records, groundwater usage permits",zh:"流量计记录、地下水使用许可证"},
+    gri:{ko:"GRI 303-3 (2018) — 취수 (지하수)",en:"GRI 303-3 (2018) — Water withdrawal (groundwater)",zh:"GRI 303-3 (2018)——取水（地下水）"},
+    updated:"2026-04-16"
+  },
+  "용수 재활용": {
+    definition:{ko:"법인 내부에서 사용 후 처리하여 다시 공정에 투입한 연간 용수량",en:"Annual volume of water reused/recycled within the subsidiary after treatment",zh:"法人内部使用后经处理重新投入工艺的年度水量"},
+    include:{ko:["자체 폐수처리 후 공정 재투입량","냉각수 순환 재사용량 (해당 시)"],en:["On-site WWT effluent reused in processes","Cooling water recirculation (if applicable)"],zh:["自行废水处理后回用于工艺的水量","冷却水循环再利用量（如适用）"]},
+    exclude:{ko:["외부 재이용수 공급 (행73)","재활용 시설 없는 법인은 N/A"],en:["External reclaimed water supply (row 73)","N/A for subsidiaries without recycling facilities"],zh:["外部再生水供水（行73）","无循环利用设施的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 재활용량 (청구서·유량계 기준)",en:"Recycled volume during Jan 1 – Dec 31 (per billing/flowmeter)",zh:"报告年度1.1–12.31循环利用量（按账单·流量计）"},
+    evidence:{ko:"유량계 기록, 청구서 (계량기 고장 시 청구서 반영값 적용)",en:"Flowmeter records, billing documents (meter adjustments per billing)",zh:"流量计记录、缴费单据（计量表故障按单据反映值）"},
+    gri:{ko:"GRI 303-3 (2018) — 취수 참고, 자체 지표",en:"GRI 303-3 (2018) reference, custom indicator",zh:"GRI 303-3 (2018)参考，自定义指标"},
+    updated:"2026-04-16"
+  },
+  "최종 방류지별 폐수 배출량 > 하수처리": {
+    definition:{ko:"법인에서 공공 하수처리장(하수종말처리시설)으로 방류한 연간 폐수량",en:"Annual wastewater discharged to public sewage treatment plants",zh:"法人向公共污水处理厂排放的年度废水量"},
+    include:{ko:["자체 전처리 후 하수관거로 방류한 수량"],en:["Volume discharged to sewers after on-site pretreatment"],zh:["自行预处理后排入下水管网的水量"]},
+    exclude:{ko:["해양방류 (행77)","위탁처리 (행78)"],en:["Ocean discharge (row 77)","Outsourced treatment (row 78)"],zh:["海洋排放（行77）","委托处理（行78）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 방류량 (유량계 기준)",en:"Discharge during Jan 1 – Dec 31 (per flowmeter)",zh:"报告年度1.1–12.31排放量（按流量计）"},
+    evidence:{ko:"폐수 유량계 기록, 하수도 사용료 고지서",en:"Wastewater flowmeter records, sewer usage bills",zh:"废水流量计记录、下水道使用费账单"},
+    gri:{ko:"GRI 303-4 (2018) — 폐수 방류",en:"GRI 303-4 (2018) — Water discharge",zh:"GRI 303-4 (2018)——废水排放"},
+    updated:"2026-04-16"
+  },
+  "최종 방류지별 폐수 배출량 > 해양방류": {
+    definition:{ko:"법인에서 해양으로 직접 방류한 연간 폐수량",en:"Annual wastewater discharged directly to the ocean",zh:"法人直接向海洋排放的年度废水量"},
+    include:{ko:["해양 직접 방류 수량"],en:["Volume of direct ocean discharge"],zh:["直接海洋排放水量"]},
+    exclude:{ko:["하수처리장 경유 방류","내륙 법인은 N/A (시설 부재)"],en:["Discharge via sewage treatment plant","N/A for inland subsidiaries (no facility)"],zh:["经污水处理厂排放","内陆法人为N/A（无设施）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 방류량",en:"Discharge during Jan 1 – Dec 31",zh:"报告年度1.1–12.31排放量"},
+    evidence:{ko:"폐수 유량계 기록",en:"Wastewater flowmeter records",zh:"废水流量计记录"},
+    gri:{ko:"GRI 303-4 (2018) — 폐수 방류",en:"GRI 303-4 (2018) — Water discharge",zh:"GRI 303-4 (2018)——废水排放"},
+    updated:"2026-04-16"
+  },
+  "최종 방류지별 폐수 배출량 > 위탁처리": {
+    definition:{ko:"외부 전문업체에 위탁하여 처리한 연간 폐수량",en:"Annual wastewater volume outsourced to external treatment companies",zh:"委托外部专业公司处理的年度废水量"},
+    include:{ko:["탱크로리·차량 수거 후 외부 처리"],en:["Collection by tanker/vehicle for external treatment"],zh:["槽车·车辆收集后外部处理"]},
+    exclude:{ko:["하수관거 방류 (행76)","위탁 구조 아닌 법인은 N/A"],en:["Sewer discharge (row 76)","N/A for subsidiaries without outsourced WWT structure"],zh:["下水管网排放（行76）","无委托处理结构的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 위탁 처리량",en:"Outsourced treatment volume during Jan 1 – Dec 31",zh:"报告年度1.1–12.31委托处理量"},
+    evidence:{ko:"위탁처리 계약서, 수거 실적, 인보이스",en:"Treatment contracts, collection records, invoices",zh:"委托处理合同、收集实绩、发票"},
+    gri:{ko:"GRI 303-4 (2018) — 폐수 방류",en:"GRI 303-4 (2018) — Water discharge",zh:"GRI 303-4 (2018)——废水排放"},
+    updated:"2026-04-16"
+  },
+  "수질오염물질 배출량 > BOD": {
+    definition:{ko:"방류 폐수 중 생물화학적산소요구량(BOD) 연간 총배출량",en:"Annual total biochemical oxygen demand (BOD) in discharged wastewater",zh:"排放废水中生化需氧量（BOD）年度总排放量"},
+    include:{ko:["월별 수질모니터링 농도 × 월별 방류량 가중평균 산출"],en:["Calculated as weighted average of monthly monitoring concentration × monthly discharge volume"],zh:["月度水质监测浓度 × 月度排放量加权平均计算"]},
+    exclude:{ko:["유입수(원수) BOD"],en:["Influent (raw water) BOD"],zh:["进水（原水）BOD"]},
+    cutoff:{ko:"보고연도 1.1–12.31 방류 기준",en:"Based on discharge during Jan 1 – Dec 31",zh:"以报告年度1.1–12.31排放为准"},
+    evidence:{ko:"월별 수질모니터링 보고서(CMA 인증 등), Excel 월가중평균 산출표",en:"Monthly WWT monitoring reports (CMA certified, etc.), Excel weighted avg calc",zh:"月度水质监测报告（CMA认证等）、Excel加权平均计算表"},
+    gri:{ko:"GRI 303-4 (2018) — 폐수 방류 수질",en:"GRI 303-4 (2018) — Water discharge quality",zh:"GRI 303-4 (2018)——废水排放水质"},
+    updated:"2026-04-16"
+  },
+  "수질오염물질 배출량 > TOC": {
+    definition:{ko:"방류 폐수 중 총유기탄소(TOC) 연간 총배출량",en:"Annual total organic carbon (TOC) in discharged wastewater",zh:"排放废水中总有机碳（TOC）年度总排放量"},
+    include:{ko:["월별 수질모니터링 농도 × 월별 방류량 가중평균"],en:["Monthly monitoring concentration × monthly discharge volume weighted avg"],zh:["月度监测浓度 × 月度排放量加权平均"]},
+    exclude:{ko:["TOC 측정 항목이 아닌 법인은 0 또는 N/A"],en:["0 or N/A for subsidiaries not measuring TOC"],zh:["未监测TOC的法人为0或N/A"]},
+    cutoff:{ko:"보고연도 방류 기준",en:"Based on reporting year discharge",zh:"以报告年度排放为准"},
+    evidence:{ko:"수질모니터링 보고서",en:"WWT monitoring reports",zh:"水质监测报告"},
+    gri:{ko:"GRI 303-4 (2018)",en:"GRI 303-4 (2018)",zh:"GRI 303-4 (2018)"},
+    updated:"2026-04-16"
+  },
+  "수질오염물질 배출량 > COD": {
+    definition:{ko:"방류 폐수 중 화학적산소요구량(COD) 연간 총배출량",en:"Annual total chemical oxygen demand (COD) in discharged wastewater",zh:"排放废水中化学需氧量（COD）年度总排放量"},
+    include:{ko:["월별 수질모니터링 농도 × 월별 방류량 가중평균","중국 법인: 排放量 기준 (産生量과 구분)"],en:["Monthly monitoring concentration × monthly discharge volume weighted avg","Chinese subsidiaries: based on discharge amount (distinct from generation amount)"],zh:["月度监测浓度 × 月度排放量加权平均","中国法人：按排放量（区别于产生量）"]},
+    exclude:{ko:["유입수 COD","産生量 (중국 법인)"],en:["Influent COD","Generation amount (Chinese subsidiaries)"],zh:["进水COD","产生量（中国法人）"]},
+    cutoff:{ko:"보고연도 방류 기준",en:"Based on reporting year discharge",zh:"以报告年度排放为准"},
+    evidence:{ko:"수질모니터링 보고서, Excel 산출표",en:"WWT monitoring reports, Excel calc sheets",zh:"水质监测报告、Excel计算表"},
+    gri:{ko:"GRI 303-4 (2018)",en:"GRI 303-4 (2018)",zh:"GRI 303-4 (2018)"},
+    updated:"2026-04-16"
+  },
+  "수질오염물질 배출량 > SS": {
+    definition:{ko:"방류 폐수 중 부유물질(SS, Suspended Solids) 연간 총배출량",en:"Annual total suspended solids (SS) in discharged wastewater",zh:"排放废水中悬浮物（SS）年度总排放量"},
+    include:{ko:["SST(부유고형물) 측정값 기준","TS(총고형물)로 보고하는 법인은 해당 값 사용 (연도 간 일관성 유지 전제)"],en:["Based on SST (suspended solids) measurement","Subsidiaries reporting TS (total solids) use that value (consistent across years)"],zh:["以SST（悬浮固体）测量值为准","以TS（总固体）报告的法人使用该值（各年度保持一致）"]},
+    exclude:{ko:["용존고형물(TDS) 단독"],en:["Total dissolved solids (TDS) alone"],zh:["溶解性固体（TDS）单独"]},
+    cutoff:{ko:"보고연도 방류 기준",en:"Based on reporting year discharge",zh:"以报告年度排放为准"},
+    evidence:{ko:"수질모니터링 보고서 (측정 항목이 SST인지 TS인지 확인 필수)",en:"WWT monitoring reports (must verify whether measured parameter is SST or TS)",zh:"水质监测报告（须确认监测项目为SST还是TS）"},
+    decisionTree:{ko:"측정 항목이 SST인가? → Y: 그대로 사용 / N(TS): 3개 연도 모두 TS로 일관되면 허용, 향후 SST 전환 검토. GRI 303-4 적합성 측면에서 SST 권장",en:"Is measured parameter SST? → Y: Use as-is / N(TS): Acceptable if consistent across 3 years; consider SST transition. SST recommended per GRI 303-4",zh:"监测项目为SST？→ 是：直接使用 / 否(TS)：若3个年度均一致则可接受，建议今后转为SST。GRI 303-4适合性角度推荐SST"},
+    gri:{ko:"GRI 303-4 (2018)",en:"GRI 303-4 (2018)",zh:"GRI 303-4 (2018)"},
+    updated:"2026-04-16"
+  },
+  "수질오염물질 배출량 > T-N": {
+    definition:{ko:"방류 폐수 중 총질소(T-N) 연간 총배출량",en:"Annual total nitrogen (T-N) in discharged wastewater",zh:"排放废水中总氮（T-N）年度总排放量"},
+    include:{ko:["월별 모니터링 농도 × 월별 방류량 가중평균"],en:["Monthly monitoring concentration × monthly discharge volume weighted avg"],zh:["月度监测浓度 × 月度排放量加权平均"]},
+    exclude:{ko:["유입수 T-N"],en:["Influent T-N"],zh:["进水T-N"]},
+    cutoff:{ko:"보고연도 방류 기준",en:"Based on reporting year discharge",zh:"以报告年度排放为准"},
+    evidence:{ko:"수질모니터링 보고서, Excel 산출표",en:"WWT monitoring reports, Excel calc sheets",zh:"水质监测报告、Excel计算表"},
+    gri:{ko:"GRI 303-4 (2018)",en:"GRI 303-4 (2018)",zh:"GRI 303-4 (2018)"},
+    updated:"2026-04-16"
+  },
+  "수질오염물질 배출량 > T-P": {
+    definition:{ko:"방류 폐수 중 총인(T-P) 연간 총배출량",en:"Annual total phosphorus (T-P) in discharged wastewater",zh:"排放废水中总磷（T-P）年度总排放量"},
+    include:{ko:["월별 모니터링 농도 × 월별 방류량 가중평균"],en:["Monthly monitoring concentration × monthly discharge volume weighted avg"],zh:["月度监测浓度 × 月度排放量加权平均"]},
+    exclude:{ko:["유입수 T-P"],en:["Influent T-P"],zh:["进水T-P"]},
+    cutoff:{ko:"보고연도 방류 기준",en:"Based on reporting year discharge",zh:"以报告年度排放为准"},
+    evidence:{ko:"수질모니터링 보고서, Excel 산출표",en:"WWT monitoring reports, Excel calc sheets",zh:"水质监测报告、Excel计算表"},
+    gri:{ko:"GRI 303-4 (2018)",en:"GRI 303-4 (2018)",zh:"GRI 303-4 (2018)"},
+    updated:"2026-04-16"
+  },
+  "재생 가능한 원료 사용량 (①)": {
+    definition:{ko:"바이오 기반 등 재생 가능한 원료의 연간 사용량 (Bio PTMG, Bio BDO 등)",en:"Annual usage of renewable raw materials (Bio PTMG, Bio BDO, etc.)",zh:"生物基等可再生原料的年度使用量（Bio PTMG·Bio BDO等）"},
+    include:{ko:["바이오 유래 원료 (Bio PTMG, Bio BDO 등)","재생 가능 인증 원료"],en:["Bio-derived raw materials","Certified renewable raw materials"],zh:["生物基原料（Bio PTMG·Bio BDO等）","经认证的可再生原料"]},
+    exclude:{ko:["석유화학 유래 일반 원료","재활용 원료 (행90 별도)","해당 원료 미사용 법인은 N/A"],en:["Petrochemical-derived general raw materials","Recycled materials (row 90)","N/A for subsidiaries not using such materials"],zh:["石化来源一般原料","再生原料（行90单列）","未使用该原料的法人为N/A"]},
+    cutoff:{ko:"보고연도 1.1–12.31 사용량",en:"Usage during Jan 1 – Dec 31",zh:"报告年度1.1–12.31使用量"},
+    evidence:{ko:"재고수불부, 원료 인증서",en:"Inventory ledger, raw material certificates",zh:"库存收发簿、原料认证证书"},
+    gri:{ko:"GRI 301-1 (2016) — 사용 원재료의 중량 또는 부피",en:"GRI 301-1 (2016) — Materials used by weight or volume",zh:"GRI 301-1 (2016)——按重量或体积计的所用材料"},
+    updated:"2026-04-16"
+  },
+  "재활용된 원료 사용량": {
+    definition:{ko:"외부에서 구매한 재활용(recycled) 원료의 연간 사용량",en:"Annual usage of recycled raw materials purchased externally",zh:"从外部采购的再生（recycled）原料年度使用量"},
+    include:{ko:["폐원사 재활용 원료","기타 외부 구매 재활용 원료"],en:["Recycled waste yarn materials","Other externally purchased recycled materials"],zh:["废丝回收原料","其他外部采购再生原料"]},
+    exclude:{ko:["자체 공정 내 재사용 (행91 별도)","DMAc 자체 회수 (행91)"],en:["Internal process reuse (row 91)","DMAc self-recovery (row 91)"],zh:["内部工艺再利用（行91单列）","DMAc自回收（行91）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 사용량 (재고수불부 기준)",en:"Usage during Jan 1 – Dec 31 (per inventory ledger)",zh:"报告年度1.1–12.31使用量（按库存收发簿）"},
+    evidence:{ko:"재고수불부, 구매전표",en:"Inventory ledger, purchase vouchers",zh:"库存收发簿、采购凭证"},
+    gri:{ko:"GRI 301-2 (2016) — 재활용 투입 원재료",en:"GRI 301-2 (2016) — Recycled input materials used",zh:"GRI 301-2 (2016)——使用的再生投入材料"},
+    updated:"2026-04-16"
+  },
+  "재사용된 원료 사용량": {
+    definition:{ko:"자체 공정에서 회수·재사용한 원료의 연간 사용량 (DMAc 회수량 + 포장재 회수량 등)",en:"Annual usage of materials recovered and reused in own processes (DMAc recovery + packaging recovery, etc.)",zh:"自有工艺中回收·再利用的原料年度使用量（DMAc回收量 + 包装材料回收量等）"},
+    include:{ko:["DMAc 자체 회수·재투입량","포장재 회수·재사용량","기타 공정 내 재사용 원료"],en:["DMAc self-recovery and re-input volume","Packaging recovery and reuse volume","Other in-process reused materials"],zh:["DMAc自回收·再投入量","包装材料回收·再利用量","其他工艺内再利用原料"]},
+    exclude:{ko:["외부 구매 재활용 원료 (행90)"],en:["Externally purchased recycled materials (row 90)"],zh:["外部采购再生原料（行90）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 (DMAc: 재고수불부 물질수지 역산, 포장재: 회수 실적)",en:"Jan 1 – Dec 31 (DMAc: mass balance via inventory ledger, packaging: recovery records)",zh:"报告年度1.1–12.31（DMAc：库存收发簿物质平衡逆算，包装材料：回收实绩）"},
+    evidence:{ko:"재고수불부, DMAc 회수량 산출표, 포장재 투입실적",en:"Inventory ledger, DMAc recovery calc sheet, packaging input records",zh:"库存收发簿、DMAc回收量计算表、包装材料投入实绩"},
+    gri:{ko:"GRI 301-2 (2016) — 재활용 투입 원재료",en:"GRI 301-2 (2016) — Recycled input materials used",zh:"GRI 301-2 (2016)——使用的再生投入材料"},
+    updated:"2026-04-16"
+  },
+  "재생 불가능한 원료 사용량(②)": {
+    definition:{ko:"석유화학 유래 등 재생 불가능한 원료의 연간 사용량 (원부재료 + 포장재)",en:"Annual usage of non-renewable raw materials (raw/sub-materials + packaging)",zh:"石化来源等不可再生原料的年度使用量（原辅材料 + 包装材料）"},
+    include:{ko:["원재료 (VC 3000): PTMG, MDI, BDO, DMAc 등","부재료 (VC 3010)","포장재 (VC 4000)"],en:["Raw materials (VC 3000): PTMG, MDI, BDO, DMAc, etc.","Sub-materials (VC 3010)","Packaging (VC 4000)"],zh:["原材料（VC 3000）：PTMG·MDI·BDO·DMAc等","辅材（VC 3010）","包装材料（VC 4000）"]},
+    exclude:{ko:["재생 가능 원료 (행89)","재활용·재사용 원료 (행90–91)"],en:["Renewable materials (row 89)","Recycled/reused materials (rows 90–91)"],zh:["可再生原料（行89）","再生·再利用原料（行90–91）"]},
+    cutoff:{ko:"보고연도 재고수불부 사용량 합산",en:"Sum of usage from inventory ledger for reporting year",zh:"报告年度库存收发簿使用量合计"},
+    evidence:{ko:"재고수불부 (VC 3000/3010/4000, 중량 기준)",en:"Inventory ledger (VC 3000/3010/4000, weight basis)",zh:"库存收发簿（VC 3000/3010/4000，重量基准）"},
+    gri:{ko:"GRI 301-1 (2016) — 사용 원재료의 중량 또는 부피",en:"GRI 301-1 (2016) — Materials used by weight or volume",zh:"GRI 301-1 (2016)——按重量或体积计的所用材料"},
+    updated:"2026-04-16"
+  },
+  "포장재 > 포장재 총 출하량": {
+    definition:{ko:"보고연도 중 제품과 함께 출하된 포장재의 총 중량",en:"Total weight of packaging materials shipped with products during reporting year",zh:"报告年度内随产品出货的包装材料总重量"},
+    include:{ko:["내부 포장재 (PE필름, 지관 등)","외부 포장재 (팔레트, 박스 등)"],en:["Internal packaging (PE film, paper tubes, etc.)","External packaging (pallets, boxes, etc.)"],zh:["内包装（PE薄膜·纸管等）","外包装（托盘·纸箱等）"]},
+    exclude:{ko:["회수 포장재 (행94 별도)"],en:["Recovered packaging (row 94)"],zh:["回收包装材料（行94单列）"]},
+    cutoff:{ko:"보고연도 출하 실적 기준. 현재 EA 단위 집계 → GRI 공시 시 ton 환산 필요",en:"Based on shipment records. Currently in EA units → ton conversion required for GRI disclosure",zh:"以出货实绩为准。目前按EA单位汇总→GRI披露时需换算为吨"},
+    evidence:{ko:"SAP 출하 실적 (EA) × 단위 중량 = ton",en:"SAP shipment records (EA) × unit weight = ton",zh:"SAP出货实绩（EA）× 单位重量 = 吨"},
+    gri:{ko:"GRI 301-1 (2016) — 본사 일괄 처리 대상",en:"GRI 301-1 (2016) — Centrally processed by HQ",zh:"GRI 301-1 (2016)——总部统一处理对象"},
+    updated:"2026-04-16"
+  },
+  "포장재 > 포장재 회수량": {
+    definition:{ko:"고객사 또는 자체 회수 체계를 통해 수거·재사용한 포장재 중량",en:"Weight of packaging materials collected and reused through customer or own recovery systems",zh:"通过客户或自有回收体系收集·再利用的包装材料重量"},
+    include:{ko:["지관(paper tube) 회수","홀더(holder) 회수","기타 재사용 포장재"],en:["Paper tube recovery","Holder recovery","Other reused packaging"],zh:["纸管回收","支架回收","其他再利用包装材料"]},
+    exclude:{ko:["폐기 처분된 포장재 (폐기물에 포함)"],en:["Packaging disposed as waste (included in waste)"],zh:["作为废弃物处置的包装材料（计入废弃物）"]},
+    cutoff:{ko:"보고연도 1.1–12.31 회수 실적",en:"Recovery records during Jan 1 – Dec 31",zh:"报告年度1.1–12.31回收实绩"},
+    evidence:{ko:"포장재 투입실적 (VC 4000 회수 수량 × 단위중량)",en:"Packaging input records (VC 4000 recovered qty × unit weight)",zh:"包装材料投入实绩（VC 4000回收数量 × 单位重量）"},
+    gri:{ko:"GRI 301-3 (2016) — 회수된 제품 및 포장재",en:"GRI 301-3 (2016) — Reclaimed products and their packaging materials",zh:"GRI 301-3 (2016)——回收的产品及其包装材料"},
+    updated:"2026-04-16"
+  },
+};
+function getManual(label) { return INDICATOR_MANUAL[label] || null; }
+
+const VERIFIED = {
+  "광동스판:일반대기오염물질 > 질소산화물(NOx)": {ko:"연보 확인 완료 (14.518 ton, 코드62)",en:"Verified via annual report (14.518 ton, code 62)",zh:"年报核实完毕（14.518吨，代码62）"},
+  "광동스판:일반대기오염물질 > 황산화물(SOx)": {ko:"연보 확인 완료 (0.005 ton, 코드60)",en:"Verified via annual report (0.005 ton, code 60)",zh:"年报核实完毕（0.005吨，代码60）"},
+  "광동스판:휘발성유기화학물질(VOCs)": {ko:"연보 확인 완료 (3997.706 kg = 3.998 ton, 코드66)",en:"Verified via annual report (3997.706 kg = 3.998 ton, code 66)",zh:"年报核实完毕（3997.706 kg = 3.998吨，代码66）"},
+  "광동스판:일반대기오염물질 > 먼지(PM)": {ko:"확정 (0.1297→0.59021, Excel 산출표 기준. 법인 확인 완료, 템플릿 오기입)",en:"Confirmed (0.1297→0.59021, per Excel calc. Entity confirmed, template entry error)",zh:"确定（0.1297→0.59021，按Excel计算表。法人确认完毕，模板误填）"},
+  "광동스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"N/A 확정 (법인 확인: 관리항목 아님. NMHC만 측정, THC 근거 부재)",en:"N/A confirmed (entity confirmed: not a managed item. Only NMHC measured, no THC basis)",zh:"N/A确定（法人确认：非管理项目。仅监测NMHC，THC无依据）"},
+  "주해스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"삭제 처리 (VOCs와 동일 수치 중복 기재)",en:"Removed (duplicate value with VOCs)",zh:"已删除（与VOCs数值重复）"},
+  "주해스판:공업용수": {ko:"확정 (12개월 수도 세금계산서 기준, 247807 ton)",en:"Confirmed (based on 12-month water invoices, 247,807 ton)",zh:"确定（基于12个月水费发票，247,807吨）"},
+  "주해스판:폐기물 처리 비용": {ko:"수정 확정 (2,850,213→2,701,897.52, 5개 업체 48건 발票 金额 합계, 세율 1%/6%/9% 혼재, 不含税 기준)",en:"Corrected (2,850,213→2,701,897.52, 5 vendors 48 invoices pre-tax total, VAT 1%/6%/9% mixed, excl. VAT)",zh:"修正确定（2,850,213→2,701,897.52，5家供应商48张发票金额合计，税率1%/6%/9%混合，不含税基准）"},
+  "주해스판:폐수 처리 비용": {ko:"직접 수정 (SAP 합계 770057 CNY)",en:"Directly corrected (SAP total 770,057 CNY)",zh:"直接修正（SAP合计770,057元）"},
+  "주해스판:환경오염구제 책임보험": {ko:"수정 확정 (19,000→17,924.53, 人寿 발票 1건 세전, 6% VAT, 不含税 기준)",en:"Corrected (19,000→17,924.53, 1 insurance invoice pre-tax, 6% VAT, excl. VAT)",zh:"修正确定（19,000→17,924.53，人寿发票1张税前，6%增值税，不含税基准）"},
+  "주해스판:환경배출물질 측정비용": {ko:"수정 확정 (105,000→103,960.38, 华禹 발票 12건 세전 합계, 1% VAT, 不含税 기준)",en:"Corrected (105,000→103,960.38, 12 Huayu invoices pre-tax total, 1% VAT, excl. VAT)",zh:"修正确定（105,000→103,960.38，华禹发票12张税前合计，1%增值税，不含税基准）"},
+  "주해스판:환경개선 시설투자": {ko:"수정 확정 (176,000→240,008.85, 오니건조 115,044.25+오수처리장 59,477.88+위폐물련 65,486.72, 전건 13% VAT 세전, 不含税 기준)",en:"Corrected (176,000→240,008.85, sludge dryer 115,044.25+WWT equip 59,477.88+haz.waste IoT 65,486.72, all 13% VAT pre-tax, excl. VAT)",zh:"修正确定（176,000→240,008.85，污泥烘干115,044.25+污水站设备59,477.88+危废物联65,486.72，全项13%增值税税前，不含税基准）"},
+  "주해스판:지정 폐기물 배출량 > 위탁처리 > 소각": {ko:"수정 확정 (929.125→785.900, 인계서 기반. 정류잔사 677.120+유기수지 93.320+污泥 15.460. S02 보관분 102.875는 연내 미처리로 실적 제외)",en:"Corrected (929.125→785.900, based on manifests. Residue 677.120+resin 93.320+sludge 15.460. S02 stored 102.875 excluded as unprocessed within year)",zh:"修正确定（929.125→785.900，基于联单。精馏残渣677.120+有机树脂93.320+污泥15.460。S02存储102.875年内未处置已排除）"},
+  "주해스판:지정 폐기물 배출량 > 위탁처리 > 기타": {ko:"삭제 처리 (102.875 ton S02 보관분 제외. GRI 306-5 처리 실적 지표 정의상 연내 미처리 재고는 처리 실적에서 제외, 법인 회신 반영)",en:"Removed (102.875 ton S02 stored stock excluded. Per GRI 306-5 treatment performance scope—unprocessed stock excluded from actuals, per entity reply)",zh:"已删除（102.875吨S02仓储库存已排除。根据GRI 306-5处置绩效指标定义，年内未处置库存不计入处置实绩，采纳法人回复）"},
+  "주해스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 276,596,562→299,323,802 / 2024: 242,819,297→235,832,144 / 2025: 212,582,521(유지). 통화: CNY. YoY 정상 범위(-9.9%)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 276,596,562→299,323,802 / 2024: 242,819,297→235,832,144 / 2025: 212,582,521 (unchanged). Currency: CNY. YoY within normal range (-9.9%)",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿（VC 3000·3010·4000）采购入库金额汇总。2023: 276,596,562→299,323,802 / 2024: 242,819,297→235,832,144 / 2025: 212,582,521（不变）。货币：CNY。同比-9.9%正常"},
+  "가흥스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 289,542,868→309,658,718 / 2024: 296,148,273→285,120,657 / 2025: 238,301,405(유지). 통화: CNY. YoY 정상 범위(-16.4%)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 289,542,868→309,658,718 / 2024: 296,148,273→285,120,657 / 2025: 238,301,405 (unchanged). Currency: CNY. YoY within normal range (-16.4%)",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿（VC 3000·3010·4000）采购入库金额汇总。2023: 289,542,868→309,658,718 / 2024: 296,148,273→285,120,657 / 2025: 238,301,405（不变）。货币：CNY。同比-16.4%正常"},
+  "취저우스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 822,750,051→895,308,004 / 2024: 730,811,132→715,235,440 / 2025: 656,069,246(유지). 통화: CNY. YoY 정상 범위(-8.3%)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 822,750,051→895,308,004 / 2024: 730,811,132→715,235,440 / 2025: 656,069,246 (unchanged). Currency: CNY. YoY within normal range (-8.3%)",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿（VC 3000·3010·4000）采购入库金额汇总。2023: 822,750,051→895,308,004 / 2024: 730,811,132→715,235,440 / 2025: 656,069,246（不变）。货币：CNY。同比-8.3%正常"},
+  "닝샤스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 295,711,752→377,442,407 / 2024: 368,204,137→412,730,476 / 2025: 508,306,037(유지). 통화: CNY. YoY 정상 범위(+23.2%, 행103 +52.1% 생산 확대 추세와 일치)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 295,711,752→377,442,407 / 2024: 368,204,137→412,730,476 / 2025: 508,306,037 (unchanged). Currency: CNY. YoY within normal range (+23.2%, consistent with Row 103 +52.1% capacity expansion trend)",zh:"三年度一并重新测算确定（统一方法론）。库存收发簿（VC 3000·3010·4000）采购入库金액汇总。2023: 295,711,752→377,442,407 / 2024: 368,204,137→412,730,476 / 2025: 508,306,037（不变）。货币：CNY。同比+23.2%正常（与行103 +52.1%产能扩大趋势一致）"},
+  "튀르키예스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론, A안 기능통화=USD 법인 USD 보고). 재고수불부(VC 3000·3010·4000) 구매입고(금액USD) 합산. 2023: 3,334,288,728(기존 TRY 단위 추정)→101,620,137 / 2024: 3,059,968,693→98,547,885 / 2025: 80,753,537(유지). 통화: USD. 기존값은 TRY 단위 혼동으로 추정, A안에 따라 USD 통일 적용. YoY 정상 범위(-18.1%)",en:"Three-year batch recalculation (unified methodology, Option A: USD-functional entity reports in USD). Inventory ledger (VC 3000·3010·4000) purchase receipt amount in USD. 2023: 3,334,288,728 (presumed TRY unit)→101,620,137 / 2024: 3,059,968,693→98,547,885 / 2025: 80,753,537 (unchanged). Currency: USD. Previous values presumed TRY unit confusion; unified to USD per Option A. YoY within normal range (-18.1%)",zh:"三年度一并重新测算确定（统一方法论，A方案：职能货币=USD法人以USD报告）。库存收发簿（VC 3000·3010·4000）采购入库金额USD汇总。2023: 3,334,288,728（推定TRY单位）→101,620,137 / 2024: 3,059,968,693→98,547,885 / 2025: 80,753,537（不变）。货币：USD。原值推定TRY单位混淆，按A方案统一为USD。同比-18.1%正常"},
+  "동나이:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론, A안 기능통화=USD 법인 USD 보고). 재고수불부(VC 3000·3010·4000) 구매입고(금액USD) 합산. 2023: 16,982,126,447,809(VND 단위 오류 추정)→37,147,036 / 2024: 20,193,314,375,624→35,419,369 / 2025: 29,785,821(유지). 통화: USD. 기존 과거 연도 값은 VND 단위 혼동에 따른 조 단위 이상값, A안 USD 통일로 정상화. YoY 정상 범위(-15.9%)",en:"Three-year batch recalculation (unified methodology, Option A: USD-functional entity reports in USD). Inventory ledger (VC 3000·3010·4000) purchase receipt amount in USD. 2023: 16,982,126,447,809 (presumed VND unit error)→37,147,036 / 2024: 20,193,314,375,624→35,419,369 / 2025: 29,785,821 (unchanged). Currency: USD. Previous past-year values were trillion-scale anomalies from VND unit confusion; normalized to USD per Option A. YoY within normal range (-15.9%)",zh:"三年度一并重新测算确定（统一方法论，A方案：职能货币=USD法人以USD报告）。库存收发簿（VC 3000·3010·4000）采购入库金额USD汇总。2023: 16,982,126,447,809（推定VND单位错误）→37,147,036 / 2024: 20,193,314,375,624→35,419,369 / 2025: 29,785,821（不变）。货币：USD。原过去年度值为VND单位混淆导致的万亿级异常值，按A方案统一为USD后正常化。同比-15.9%正常"},
+  "인도스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 6,975,555,664→6,999,760,430 / 2024: 6,097,398,027→6,382,103,028 / 2025: 5,742,734,126(유지). 통화: INR. YoY 정상 범위(-10.0%)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 6,975,555,664→6,999,760,430 / 2024: 6,097,398,027→6,382,103,028 / 2025: 5,742,734,126 (unchanged). Currency: INR. YoY within normal range (-10.0%)",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿（VC 3000·3010·4000）采购入库金额汇总。2023: 6,975,555,664→6,999,760,430 / 2024: 6,097,398,027→6,382,103,028 / 2025: 5,742,734,126（不变）。货币：INR。同比-10.0%正常"},
+  "주해스판:포장재 > 포장재 총 출하량": {ko:"확정 (18,828,105 EA, 본사 SAP 일괄 추출. 단위는 EA이나 대시보드 표기는 Ton—전 법인 공통 이슈, 추후 환산 예정)",en:"Confirmed (18,828,105 EA, HQ SAP batch extraction. Unit is EA but dashboard shows Ton—common issue across all entities, conversion pending)",zh:"确定（18,828,105 EA，总部SAP批量提取。单位为EA但仪表板显示为吨——全法人共性问题，将来换算）"},
+  "주해스판:비도로 차량 > 전기차": {ko:"확정 (3대, 임대계약서 대조 완료)",en:"Confirmed (3 units, lease contracts verified)",zh:"确定（3台，租赁合同核对完毕）"},
+  "주해스판:도로 차량 > 기타 (가솔린, 디젤 등)": {ko:"확정 (3대, 차량등록증·렌터카 계약서 대조 완료)",en:"Confirmed (3 units, vehicle registration & rental contracts verified)",zh:"确定（3台，车辆登记证·租车合同核对完毕）"},
+  "주해스판:지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {ko:"과거 데이터 수정 확정 (법인 자백: 200L 공드럼 처치 건, 23년 6.22→198, 24년 88.4→212, 25년 196.88 유지. 정정 후 YoY -7%)",en:"Historical data corrected (entity confirmed: 200L empty drum disposal, 2023 6.22→198, 2024 88.4→212, 2025 196.88 unchanged. YoY -7% after correction)",zh:"历史数据修正确定（法人承认：200L空桶处置项目，2023年6.22→198，2024年88.4→212，2025年196.88不变。修正后YoY为-7%）"},
+  "주해스판:일반대기오염물질 > 질소산화물(NOx)": {ko:"설명 수용 (25년 RTO 신규 배출구 도입, 정제 진공펌프 폐가스를 보일러 소각→RTO 소각으로 전환. 효율 개선으로 NOx 배출 감소, 공정 개선 근거 타당)",en:"Explanation accepted (new RTO stack added in 2025, purification vacuum pump exhaust switched from boiler to RTO incineration. NOx reduction due to efficiency improvement)",zh:"采纳说明（2025年新增RTO废气处理排放口，精制真空泵废气由锅炉焚烧改为RTO焚烧。效率提升导致NOx排放下降，工艺改进依据合理）"},
+  "주해스판:일반대기오염물질 > 황산화물(SOx)": {ko:"설명 수용 (SO2는 정량하한 부근 변동으로 간헐적 검출. 24년 하한 미만→25년 검출, 측정 한계 특성)",en:"Explanation accepted (SO2 fluctuates near detection limit, intermittent. 2024 below LOD→2025 detected, measurement threshold characteristic)",zh:"采纳说明（SO2在检出限附近波动，时有时无。2024年低于检出限→2025年检出，测量阈值特性）"},
+  "주해스판:일반대기오염물질 > 먼지(PM)": {ko:"설명 수용 (RTO 전환으로 PM 배출 감소. 행64 NOx와 동일 공정 개선 배경)",en:"Explanation accepted (PM reduction due to RTO conversion. Same process improvement as Row 64 NOx)",zh:"采纳说明（RTO改造导致PM排放下降。与行64 NOx同一工艺改进背景）"},
+  "주해스판:수질오염물질 배출량 > SS": {ko:"설명 수용 (폐수 연간 통계는 반기 1회 위탁측정 보고서 2건으로 산출. 측정 주기 특성상 연간 변동성 큼)",en:"Explanation accepted (annual wastewater stats calculated from 2 semi-annual outsourced monitoring reports. Variability inherent to measurement frequency)",zh:"采纳说明（废水年度统计基于半年1次委外监测报告共2份汇总。测量频次特性导致年度波动较大）"},
+  "주해스판:수질오염물질 배출량 > T-N": {ko:"설명 수용 (SS와 동일한 반기 1회 위탁측정 기반. 측정 주기 특성)",en:"Explanation accepted (same semi-annual outsourced monitoring basis as SS. Measurement frequency characteristic)",zh:"采纳说明（与SS同一半年1次委外监测依据。测量频次特性）"},
+  "주해스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 3,509.83→3,570.06 / 2024: 3,921.80→3,895.04 / 2025: 0→4,620.64 ton. 주요 물질: MDI(101-68-8) + DMAc(127-19-5, 3社 확대로 YoY +64%) + EDA(107-15-3) + DEA(109-89-7) + PDA(78-90-0) + HCl(7647-01-0) + DETA(111-40-0)",en:"Three-year batch recalculation (unified methodology). Inventory ledger × GHS master list of 140 substances. 2023: 3,509.83→3,570.06 / 2024: 3,921.80→3,895.04 / 2025: 0→4,620.64 ton. Key substances: MDI + DMAc (3 suppliers, +64% YoY) + EDA + DEA + PDA + HCl + DETA",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿 × GHS主列表140种物质按CAS交叉核对。2023: 3,509.83→3,570.06 / 2024: 3,921.80→3,895.04 / 2025: 0→4,620.64吨。主要物质：MDI + DMAc（3家供应商扩大，同比+64%）+ EDA + DEA + PDA + HCl + DETA"},
+  "광동스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 8,947.72→8,680.07 / 2024: 11,564.84→10,904.59 / 2025: 0→6,883.89 ton. 2025 신규 입력. YoY -36.9%(이상치)는 MDI 6,878→4,363, DMAc 3,247→1,968 ton 감소에 따른 사실 반영 (생산량·수출 변동 추정). 주요 물질: MDI + DMAc + EDA + DEAM(111-42-2) + DEA + PDA + DETA",en:"Three-year batch recalculation (unified methodology). 2023: 8,947.72→8,680.07 / 2024: 11,564.84→10,904.59 / 2025: 0→6,883.89 ton. 2025 new entry. YoY -36.9% (anomaly) reflects actual MDI 6,878→4,363 and DMAc 3,247→1,968 ton decreases (production/export variation). Key substances: MDI + DMAc + EDA + DEAM(111-42-2) + DEA + PDA + DETA",zh:"三年度一并重新测算确定（统一方法论）。2023: 8,947.72→8,680.07 / 2024: 11,564.84→10,904.59 / 2025: 0→6,883.89吨。2025新填入。同比-36.9%（异常值）反映MDI 6,878→4,363、DMAc 3,247→1,968吨实际减少（生产量·出口变动推定）。主要物质：MDI + DMAc + EDA + DEAM(111-42-2) + DEA + PDA + DETA"},
+  "닝샤스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 11,947.21→12,506.00 / 2024: 13,228.73→12,647.09 / 2025: 미입력→19,239.91 ton. 2025 신규 입력. YoY +52.1%(이상치)는 MDI 9,576→13,702(+43%), DMAc 1,952→3,823 ton(+96%) 증가에 따른 사실 반영 (생산 확대 추정). 주요 물질: MDI + DMAc + EDA + DEA + DETA + NaOH",en:"Three-year batch recalculation (unified methodology). 2023: 11,947.21→12,506.00 / 2024: 13,228.73→12,647.09 / 2025: missing→19,239.91 ton. 2025 new entry. YoY +52.1% (anomaly) reflects actual MDI 9,576→13,702 (+43%) and DMAc 1,952→3,823 ton (+96%) increases (capacity expansion). Key substances: MDI + DMAc + EDA + DEA + DETA + NaOH",zh:"三年度一并重新测算确定（统一方法论）。2023: 11,947.21→12,506.00 / 2024: 13,228.73→12,647.09 / 2025: 未填→19,239.91吨。2025新填入。同比+52.1%（异常值）反映MDI 9,576→13,702（+43%）、DMAc 1,952→3,823吨（+96%）实际增加（产能扩大推定）。主要物质：MDI + DMAc + EDA + DEA + DETA + NaOH"},
+  "취저우스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 11,434.85→12,338.11 / 2024: 11,614.39→12,492.08 / 2025: 미입력→14,021.57 ton. 2025 신규 입력. YoY +12.2%. 주요 물질: MDI + DMAc + EDA + DEA + DETA + NaOH(2025년 1,381 ton 액碱 30% 포함)",en:"Three-year batch recalculation (unified methodology). 2023: 11,434.85→12,338.11 / 2024: 11,614.39→12,492.08 / 2025: missing→14,021.57 ton. 2025 new entry. YoY +12.2%. Key substances: MDI + DMAc + EDA + DEA + DETA + NaOH (1,381 ton liquid caustic 30% included in 2025)",zh:"三年度一并重新测算确定（统一方法论）。2023: 11,434.85→12,338.11 / 2024: 11,614.39→12,492.08 / 2025: 未填→14,021.57吨。2025新填入。同比+12.2%。主要物质：MDI + DMAc + EDA + DEA + DETA + NaOH（2025年含液碱30% 1,381吨）"},
+  "튀르키예스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 7,916.48→7,901.27 / 2024: 8,304.82→8,806.19 / 2025: 미입력→8,167.68 ton. 2025 신규 입력. YoY -7.3%(정상). 주요 물질: MDI + DMAc + EDA + DEA + PDA + DETA",en:"Three-year batch recalculation (unified methodology). 2023: 7,916.48→7,901.27 / 2024: 8,304.82→8,806.19 / 2025: missing→8,167.68 ton. 2025 new entry. YoY -7.3% (normal). Key substances: MDI + DMAc + EDA + DEA + PDA + DETA",zh:"三年度一并重新测算确定（统一方法论）。2023: 7,916.48→7,901.27 / 2024: 8,304.82→8,806.19 / 2025: 未填→8,167.68吨。2025新填入。同比-7.3%（正常）。主要物质：MDI + DMAc + EDA + DEA + PDA + DETA"},
+  "동나이:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 164,466.27→9,129.68 / 2024: 362,831.42→9,406.07 / 2025: 미입력→8,701.30 ton. 기존값은 단위/집계 오류(g→kg 혼동 추정)였으며, 통일 방법론으로 정상 범위 회귀. 2025 신규 입력. YoY -7.5%. 주요 물질: MDI + DMAc + EDA + DEA + DETA",en:"Three-year batch recalculation (unified methodology). 2023: 164,466.27→9,129.68 / 2024: 362,831.42→9,406.07 / 2025: missing→8,701.30 ton. Previous values were unit/aggregation errors (g→kg confusion suspected); unified methodology returns to normal range. YoY -7.5%. Key substances: MDI + DMAc + EDA + DEA + DETA",zh:"三年度一并重新测算确定（统一方法论）。2023: 164,466.27→9,129.68 / 2024: 362,831.42→9,406.07 / 2025: 未填→8,701.30吨。原值为单位/汇总错误（推定g→kg混淆），统一方法论后回归正常范围。同比-7.5%。主要物质：MDI + DMAc + EDA + DEA + DETA"},
+  "인도스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 7,158.42→7,344.74 / 2024: 8,151.05→8,041.60 / 2025: 미입력→7,924.23 ton. 2025 신규 입력. YoY -1.5%(정상). 주요 물질: MDI + DMAc + EDA + DEA + PDA + DETA",en:"Three-year batch recalculation (unified methodology). 2023: 7,158.42→7,344.74 / 2024: 8,151.05→8,041.60 / 2025: missing→7,924.23 ton. 2025 new entry. YoY -1.5% (normal). Key substances: MDI + DMAc + EDA + DEA + PDA + DETA",zh:"三年度一并重新测算确定（统一方法论）。2023: 7,158.42→7,344.74 / 2024: 8,151.05→8,041.60 / 2025: 未填→7,924.23吨。2025新填入。同比-1.5%（正常）。主要物质：MDI + DMAc + EDA + DEA + PDA + DETA"},
+  "가흥화공:구매 > 총 제품 구매 실적": {ko:"확정 유지 (1,009,584,417, 구매 SAP 기준. 화공법인이라 스판덱스 재고수불부 미포함. 별도 재고수불부 확보 시 교체 예정)",en:"Confirmed (1,009,584,417, purchase SAP basis. As chemical entity, excluded from spandex inventory ledger. To be replaced when own inventory ledger available)",zh:"维持确定（1,009,584,417，采购SAP基准。作为化工法人，未包含在氨纶库存收付记录中。获取专用库存记录后将替换）"},
+  "광동스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 582,959,821→633,671,182 / 2024: 675,472,373→661,915,094 / 2025: 371,536,238(유지). 통화: CNY. YoY 24→25 -43.9%(이상치)는 원부재료 구매 감소 반영 (행103 MDI·DMAc 감소 패턴과 일치, 생산량·수출 변동 추정)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 582,959,821→633,671,182 / 2024: 675,472,373→661,915,094 / 2025: 371,536,238 (unchanged). Currency: CNY. YoY 24→25 -43.9% (anomaly) reflects raw material decrease (consistent with Row 103 MDI·DMAc pattern, production/export variation)",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿（VC 3000·3010·4000）采购入库金额汇总。2023: 582,959,821→633,671,182 / 2024: 675,472,373→661,915,094 / 2025: 371,536,238（不变）。货币：CNY。同比24→25 -43.9%（异常值）反映原辅材料采购减少（与行103 MDI·DMAc下降模式一致，生产量·出口变动推定）"},
+  "광동스판:폐기물 처리 비용": {ko:"확정 (4,039,730→3,767,625.96, 위험폐기물 5업체+일반폐기물 3업체 不含税 합계. 법인 회신: 타 법인과 동일 방식 적용. 국의 생활쓰레기 130,217은 타 법인 관행에 따라 미포함)",en:"Confirmed (4,039,730→3,767,625.96, hazardous 5 + general 3 vendors excl. VAT. Entity confirmed: apply same standard as other entities. Guoyi household waste 130,217 excluded per other entities' practice)",zh:"确定（4,039,730→3,767,625.96，危废5家+一般废3家不含税合计。法人回复：按其他法人同一方式处理。国义生活垃圾130,217按其他法人惯例不计入）"},
+  "광동스판:폐수 처리 비용": {ko:"확정 (1,618,418.06, 翰博化工 약품비만 계상. 법인 회신: 약품비만 산정, 설비유지비는 별도 증빙 없음. 자체 폐수처리장 운영 법인의 표준 보고 방식, 주해스판과 동일)",en:"Confirmed (1,618,418.06, Hanbo chemical costs only. Entity confirmed: chemical only, no separate evidence for facility maintenance. Standard reporting for entities operating own WWTP, same as Zhuhai Spandex)",zh:"确定（1,618,418.06，仅计入翰博化工药品费。法人回复：仅核算药品费，设备维护费无单独凭证。自行运营废水处理厂法人的标准报告方式，与珠海斯潘相同）"},
+  "광동스판:환경오염구제 책임보험": {ko:"수정 확정 (37745.40→35608.87, 人寿 1건 세전, 不含税 기준)",en:"Corrected (37,745.40→35,608.87, 1 life insurance pre-tax, excl. VAT)",zh:"修正确定（37,745.40→35,608.87，人寿1件税前，不含税基准）"},
+  "광동스판:환경배출물질 측정비용": {ko:"수정 확정 (322371→304123.58, 환경감측 229045.28+LDAR 75078.30 세전 합계, 不含税 기준)",en:"Corrected (322,371→304,123.58, monitoring 229,045.28+LDAR 75,078.30 pre-tax, excl. VAT)",zh:"修正确定（322,371→304,123.58，环境监测229,045.28+LDAR 75,078.30税前合计，不含税基准）"},
+  "광동스판:환경개선 시설투자": {ko:"수정 확정 (505000→446902.65, 5건 전부 13% VAT 세전 합계, 不含税 기준)",en:"Corrected (505,000→446,902.65, 5 items all 13% VAT pre-tax, excl. VAT)",zh:"修正确定（505,000→446,902.65，5项均13%增值税税前合计，不含税基准）"},
+  "광동스판:최종 방류지별 폐수 배출량 > 하수처리": {ko:"수정 확정 (59,651→131,041, 법인 V2 확인. 1차 제출 시 과소 기입)",en:"Corrected (59,651→131,041, entity V2 confirmed. Under-reported in initial submission)",zh:"修正确定（59,651→131,041，法人V2确认。首次提交时少报）"},
+  "광동스판:수질오염물질 배출량 > BOD": {ko:"수정 확정 (1.048→0.714, 법인 V2 확인. 1차 제출 시 SS값과 전치 오류)",en:"Corrected (1.048→0.714, entity V2 confirmed. Transposition error with SS in initial submission)",zh:"修正确定（1.048→0.714，法人V2确认。首次提交时与SS数值互换）"},
+  "광동스판:비도로 차량 > 전기차": {ko:"확정 (11대, 台品 10대+通力 3대 중 미갱신 3대 제외=11대. 임대계약서 9건 전량 대조, 2025.12.31 기준)",en:"Confirmed (11 units, 10 Taipin + 3 Toplift minus 3 non-renewed = 11. 9 lease contracts fully verified, as of 2025.12.31)",zh:"确定（11台，台品10台+通力3台中未续约3台扣除=11台。租赁合同9份全部核对，截至2025.12.31）"},
+  "광동스판:재사용된 원료 사용량": {ko:"확정 (53,290 ton, 정제탑 A-2·C-2 DCS 유량계 일별 기록 365일분 합산. 증빙 53,289.67과 0.33 ton 차이=반올림)",en:"Confirmed (53,290 ton, daily DCS flow meter data for columns A-2 & C-2, 365 days summed. Evidence 53,289.67, 0.33 ton diff = rounding)",zh:"确定（53,290吨，精制塔A-2·C-2 DCS流量计日记录365天合计。证据53,289.67，差异0.33吨=四舍五入）"},
+  "가흥화공:일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {ko:"확인 완료 (열교환기를 23·24년 고철 판매에서 25년 환보국 요구에 따라 일반폐기물로 분류 전환, 1.82 Ton)",en:"Verified (heat exchanger reclassified from scrap metal to general waste per EPB requirement in 2025, 1.82 Ton)",zh:"确认完毕（换热器从23·24年废铁销售转为25年按环保局要求登记为一般废弃物，1.82吨）"},
+  "가흥화공:일반 폐기물 배출량 > 위탁처리 > 소각": {ko:"확인 완료 (폐수처리장 유입 농도 제어 → 슬러지 감소 → 소각량 감소, YoY -31%)",en:"Verified (wastewater influent control → sludge reduction → incineration decrease, YoY -31%)",zh:"确认完毕（废水处理厂进水浓度控制→污泥减少→焚烧量减少，YoY -31%）"},
+  "가흥화공:수질오염물질 배출량 > COD": {ko:"확인 완료 (폐수처리장 효율 증가, 2024 이상 고점에서 2023 수준 복귀, YoY -67%)",en:"Verified (treatment efficiency improved, returned to 2023 level from 2024 peak, YoY -67%)",zh:"确认完毕（处理效率提升，从2024年异常高点回归至2023年水平，YoY -67%）"},
+  "가흥화공:수질오염물질 배출량 > T-N": {ko:"확인 완료 (폐수처리장 효율 증가, 2024 대비 정상 감소, YoY -40%)",en:"Verified (treatment efficiency improved, normal decrease vs. 2024, YoY -40%)",zh:"确认完毕（处理效率提升，较2024年正常下降，YoY -40%）"},
+  "가흥화공:ISO 및 기타 환경 인증비용": {ko:"수정 확정 (68670→64783.02, SGS 심사비 2건 세전 합계, 不含税 기준. ISO 14001·45001 갱신)",en:"Corrected (68,670→64,783.02, 2 SGS audit invoices pre-tax, excl. VAT. ISO 14001/45001 renewal)",zh:"修正确定（68,670→64,783.02，SGS审核费2张税前合计，不含税基准。ISO 14001·45001换证）"},
+  "가흥화공:환경개선 시설투자": {ko:"확인 완료 (2025년 시설투자 실적 없음, YoY -100%)",en:"Verified (no facility investment in 2025, YoY -100%)",zh:"确认完毕（2025年无设施投资，YoY -100%）"},
+  "가흥화공:환경배출물질 측정비용": {ko:"수정 확정 (60000→56603.78, 토양·지하수 감측 발票 2건 세전 합계 일치, 不含税 기준)",en:"Corrected (60,000→56,603.78, 2 soil/groundwater invoices pre-tax total matched, excl. VAT basis)",zh:"修正确定（60,000→56,603.78，土壤·地下水监测发票2张税前合计一致，不含税基准）"},
+  "가흥화공:대기·화학물질 및 기타 환경 비용": {ko:"수정 확정 (449156.43→424659.18, LDAR·자행감측·배출권 등 9건 세전 합계, 不含税 기준)",en:"Corrected (449,156.43→424,659.18, 9 items incl. LDAR/monitoring/emission rights, pre-tax total, excl. VAT)",zh:"修正确定（449,156.43→424,659.18，LDAR·自行监测·排污权等9项税前合计，不含税基准）"},
+  "가흥화공:환경오염구제 책임보험": {ko:"수정 확정 (217,538→205,224.53, 人民财产保险 嘉兴 발票 1건 세전, 6% VAT, 不含税 기준)",en:"Corrected (217,538→205,224.53, PICC Jiaxing 1 invoice pre-tax, 6% VAT, excl. VAT)",zh:"修正确定（217,538→205,224.53，人保嘉兴发票1张税前，6%增值税，不含税基准）"},
+  "가흥화공:폐수 처리 비용": {ko:"수정 확정 (770,757→727,129.24, 嘉兴港区工业污水处理 발票 12건 金额 합계, 6% VAT, 不含税 기준)",en:"Corrected (770,757→727,129.24, 12 Jiaxing wastewater invoices pre-tax total, 6% VAT, excl. VAT)",zh:"修正确定（770,757→727,129.24，嘉兴港区工业污水处理发票12张金额合计，6%增值税，不含税基准）"},
+  "가흥화공:유해화학물질 사용량": {ko:"2024년 135425→25.8 확정 (부탄올 발票 12건 합계 25.78t, 2024년 수소 미사용 확인)",en:"2024 confirmed 135,425→25.8 (12 butanol invoices total 25.78t, no hydrogen used in 2024 confirmed)",zh:"2024年135,425→25.8确定（正丁醇发票12张合计25.78吨，确认2024年未使用氢气）"},
+  "가흥화공:휘발성유기화학물질(VOCs)": {ko:"수정 확정 (1.126→2.13, 유기 1.13+LDAR 무기 1.00, 4분기 보고서 전건 대조 완료)",en:"Corrected (1.126→2.13, organic 1.13+LDAR fugitive 1.00, all 4 quarterly reports verified)",zh:"修正确定（1.126→2.13，有机1.13+LDAR无组织1.00，4个季度报告全部核对完毕）"},
+  "가흥화공:폐기물 처리 비용": {ko:"수정 확정 (1,769,614→1,653,066.08, SAP 세전 60건 중 행100 이중계상 2건 21,829 차감, 不含税 기준, 7개 업체 58건)",en:"Corrected (1,769,614→1,653,066.08, SAP pre-tax 60 items minus 2 items 21,829 double-counted in row 100, excl. VAT, 7 vendors 58 items)",zh:"修正确定（1,769,614→1,653,066.08，SAP税前60笔中扣除与行100重复的2笔21,829，不含税基准，7家供应商58笔）"},
+  "가흥화공:판매 > 친환경 제품 판매 실적": {ko:"확인 완료 (135,596 CNY, 동나이 Bio-PTMG 구매 후 최종 고객에 직접 재판매)",en:"Confirmed (135,596 CNY, Bio-PTMG purchased from Dong Nai and directly resold to end customer)",zh:"确认完毕（135,596元，从同奈购入Bio-PTMG后直接转售给最终客户）"},
+  "가흥화공:구매 > 친환경 제품 구매 실적": {ko:"확인 완료 (110,732 CNY, 동나이 Pilot 시생산 Bio-PTMG 구매, CNY 기준 확인)",en:"Confirmed (110,732 CNY, Bio-PTMG pilot production from Dong Nai, CNY basis confirmed)",zh:"确认完毕（110,732元，同奈试生产Bio-PTMG采购，确认以人民币为基准）"},
+  "가흥화공:용수 재활용": {ko:"수정 확정 (53,076→51,676, 7월 GP2 밸브 고장분 1,400t 차감, 청구서 증빙 기준 적용)",en:"Corrected (53,076→51,676, 1,400t deducted for Jul GP2 valve failure, billing evidence basis applied)",zh:"修正确定（53,076→51,676，7月GP2阀门故障1,400吨已扣减，按缴费单据基准）"},
+  "가흥화공:일반 폐기물 배출량 > 위탁처리 > 소각": {ko:"수정 확정 (120.89→117.89, 처리량 기준 적용. 기말 오니 재고 3t 제외)",en:"Corrected (120.89→117.89, disposal basis. Year-end sludge inventory 3t excluded)",zh:"修正确定（120.89→117.89，按处理量基准。年末污泥库存3吨已排除）"},
+  "가흥화공:지정 폐기물 배출량 > 위탁처리 > 소각": {ko:"수정 확정 (554.75→542.75, 처리량 기준 적용. 기말 합성폐액 재고 12t 제외)",en:"Corrected (554.75→542.75, disposal basis. Year-end synthetic waste liquid inventory 12t excluded)",zh:"修正确定（554.75→542.75，按处理量基准。年末合成废液库存12吨已排除）"},
+  "가흥스판:폐기물 처리 비용": {ko:"확정 (1,952,893.08, 발票 51건 세전 합계, 不含税 기준)",en:"Confirmed (1,952,893.08, 51 invoices pre-tax total, excl. VAT)",zh:"确定（1,952,893.08，发票51张税前合计，不含税基准）"},
+  "가흥스판:폐수 처리 비용": {ko:"확정 (421,391.60, 嘉兴市自来水有限公司 污水处理费 非税收入票据 11건 전건 일치, VAT 비과세)",en:"Confirmed (421,391.60, 11 Jiaxing Water Co. wastewater fee receipts matched, gov't non-tax revenue, no VAT)",zh:"确定（421,391.60，嘉兴市自来水有限公司污水处理费非税收入票据11张全部一致，政府非税收入，无增值税）"},
+  "가흥스판:환경오염구제 책임보험": {ko:"수정 확정 (23~25년 전부 18,000→16,981.13, 阳光财产保险 발票 1건 세전, 6% VAT, 不含税 기준)",en:"Corrected (2023-2025 all 18,000→16,981.13, 1 Sunshine Insurance invoice pre-tax, 6% VAT, excl. VAT)",zh:"修正确定（2023~2025年全部18,000→16,981.13，阳光财产保险发票1张税前，6%增值税，不含税基准）"},
+  "가흥스판:ISO 및 기타 환경 인증비용": {ko:"확정 (2025년 22,641.51, 北京中大华远认证中心 인증비 발票 1건 세전, 6% VAT, 不含税 기준)",en:"Confirmed (2025 22,641.51, 1 Beijing Zhongda Huayuan certification invoice pre-tax, 6% VAT, excl. VAT)",zh:"确定（2025年22,641.51，北京中大华远认证中心认证费发票1张税前，6%增值税，不含税基准）"},
+  "가흥스판:공업용수": {ko:"확정 (279,750 ton, 嘉兴市自来水有限公司 工业纯水费 增值税专用발票 12건 수량 합계, 계량기 교차검증 일치)",en:"Confirmed (279,750 ton, 12 Jiaxing Water VAT invoices volume total, meter cross-check matched)",zh:"确定（279,750吨，嘉兴市自来水有限公司工业纯水费增值税专用发票12张数量合计，水表交叉验证一致）"},
+  "가흥스판:용수 재활용": {ko:"확정 (13,532 ton, 법인 자체보고 수용 — 매일 수기 기록 기반 월별 回用数量 합계, 월별 도면 스크린샷 확인)",en:"Confirmed (13,532 ton, entity self-report accepted — monthly recycled water total from daily manual logs, monthly screenshot verified)",zh:"确定（13,532吨，法人自报数据采纳——基于每日手工记录的月度回用数量合计，月度截图已确认）"},
+  "가흥스판:일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {ko:"확정 (2025=24.99 기101표 SW17 일치. 2023=0/2024=32.31 안여경 프로 소급 제출)",en:"Confirmed (2025=24.99 Form 101 SW17 matched. 2023=0/2024=32.31 retroactively submitted per YK Ahn)",zh:"确定（2025=24.99基101表SW17一致。2023=0/2024=32.31由安如京追溯提交）"},
+  "가흥스판:일반 폐기물 배출량 > 위탁처리 > 소각": {ko:"확정 (2025=269.95 기101표 SW07 일치. 2023=59.14/2024=208.12 안여경 프로 소급 제출)",en:"Confirmed (2025=269.95 Form 101 SW07 matched. 2023=59.14/2024=208.12 retroactively submitted per YK Ahn)",zh:"确定（2025=269.95基101表SW07一致。2023=59.14/2024=208.12由安如京追溯提交）"},
+  "가흥스판:지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {ko:"확정 (84.537 ton, 기101표 HW49 废包装桶 委外처리량 일치)",en:"Confirmed (84.537 ton, Form 101 HW49 waste drums outsourced treatment matched)",zh:"确定（84.537吨，基101表HW49废包装桶委外处置量一致）"},
+  "가흥스판:지정 폐기물 배출량 > 위탁처리 > 소각": {ko:"확정 (2025=417.93 기101표 일치. 2023: 525→531 / 2024: 477→496 소급 수정 — 온실가스 산정 데이터와 통일, 안여경 프로 확인)",en:"Confirmed (2025=417.93 Form 101 matched. 2023: 525→531 / 2024: 477→496 retroactively corrected — aligned with GHG calculation data, per YK Ahn)",zh:"确定（2025=417.93基101表一致。2023: 525→531 / 2024: 477→496追溯修正——与温室气体核算数据统一，安如京确认）"},
+  "가흥스판:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"확정 (150,497 ton, 기101표 排入污水处理厂 150,497.0 일치)",en:"Confirmed (150,497 ton, Form 101 discharged to WWTP 150,497.0 matched)",zh:"确定（150,497吨，基101表排入污水处理厂150,497.0一致）"},
+  "가흥스판:수질오염물질 배출량 > COD": {ko:"확정 (2025=2.220 기101표 일치. 2023=3.871/2024=2.529 유지 — 법인 보조_설명 10배 수정은 COD 产生量 기준, 대시보드는 排放量 기준으로 현재값 정확)",en:"Confirmed (2025=2.220 Form 101 matched. 2023/2024 retained — entity 10x correction refers to COD generation, dashboard tracks discharge)",zh:"确定（2025=2.220基101表一致。2023/2024保留——法人10倍修正为产生量基准，仪表盘为排放量基准，现值正确）"},
+  "가흥스판:재생 불가능한 원료 사용량(②)": {ko:"근사 확정 (17,407.92, SAP 발화소계17,909-연구개발비637≈17,272, 잔여 0.8% 차이는 반올림 추정, 산출 구조 규명)",en:"Approx. confirmed (17,407.92, SAP total 17,909 minus R&D 637≈17,272, 0.8% residual from rounding)",zh:"近似确定（17,407.92，SAP发货小计17,909-研发费637≈17,272，0.8%差异为四舍五入）"},
+  "가흥스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론 적용). 재고수불부(Valuation Class 3000·3010·5000) × GHS 8차 마스터 140종 CAS 교차 대조. 2023: 4.08→3,505.74 / 2024: 5.83→3,966.55 / 2025: 7.33→3,687.31 ton. 기존값(4-7 ton)은 좁은 정의 기반 산출이었으며, 통일 방법론으로 타 스판 법인 수준 회귀. 주요 물질: MDI(101-68-8) + DMAc(127-19-5) + EDA(107-15-3) + PDA(78-90-0) + DEA(109-89-7)",en:"Three-year batch recalculation (unified methodology for all spandex entities). Inventory ledger (VC 3000·3010·5000) × GHS Rev.8 master list of 140 substances cross-checked by CAS. 2023: 4.08→3,505.74 / 2024: 5.83→3,966.55 / 2025: 7.33→3,687.31 ton. Previous values (4-7 ton) were based on narrow definition; unified methodology aligns with peer spandex entities",zh:"三年度一并重新测算确定（全氨纶法人统一方法论）。库存收发簿（估价类别3000·3010·5000）× GHS第8版主列表140种物质按CAS号交叉核对。2023: 4.08→3,505.74 / 2024: 5.83→3,966.55 / 2025: 7.33→3,687.31吨。原值（4-7吨）基于狭义定义，统一方法论后回归至同业氨纶法人水平"},
+  "가흥스판:재사용된 원료 사용량": {ko:"확정 (26,079.18 ton, 精制DMAC回收 월별 집계 합계 일치)",en:"Confirmed (26,079.18 ton, monthly refined DMAc recovery total matched)",zh:"确定（26,079.18吨，精制DMAC回收月度汇总合计一致）"},
+  "가흥스판:비도로 차량 > 전기차": {ko:"확정 (7대, 浙江特种设备在线 蓄电池平衡重式叉车 7대 등록 확인)",en:"Confirmed (7 units, Zhejiang Special Equipment Online: 7 battery forklifts registered)",zh:"确定（7台，浙江特种设备在线蓄电池平衡重式叉车7台登记确认）"},
+  "가흥스판:비도로 차량 > 기타 (가솔린, 디젤 등)": {ko:"확정 (1대, 浙江特种设备在线 内燃平衡重式叉车 1대 등록 확인)",en:"Confirmed (1 unit, Zhejiang Special Equipment Online: 1 IC forklift registered)",zh:"确定（1台，浙江特种设备在线内燃平衡重式叉车1台登记确认）"},
+  "가흥스판:도로 차량 > 기타 (가솔린, 디젤 등)": {ko:"확정 (4대, VW 威然 浙F28J3A 업무용 1대 임대계약+공장업무차 1대 렌탈+통근차 4대 중 스판 부담 2대, 2025.12.31 기준)",en:"Confirmed (4 units, VW Viloran 浙F28J3A business 1 lease+factory utility 1 rental+2 of 4 commuter buses allocated to Spandex, as of 2025.12.31)",zh:"确定（4台，大众威然浙F28J3A公务用1台租赁+工厂业务车1台租赁+通勤车4台中氨纶承担2台，截至2025.12.31）"},
+  "가흥스판:일반대기오염물질 > 질소산화물(NOx)": {ko:"수정 확정 (3.508→3.643, 증빙 위계 원칙 적용 — 기101표 氮氧化物排放量 3.643이 자체측정 3.508보다 보수적, 연보값 채택)",en:"Corrected (3.508→3.643, evidence hierarchy applied — Form 101 NOx 3.643 more conservative than self-measured 3.508, gov't report adopted)",zh:"修正确定（3.508→3.643，证据层级原则——基101表氮氧化物排放量3.643比自测3.508更保守，采纳年报值）"},
+  "가흥스판:일반대기오염물질 > 황산화물(SOx)": {ko:"수정 확정 (0.201→0.209, 증빙 위계 원칙 적용 — 기101표 二氧化硫排放量 0.209이 자체측정 0.201보다 보수적, 연보값 채택)",en:"Corrected (0.201→0.209, evidence hierarchy applied — Form 101 SOx 0.209 more conservative than self-measured 0.201, gov't report adopted)",zh:"修正确定（0.201→0.209，证据层级原则——基101表二氧化硫排放量0.209比自测0.201更保守，采纳年报值）"},
+  "가흥스판:휘발성유기화학물질(VOCs)": {ko:"수정 확정 (0.845→2.311, 증빙 위계 원칙 적용 — 기101표 挥发性有机物排放量 2.311은 비산배출 포함, 자체측정 0.845는 조직배출(보일러 3기)만 합산. 연보값 채택)",en:"Corrected (0.845→2.311, evidence hierarchy applied — Form 101 VOCs 2.311 incl. fugitive emissions, self-measured 0.845 covers organized sources only. Gov't report adopted)",zh:"修正确定（0.845→2.311，证据层级原则——基101表挥发性有机物排放量2.311含无组织排放，自测0.845仅含有组织排放(锅炉3台)，采纳年报值）"},
+    "브라질스판:일반대기오염물질 > 질소산화물(NOx)": {ko:"2025 YoY +39% 사유 확인 완료 — 법인 설명: 연료 효율 증가로 연소온도 상승, 공기 중 질소의 NOx 전환량 증가. CO 감소와 반비례 관계 확인 (2023→2024 변동은 보일러 대수 차이)",en:"2025 YoY +39% explained — Higher fuel efficiency raised combustion temperature, increasing atmospheric nitrogen conversion to NOx. Inversely correlated with CO decrease. (2023→2024 variance due to boiler count change)",zh:"2025同比+39%原因确认——燃烧效率提高导致燃烧温度升高，空气中氮转化为NOx的量增加。与CO排放减少呈反比关系（2023→2024差异系锅炉台数变化）"},
+    "브라질스판:화학물질 배출량": {ko:"2025 신규 발생 확인 완료 — 법인 확인: VOCs 외 다른 화학물질 배출 없음, 화학물질 배출량 = VOCs 배출량(0.341 ton)과 동일",en:"2025 new emission confirmed — Subsidiary confirmed: no chemical emissions other than VOCs. Chemical emissions = VOCs emissions (0.341 ton)",zh:"2025新增排放确认——法人确认：除VOCs外无其他化学物质排放，化学物质排放量=VOCs排放量(0.341吨)"},
+    "브라질스판:휘발성유기화학물질(VOCs)": {ko:"증빙 확인 완료 (0.341 ton, W/S B2 단일 배출원 6.9mg/Nm³. 2024년 4.8은 이상 고점, 2025년은 2023년 0.31 수준 복귀. 산출표+측정보고서 대조)",en:"Verified (0.341 ton, single source W/S B2 at 6.9mg/Nm³. 2024 4.8 was anomalous peak; 2025 returned to 2023 level 0.31. Calc sheet + measurement reports cross-checked)",zh:"证据确认完毕（0.341吨，唯一排放源W/S B2浓度6.9mg/Nm³。2024年4.8为异常高点，2025年回归2023年0.31水平。计算表+监测报告交叉核对）"},
+    "브라질스판:일반대기오염물질 > 황산화물(SOx)": {ko:"증빙 확인 완료 (0 ton, 3개 측정점 전부 농도 0. 산출표 대조)",en:"Verified (0 ton, all 3 measurement points at 0 concentration. Calc sheet cross-checked)",zh:"证据确认完毕（0吨，3个监测点浓度均为0。计算表交叉核对）"},
+    "브라질스판:일반대기오염물질 > 먼지(PM)": {ko:"증빙 확인 완료 (18.476 ton, 4개 배출원 합계. 산출표+측정보고서 대조)",en:"Verified (18.476 ton, total from 4 emission sources. Calc sheet + measurement reports cross-checked)",zh:"证据确认完毕（18.476吨，4个排放源合计。计算表+监测报告交叉核对）"},
+    "브라질스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"증빙 확인 완료 (46.833 ton, Bremer+Secamaq+HTM 3개 보일러 합계. NOx 증가와 반비례, 연소효율 변화 정합. 산출표 대조)",en:"Verified (46.833 ton, 3 boilers Bremer+Secamaq+HTM. Inversely correlated with NOx increase, consistent with combustion efficiency change. Calc sheet cross-checked)",zh:"证据确认完毕（46.833吨，Bremer+Secamaq+HTM三台锅炉合计。与NOx增加呈反比，与燃烧效率变化一致。计算表交叉核对）"},
+    "브라질스판:수질오염물질 배출량 > SS": {ko:"이상치 해소 (32.75 ton, YoY −40.7%). 2024년 10월 이상 고점(3,345 mg/L) 미반복에 따른 자연 감소. 12개월 수질모니터링 PDF 전건+Excel 월가중평균 교차 대조 완료",en:"Anomaly resolved (32.75 ton, YoY −40.7%). Natural decrease as Oct 2024 spike (3,345 mg/L) did not recur. All 12 monthly WWT monitoring PDFs + Excel weighted avg cross-checked",zh:"异常值解消（32.75吨，同比-40.7%）。2024年10月异常高点（3,345 mg/L）未重现，自然下降。12个月水质监测PDF全部+Excel加权平均交叉核对完毕"},
+    "브라질스판:수질오염물질 배출량 > T-P": {ko:"이상치 해소 (0.11 ton, YoY +176%). 2024년이 이상 저점(12개월 중 9개월 0.08 mg/L 미검출 수준), 2025년 정상 검출 수준 복귀. Jan 6.21 mg/L 스파이크 포함. 12개월 PDF 전건 대조 완료",en:"Anomaly resolved (0.11 ton, YoY +176%). 2024 was anomalous low (9 of 12 months at 0.08 mg/L near detection limit); 2025 returned to normal detection levels incl. Jan spike 6.21 mg/L. All 12 monthly PDFs cross-checked",zh:"异常值解消（0.11吨，同比+176%）。2024年为异常低点（12个月中9个月0.08 mg/L接近检测限），2025年恢复正常检测水平，含1月6.21 mg/L峰值。12个月PDF全部交叉核对完毕"},
+    "브라질스판:수질오염물질 배출량 > BOD": {ko:"증빙 확인 완료 (5.39 ton). 12개월 수질모니터링 PDF(Orgânica 1월 + Acquaplant 2-12월) 전건+Excel 월가중평균 교차 대조",en:"Verified (5.39 ton). All 12 monthly WWT monitoring PDFs (Orgânica Jan + Acquaplant Feb-Dec) + Excel weighted avg cross-checked",zh:"证据确认完毕（5.39吨）。12个月水质监测PDF（Orgânica 1月 + Acquaplant 2-12月）全部+Excel加权平均交叉核对"},
+    "브라질스판:수질오염물질 배출량 > COD": {ko:"증빙 확인 완료 (19.43 ton). 12개월 수질모니터링 PDF 전건+Excel 월가중평균 교차 대조",en:"Verified (19.43 ton). All 12 monthly WWT monitoring PDFs + Excel weighted avg cross-checked",zh:"证据确认完毕（19.43吨）。12个月水质监测PDF全部+Excel加权平均交叉核对"},
+    "브라질스판:수질오염물질 배출량 > T-N": {ko:"증빙 확인 완료 (5.02 ton). 12개월 수질모니터링 PDF 전건+Excel 월가중평균 교차 대조",en:"Verified (5.02 ton). All 12 monthly WWT monitoring PDFs + Excel weighted avg cross-checked",zh:"证据确认完毕（5.02吨）。12个月水质监测PDF全部+Excel加权平均交叉核对"},
+    "브라질스판:재사용된 원료 사용량": {ko:"증빙 확인 완료 (32,335.48 ton = DMAc 재활용 32,096.72 + 포장재 회수 238.76). 재고수불부 RAW→DMAc 요약→계산결과 전 구간 교차 대조",en:"Verified (32,335.48 ton = DMAc recycled 32,096.72 + packaging recovered 238.76). Inventory ledger RAW → DMAc summary → calc result fully cross-checked",zh:"证据确认完毕（32,335.48吨 = DMAc回收32,096.72 + 包装材料回收238.76）。库存收发簿RAW→DMAc汇总→计算结果全链交叉核对"},
+    "브라질스판:재생 불가능한 원료 사용량(②)": {ko:"증빙 확인 완료 (56,981.69 ton = 원부재료(DMAc포함) 53,121.35 + 포장재 3,860.34). 재고수불부 Class 3000/3010/4000 RAW 교차 대조",en:"Verified (56,981.69 ton = raw materials incl. DMAc 53,121.35 + packaging 3,860.34). Inventory ledger Class 3000/3010/4000 RAW cross-checked",zh:"证据确认完毕（56,981.69吨 = 原辅材料含DMAc 53,121.35 + 包装材料3,860.34）。库存收发簿Class 3000/3010/4000 RAW交叉核对"},
+    "브라질스판:포장재 > 포장재 회수량": {ko:"증빙 확인 완료 (238.76 ton = 지관 185.35 + 홀더 53.41). 포장재 투입실적 Class 4000 회수 수량×단위중량 대조",en:"Verified (238.76 ton = paper tubes 185.35 + holders 53.41). Packaging Class 4000 recovered qty × unit weight cross-checked",zh:"证据确认完毕（238.76吨 = 纸管185.35 + 支架53.41）。包装材料Class 4000回收数量×单位重量交叉核对"},
+    "브라질스판:구매 > 친환경 제품 구매 실적": {ko:"증빙 확인 완료 (R$9,952,121.09). SAP Cavaco(바이오매스 보일러 연료) 구매전표 13개 공급업체 2,274건 VALOR LÍQUIDO 합계 정확 일치",en:"Verified (R$9,952,121.09). SAP Cavaco (biomass boiler fuel) purchase records from 13 suppliers, 2,274 entries, VALOR LÍQUIDO total exact match",zh:"证据确认完毕（R$9,952,121.09）。SAP Cavaco（生物质锅炉燃料）采购凭证13家供应商2,274笔VALOR LÍQUIDO合计精确一致"},
+    "브라질스판:구매 > 총 제품 구매 실적": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·4000) 구매입고(금액) 합산. 2023: 268,840,348→310,508,190 / 2024: 236,421,199→280,922,801 / 2025: 261,806,005(유지). 통화: BRL. YoY 정상 범위(-6.8%)",en:"Three-year batch recalculation (unified methodology). Inventory ledger (VC 3000·3010·4000) purchase receipt amount. 2023: 268,840,348→310,508,190 / 2024: 236,421,199→280,922,801 / 2025: 261,806,005 (unchanged). Currency: BRL. YoY within normal range (-6.8%)",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿（VC 3000·3010·4000）采购入库金额汇总。2023: 268,840,348→310,508,190 / 2024: 236,421,199→280,922,801 / 2025: 261,806,005（不变）。货币：BRL。同比-6.8%正常"},
+    "브라질스판:폐기물 처리 비용": {ko:"증빙 확인 완료 (R$1,260,947.92 Net). Terra Nova NF-em 13건 ISS 분리 후 세전 금액 확정",en:"Verified (R$1,260,947.92 Net). Terra Nova NF-em 13 invoices, ISS separated, pre-tax amount confirmed",zh:"证据确认完毕（R$1,260,947.92 净额）。Terra Nova NF-em 13张发票，ISS分离后税前金额确认"},
+    "브라질스판:유해화학물질 사용량": {ko:"3개년 일괄 재산출 확정 (전 스판 법인 통일 방법론). 재고수불부(VC 3000·3010·5000) × GHS 마스터 140종 CAS 교차 대조. 2023: 4,545.37→4,316.02 / 2024: 4,371.55→4,407.25 / 2025: 4,877.54→4,521.47 ton. 기존값은 법인 자체 시트 기반(NaOH 290 ton 공소품 포함), 통일 방법론은 재고수불부만 적용. 주요 물질: MDI(101-68-8) + DMAc(127-19-5) + EDA(107-15-3) + DEA(109-89-7)",en:"Three-year batch recalculation (unified methodology). Inventory ledger × GHS master list of 140 substances. 2023: 4,545.37→4,316.02 / 2024: 4,371.55→4,407.25 / 2025: 4,877.54→4,521.47 ton. Previous values included NaOH 290 ton from entity-submitted hazmat sheet; unified methodology uses inventory ledger only",zh:"三年度一并重新测算确定（统一方法论）。库存收发簿 × GHS主列表140种物质按CAS交叉核对。2023: 4,545.37→4,316.02 / 2024: 4,371.55→4,407.25 / 2025: 4,877.54→4,521.47吨。原值含法人自报危险品清单中NaOH 290吨消耗品，统一方法论仅采用库存收发簿"},
+    "브라질스판:도로 차량 > 기타 (가솔린, 디젤 등)": {ko:"수정 확정 (2023: 32→10, 2024: 36→12, 2025: 52→12). 법인 회신에 따라 외부 운송업체 소유·운영 통근버스(디젤) 제외, 법인 명의 차량만 집계. 법인차량(휘발유): 2023 10대, 2024 12대, 2025 12대",en:"Corrected (2023: 32→10, 2024: 36→12, 2025: 52→12). Per subsidiary response, commuter buses (diesel, owned/operated by external transport company) excluded; only company-owned vehicles counted. Company vehicles (gasoline): 2023 10, 2024 12, 2025 12",zh:"修正确定（2023: 32→10, 2024: 36→12, 2025: 52→12）。根据法人回复，外部运输公司所有·运营的通勤巴士（柴油）已排除，仅统计法人名下车辆。法人车辆（汽油）：2023年10辆、2024年12辆、2025年12辆"},
+    "브라질스판:일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {ko:"전면 재집계 확정 (2023: 568.83 / 2024: 525.46 / 2025: 486.74 ton). FY2025 DMR + 네트웍스와이 GHG Scope 3 산정 자료 기반 소급 수정. 법인 확인: 네트웍스와이 자료가 완전본. 매핑: 150101 종이/150102 플라스틱/150104 금속/170401 동/170411 케이블/160605 배터리 → 재활용",en:"Fully re-aggregated (2023: 568.83 / 2024: 525.46 / 2025: 486.74 ton). Retroactive correction based on FY2025 DMR + NetworkY GHG Scope 3 calculation data. Confirmed by subsidiary as complete record. Mapping: paper/plastic/metal/copper/cable/battery → Recycling",zh:"全面重新汇总确定（2023: 568.83 / 2024: 525.46 / 2025: 486.74吨）。基于FY2025 DMR + NetworkY GHG Scope 3核算资料追溯修正。法人确认NetworkY资料为完整记录。映射：纸/塑料/金属/铜/电缆/电池 → 回收"},
+    "브라질스판:일반 폐기물 배출량 > 위탁처리 > 소각": {ko:"전면 재집계 확정 (2023: 0 / 2024: 54.10 / 2025: 66.49 ton). 040220 폐수처리슬러지 코프로세싱(시멘트 킬른) 분을 GRI 306-5 에너지 회수 소각으로 분류. 네트웍스와이 자료 및 2025 DMR 기반",en:"Fully re-aggregated (2023: 0 / 2024: 54.10 / 2025: 66.49 ton). 040220 WWT sludge co-processing (cement kiln) classified as incineration with energy recovery per GRI 306-5. Based on NetworkY data and 2025 DMR",zh:"全面重新汇总确定（2023: 0 / 2024: 54.10 / 2025: 66.49吨）。040220废水处理污泥水泥窑协同处置按GRI 306-5能量回收焚烧分类。基于NetworkY资料及2025 DMR"},
+    "브라질스판:일반 폐기물 배출량 > 위탁처리 > 매립": {ko:"전면 재집계 확정 (2023: 765.71 / 2024: 802.07 / 2025: 637.93 ton). 040209 섬유폐기물, 190116 보일러재, 200301 도시폐기물, 100101 시멘트재, 170904 건설폐기물, 200304 정화조슬러지(폐수처리) 포함. 200304는 일반 '기타' 행 부재로 최근사 매립 분류",en:"Fully re-aggregated (2023: 765.71 / 2024: 802.07 / 2025: 637.93 ton). Includes 040209 textile, 190116 boiler ash, 200301 urban, 100101 cement ash, 170904 construction, 200304 septic sludge (effluent treatment). 200304 classified to landfill as nearest analog (no non-hazardous 'others' row available)",zh:"全面重新汇总确定（2023: 765.71 / 2024: 802.07 / 2025: 637.93吨）。含040209纺织、190116锅炉灰、200301城市、100101水泥灰、170904建设、200304化粪池污泥(废水处理)。200304因无一般废弃物'其他'栏归入填埋(最接近处置方法)"},
+    "브라질스판:지정 폐기물 배출량 > 자가처리(재활용)(②)": {ko:"확정 0 (자체 재활용 시설 없음)",en:"Confirmed 0 (no in-house recycling facility)",zh:"确定0（无自有回收设施）"},
+    "브라질스판:지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {ko:"전면 재집계 확정 (2023: 0 / 2024: 4.81 / 2025: 18.00 ton). 130201* 폐윤활유 Rerrefino(재정제)를 GRI 306-4 R9 재활용으로 분류. 2023년은 130201* 처리 실적 없음",en:"Fully re-aggregated (2023: 0 / 2024: 4.81 / 2025: 18.00 ton). 130201* used oil Rerrefino (re-refining) classified as recycling per GRI 306-4 R9. No 130201* processing in 2023",zh:"全面重新汇总确定（2023: 0 / 2024: 4.81 / 2025: 18.00吨）。130201*废润滑油Rerrefino(再精炼)按GRI 306-4 R9分类为回收。2023年无130201*处理实绩"},
+    "브라질스판:지정 폐기물 배출량 > 위탁처리 > 소각": {ko:"전면 재집계 확정 (2023: 282.05 / 2024: 715.07 / 2025: 552.65 ton). 040214* 유기용매 폐기물, 190306* 고형위험폐기물, 150110* 오염 포장재, 180401* 날카로운 물질의 코프로세싱·소각·멸균처리 합산. 대규모 증가는 매립→코프로세싱 처리방법 전환 결과. GRI 306-5 에너지 회수 소각 기준",en:"Fully re-aggregated (2023: 282.05 / 2024: 715.07 / 2025: 552.65 ton). Sum of co-processing/incineration/sterilization for 040214* organic solvents, 190306* solidified hazardous, 150110* contaminated packaging, 180401* sharps. Large increase reflects shift from landfill to co-processing. Per GRI 306-5 incineration with energy recovery",zh:"全面重新汇总确定（2023: 282.05 / 2024: 715.07 / 2025: 552.65吨）。040214*有机溶剂废弃物·190306*固化危险·150110*污染包装·180401*锐器的协同处置/焚烧/灭菌合计。大幅增加反映填埋→协同处置方式转变。按GRI 306-5能量回收焚烧基准"},
+    "브라질스판:지정 폐기물 배출량 > 위탁처리 > 매립": {ko:"전면 재집계 확정 (2023: 774.21 / 2024: 264.49 / 2025: 0 ton). 040214* 유기용매, 190306* 고형위험 매립분. 기존 대시보드 2023/2024 값은 040214* 매립분 누락. 2025년 매립 0은 코프로세싱 전환 결과",en:"Fully re-aggregated (2023: 774.21 / 2024: 264.49 / 2025: 0 ton). 040214* organic solvents, 190306* solidified hazardous landfilled. Previous 2023/2024 dashboard values omitted 040214* landfill portion. 2025 zero reflects shift to co-processing",zh:"全面重新汇总确定（2023: 774.21 / 2024: 264.49 / 2025: 0吨）。040214*有机溶剂·190306*固化危险填埋量。此前仪表板2023/2024值漏计040214*填埋部分。2025年填埋为0反映协同处置转变"},
+    "브라질스판:지정 폐기물 배출량 > 위탁처리 > 기타": {ko:"확정 0 (코프로세싱은 소각 행61, Rerrefino는 재활용 행60으로 분류. 기존 대시보드 2023 0.04, 2024 58.21 값은 재분류됨)",en:"Confirmed 0 (co-processing classified to row 61 incineration, Rerrefino to row 60 recycling. Previous 2023: 0.04, 2024: 58.21 re-classified)",zh:"确定0（协同处置归入行61焚烧，Rerrefino归入行60回收。此前2023: 0.04、2024: 58.21已重新分类）"},    "가흥무역:도로 차량 > 기타 (가솔린, 디젤 등)": {ko:"확정 (2023: 77대 / 2024: 90대 — PwC 템플릿 기입력값. 2025: 79대 — 12月份车辆明细 기준 2025.12.31 유효 차량 82대 중 만료 3대 제외. HEV 18대+ICE 61대, 전량 기타 분류. 법인 확인 완료: 格瑞维亚 4대·亚洲龙 2대=HEV, 奥德赛 1대=ICE — 황옥영(黄玉莹) 경영관리부 회신)",en:"Confirmed (2023: 77 / 2024: 90 — PwC template. 2025: 79 — Dec vehicle list, 82 total minus 3 expired as of 2025.12.31. 18 HEV + 61 ICE, all classified as Others. Entity confirmed: 4 Granvia + 2 Avalon = HEV, 1 Odyssey = ICE — per Huang Yuying, Mgmt Dept)",zh:"确定（2023: 77辆 / 2024: 90辆——PwC模板。2025: 79辆——12月份车辆明细82辆中扣除到期3辆，截至2025.12.31。HEV 18辆+ICE 61辆，全部归类为其他。法人确认：格瑞维亚4辆·亚洲龙2辆=HEV，奥德赛1辆=ICE——黄玉莹 经营管理部回复）"},
+};
+const NOT_APPLICABLE = {
+  "가흥화공:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인, 해양방류 시설 없음",en:"Inland facility, no ocean discharge",zh:"内陆法人，无海洋排放设施"},
+  "가흥스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인(嘉兴), 해양방류 시설 없음 (타 중국 법인 3곳 동일 N/A)",en:"Inland facility (Jiaxing), no ocean discharge (3 other CN entities all N/A)",zh:"内陆法人（嘉兴），无海洋排放设施（其他3家中国法人均N/A）"},
+  "광동스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인, 해양방류 시설 없음",en:"Inland facility, no ocean discharge",zh:"内陆法人，无海洋排放设施"},
+  "주해스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"내륙 법인, 해양방류 시설 없음",en:"Inland facility, no ocean discharge",zh:"内陆法人，无海洋排放设施"},
+  "가흥화공:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"전량 하수처리장 방류, 위탁처리 구조 아님",en:"All wastewater to municipal treatment, no outsourced treatment",zh:"全量排入污水处理厂，非委托处理结构"},
+  "광동스판:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"전량 하수처리장 방류, 위탁처리 구조 아님",en:"All wastewater to municipal treatment, no outsourced treatment",zh:"全量排入污水处理厂，非委托处理结构"},
+  "주해스판:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"전량 하수처리장 방류, 위탁처리 구조 아님",en:"All wastewater to municipal treatment, no outsourced treatment",zh:"全量排入污水处理厂，非委托处理结构"},
+  "가흥화공:하수 재이용수": {ko:"재이용 시설 미보유",en:"No water reclamation facility",zh:"无再生水利用设施"},
+  "가흥스판:하수 재이용수": {ko:"하수 재이용수 공급 인프라 없음 (타 중국 법인 3곳 동일 N/A)",en:"No reclaimed water supply infrastructure (3 other CN entities all N/A)",zh:"无中水回用供水设施（其他3家中国法人均N/A）"},
+  "광동스판:하수 재이용수": {ko:"재이용 시설 미보유",en:"No water reclamation facility",zh:"无再生水利用设施"},
+  "주해스판:하수 재이용수": {ko:"재이용 시설 미보유",en:"No water reclamation facility",zh:"无再生水利用设施"},
+  "가흥화공:지하수": {ko:"지하수 취수 시설 없음",en:"No groundwater extraction facility",zh:"无地下水取水设施"},
+  "가흥스판:지하수": {ko:"지하수 취수 시설 없음 (타 중국 법인 3곳 동일 N/A)",en:"No groundwater extraction facility (3 other CN entities all N/A)",zh:"无地下水取水设施（其他3家中国法人均N/A）"},
+  "광동스판:지하수": {ko:"지하수 취수 시설 없음",en:"No groundwater extraction facility",zh:"无地下水取水设施"},
+  "주해스판:지하수": {ko:"지하수 취수 시설 없음",en:"No groundwater extraction facility",zh:"无地下水取水设施"},
+  "가흥화공:일반대기오염물질 > 총탄화수소(THC)": {ko:"측정 대상 외 (측정 장비·의무 없음)",en:"Not subject to measurement (no equipment/obligation)",zh:"非监测对象（无监测设备及义务）"},
+  "가흥스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"측정 대상 외 (타 중국 법인 3곳 동일 N/A, 템플릿 전각공백 입력)",en:"Not subject to measurement (3 other CN entities all N/A, template blank entry)",zh:"非监测对象（其他3家中国法人均N/A，模板空白录入）"},
+  "광동스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"관리항목 아님 (법인 확인. NMHC만 측정, THC 근거 부재)",en:"Not a managed item (entity confirmed. Only NMHC measured, no THC basis)",zh:"非管理项目（法人确认。仅监测NMHC，THC无依据）"},
+  "주해스판:일반대기오염물질 > 총탄화수소(THC)": {ko:"측정 대상 외 (VOCs와 중복, 삭제 처리)",en:"Not subject to measurement (duplicate of VOCs, removed)",zh:"非监测对象（与VOCs重复，已删除）"},
+  "가흥화공:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음",en:"No emission source (no incinerator, etc.)",zh:"无排放源（无焚烧炉等）"},
+  "가흥스판:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음 (타 중국 법인 3곳 동일 N/A)",en:"No emission source (no incinerator, etc.; 3 other CN entities all N/A)",zh:"无排放源（无焚烧炉等；其他3家中国法人均N/A）"},
+  "광동스판:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음",en:"No emission source (no incinerator, etc.)",zh:"无排放源（无焚烧炉等）"},
+  "주해스판:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"배출원(소각로 등) 없음",en:"No emission source (no incinerator, etc.)",zh:"无排放源（无焚烧炉等）"},
+  "가흥화공:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음",en:"No emission source",zh:"无排放源"},
+  "가흥스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음 (타 중국 법인 3곳 동일 N/A)",en:"No emission source (3 other CN entities all N/A)",zh:"无排放源（其他3家中国法人均N/A）"},
+  "광동스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음",en:"No emission source",zh:"无排放源"},
+  "주해스판:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"배출원 없음",en:"No emission source",zh:"无排放源"},
+  "가흥화공:일반대기오염물질 > 질소산화물(NOx)": {ko:"자체 연소시설(보일러) 미보유, 스팀 외부 구매",en:"No on-site boiler, steam purchased externally",zh:"无自有锅炉，蒸汽外购"},
+  "가흥화공:일반대기오염물질 > 황산화물(SOx)": {ko:"자체 연소시설(보일러) 미보유, 스팀 외부 구매",en:"No on-site boiler, steam purchased externally",zh:"无自有锅炉，蒸汽外购"},
+  "가흥화공:일반대기오염물질 > 먼지(PM)": {ko:"자체 연소시설(보일러) 미보유, 스팀 외부 구매",en:"No on-site boiler, steam purchased externally",zh:"无自有锅炉，蒸汽外购"},
+  "가흥화공:수질오염물질 배출량 > BOD": {ko:"배출 허가 조건 미포함, 미측정 (COD 기준 관리)",en:"Not in discharge permit, not measured (managed by COD)",zh:"排放许可未包含，未监测（以COD为基准）"},
+  "가흥스판:수질오염물질 배출량 > BOD": {ko:"배출 허가 비대상 항목, 미측정 (법인 담당자 확인, 排污权证 참조)",en:"Not subject to discharge permit, not measured (confirmed by entity, ref. emission permit)",zh:"排污许可非监测对象，未监测（法人确认，参照排污权证）"},
+  "가흥화공:수질오염물질 배출량 > SS": {ko:"배출 허가 조건 미포함, 미측정 (COD 기준 관리)",en:"Not in discharge permit, not measured (managed by COD)",zh:"排放许可未包含，未监测（以COD为基准）"},
+  "가흥스판:수질오염물질 배출량 > SS": {ko:"배출 허가 비대상 항목, 미측정 (법인 담당자 확인, 排污权证 참조)",en:"Not subject to discharge permit, not measured (confirmed by entity, ref. emission permit)",zh:"排污许可非监测对象，未监测（法人确认，参照排污权证）"},
+  "가흥스판:수질오염물질 배출량 > TOC": {ko:"미측정 (가흥화공도 null, 중국 법인 공통 비관리 항목)",en:"Not measured (also null for Jiaxing Chem; common non-monitored item for CN entities)",zh:"未监测（嘉兴化工也为空，中国法人共同非管理项目）"},
+  "가흥스판:최종 방류지별 폐수 배출량 > 하수처리": {ko:"전량 위탁처리(행78=150,497 ton), 하수처리장 직접 방류 없음",en:"All wastewater outsourced (row 78=150,497 ton), no direct discharge to sewage plant",zh:"全量委托处理（行78=150,497吨），无直接排入污水处理厂"},
+  "가흥화공:포장재 > 포장재 총 출하량": {ko:"화공 법인, 벌크 출하 방식 (포장재 해당 없음)",en:"Chemical plant, bulk shipment (packaging N/A)",zh:"化工法人，散装出货（不涉及包装材料）"},
+  "가흥화공:포장재 > 포장재 회수량": {ko:"화공 법인, 벌크 출하 방식 (포장재 해당 없음)",en:"Chemical plant, bulk shipment (packaging N/A)",zh:"化工法人，散装出货（不涉及包装材料）"},
+  "가흥화공:재활용된 원료 사용량": {ko:"화공 법인, 폐원사(废丝) 해당 없음",en:"Chemical plant, waste yarn not applicable",zh:"化工法人，废丝不适用"},
+  "가흥화공:재사용된 원료 사용량": {ko:"화공 법인, 폐원사(废丝) 해당 없음",en:"Chemical plant, waste yarn not applicable",zh:"化工法人，废丝不适用"},
+    "브라질스판:최종 방류지별 폐수 배출량 > 해양방류": {ko:"해양방류 시설 없음 (내륙 법인, 하수처리장 방류만 해당)",en:"No ocean discharge facility (inland subsidiary, wastewater treatment plant discharge only)",zh:"无海洋排放设施（内陆法人，仅适用污水处理厂排放）"},
+    "브라질스판:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"폐수 위탁처리 없음 (자체 전처리 후 하수처리장 방류)",en:"No outsourced wastewater treatment (pre-treated on-site, discharged to municipal treatment plant)",zh:"无委托废水处理（自行预处理后排入污水处理厂）"},
+    "브라질스판:상수도 및 생활용수": {ko:"N/A 확정. 브라질 법인은 지하수(행74 264,497 m³)만 사용하는 상수도 미연결 시설. 매뉴얼 exclude 기준 적용. 향후 상수도 연결 시 증빙에서 포착 가능 (수도요금 고지서)",en:"Confirmed N/A. Brazil subsidiary uses groundwater only (row 74: 264,497 m³), not connected to public water supply. Per manual exclude criteria. Future connection will be captured via water bills",zh:"确定N/A。巴西法人仅使用地下水（行74: 264,497 m³），未连接自来水。适用手册exclude标准。今后接入时可通过水费账单发现"},
+    "브라질스판:공업용수": {ko:"N/A 확정. 공업용수 전용 공급 시설 미연결. 지하수 전용 운영. 향후 공업용수 공급 연결 시 증빙에서 포착 가능",en:"Confirmed N/A. Not connected to industrial water supply facility. Groundwater-only operation. Future connection will be captured via evidence",zh:"确定N/A。未连接工业用水专用供水设施。仅使用地下水运营。今后接入时可通过凭证发现"},
+    "브라질스판:하수 재이용수": {ko:"N/A 확정. Araquari 지역 외부 재이용수(중수도) 공급 인프라 부재. 향후 인프라 구축 시 포착 가능",en:"Confirmed N/A. No external reclaimed water (gray water) supply infrastructure in Araquari region. Future infrastructure deployment will be captured",zh:"确定N/A。Araquari地区无外部再生水（中水道）供应基础设施。今后基础设施建设时可发现"},
+    "브라질스판:용수 재활용": {ko:"N/A 확정. 자체 용수 재활용 시설 미보유. 향후 폐수 재활용 설비 도입 시 포착 가능 (유량계·설비투자 증빙)",en:"Confirmed N/A. No in-house water recycling facilities. Future installation will be captured via flowmeter/CapEx evidence",zh:"确定N/A。无自有水循环利用设施。今后安装时可通过流量计·资本投资凭证发现"},
+    "브라질스판:비도로 차량 > 수소차": {ko:"N/A 확정. 현재 미보유. 향후 수소 연료전지 지게차 도입 시 차량 보유 목록 증빙에서 자동 포착",en:"Confirmed N/A. Currently not owned. Future hydrogen fuel cell forklift adoption will be auto-captured via vehicle registry evidence",zh:"确定N/A。现无保有。今后引入氢燃料电池叉车时可通过车辆清单凭证自动发现"},
+    "브라질스판:도로 차량 > 전기차": {ko:"N/A 확정. 현재 미보유 (행110 휘발유 12대만 운영). 향후 도로 전기차 도입 시 차량 등록증 증빙에서 자동 포착",en:"Confirmed N/A. Currently not owned (row 110: 12 gasoline vehicles only). Future EV adoption will be auto-captured via vehicle registration evidence",zh:"确定N/A。现无保有（行110仅运营12辆汽油车）。今后引入公路电动车时可通过车辆登记证凭证自动发现"},
+    "브라질스판:도로 차량 > 수소차": {ko:"N/A 확정. 브라질 수소 충전 인프라 부재로 도로 운행 수소차 운용 불가능. 매뉴얼 exclude 기준 적용",en:"Confirmed N/A. No hydrogen refueling infrastructure in Brazil; road hydrogen vehicle operation infeasible. Per manual exclude criteria",zh:"确定N/A。巴西无氢气加注基础设施，公路氢车运营不可行。适用手册exclude标准"},
+  "가흥무역:일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:일반 폐기물 배출량 > 위탁처리 > 소각": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:일반 폐기물 배출량 > 위탁처리 > 매립": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:지정 폐기물 배출량 > 자가처리(재활용)(②)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:지정 폐기물 배출량 > 위탁처리 > 소각": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:지정 폐기물 배출량 > 위탁처리 > 매립": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:지정 폐기물 배출량 > 위탁처리 > 기타": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:일반대기오염물질 > 질소산화물(NOx)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:일반대기오염물질 > 황산화물(SOx)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:일반대기오염물질 > 먼지(PM)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:일반대기오염물질 > 총탄화수소(THC)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:휘발성유기화학물질(VOCs)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:유해대기오염물질(HAPs) > 염화수소(HCl)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:유해대기오염물질(HAPs) > 일산화탄소(CO)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:상수도 및 생활용수": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:공업용수": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:하수 재이용수": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:지하수": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:용수 재활용": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:최종 방류지별 폐수 배출량 > 하수처리": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:최종 방류지별 폐수 배출량 > 해양방류": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:최종 방류지별 폐수 배출량 > 위탁처리": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:수질오염물질 배출량 > BOD": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:수질오염물질 배출량 > TOC": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:수질오염물질 배출량 > COD": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:수질오염물질 배출량 > SS": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:수질오염물질 배출량 > T-N": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:수질오염물질 배출량 > T-P": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:판매 > 친환경 제품 판매 실적": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:구매 > 친환경 제품 구매 실적": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:구매 > 총 제품 구매 실적": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:재생 가능한 원료 사용량 (①)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:재활용된 원료 사용량": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:재사용된 원료 사용량": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:재생 불가능한 원료 사용량(②)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:포장재 > 포장재 총 출하량": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:포장재 > 포장재 회수량": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:폐기물 처리 비용": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:폐수 처리 비용": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:환경오염구제 책임보험": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:환경배출물질 측정비용": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:ISO 및 기타 환경 인증비용": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:대기·화학물질 및 기타 환경 비용": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:환경개선 시설투자": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:환경 기술 투자": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:유해화학물질 사용량": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:화학물질 배출량": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:비도로 차량 > 전기차": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:비도로 차량 > 수소차": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:비도로 차량 > 기타 (가솔린, 디젤 등)": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:도로 차량 > 전기차": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:도로 차량 > 수소차": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:환경 관련 법규 위반 건수": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"},
+  "가흥무역:환경 관련 법규 위반에 따른 벌금": {ko:"무역사무소, 제조 시설 없음 (친환경 차량 행110만 해당)",en:"Trading office, no manufacturing facility (only on-road vehicles row 110 applicable)",zh:"贸易办公室，无制造设施（仅道路车辆行110适用）"}
+};
+
+function isVerified(sub, label) { const v = VERIFIED[sub+":"+label]; return v ? v : null; }
+function isNA(sub, label) { const v = NOT_APPLICABLE[sub+":"+label]; return v ? v : null; }
+function effectiveFlags(sub, label, data) {
+  if (isNA(sub, label)) return ["na"];
+  const flags = cellStatus(data);
+  if (isVerified(sub, label)) return flags.filter(f => f !== "yoy_25" && f !== "yoy_24");
+  return flags;
+}
+
+const LANG = {
+  // UI texts
+  ui: {
+    title: {ko:"환경 데이터 검수 대시보드", en:"Environmental Data Verification Dashboard", zh:"环境数据审核仪表板"},
+  "브라질스판:재생 가능한 원료 사용량 (①)": {ko:"해당 없음 (Bio PTMG, Bio BDO 등 재생 원료 미사용, 법인 확인 완료)",en:"N/A (no renewable raw materials such as Bio PTMG or Bio BDO used, confirmed by subsidiary)",zh:"不适用（未使用Bio PTMG、Bio BDO等可再生原料，法人确认完毕）"},
+    subtitle: {ko:"효성티앤씨 ESG 정량 데이터", en:"Hyosung TNC ESG Quantitative Data", zh:"晓星天禧 ESG 定量数据"},
+    desc: {ko:"온실가스/에너지 제외", en:"Excl. GHG/Energy", zh:"不含温室气体/能源"},
+    subs_count: {ko:"개 법인", en:" Subsidiaries", zh:"个法人"},
+    inds_count: {ko:"개 지표", en:" Indicators", zh:"个指标"},
+    bySub: {ko:"법인별 조회", en:"By Subsidiary", zh:"按法人查询"},
+    byIndicator: {ko:"지표별 비교", en:"By Indicator", zh:"按指标对比"},
+    all: {ko:"전체", en:"All", zh:"全部"},
+    missing: {ko:"미입력", en:"Missing", zh:"未填写"},
+    anomaly: {ko:"이상치", en:"Anomaly", zh:"异常值"},
+    domestic: {ko:"국내", en:"Domestic", zh:"国内"},
+    overseas: {ko:"해외", en:"Overseas", zh:"海外"},
+    total: {ko:"전체 지표", en:"Total Indicators", zh:"全部指标"},
+    filled: {ko:"입력 완료", en:"Filled", zh:"已填写"},
+    missing25: {ko:"2025 미입력", en:"2025 Missing", zh:"2025未填写"},
+    yoyAnomaly: {ko:"YoY 이상치", en:"YoY Anomaly", zh:"YoY异常"},
+    cat: {ko:"카테고리", en:"Category", zh:"类别"},
+    row: {ko:"행", en:"Row", zh:"行"},
+    indicator: {ko:"지표", en:"Indicator", zh:"指标"},
+    unit: {ko:"단위", en:"Unit", zh:"单位"},
+    trend: {ko:"추이", en:"Trend", zh:"趋势"},
+    status: {ko:"상태", en:"Status", zh:"状态"},
+    sub: {ko:"법인", en:"Subsidiary", zh:"法人"},
+    normal: {ko:"정상", en:"Normal", zh:"正常"},
+    noData: {ko:"데이터 없음", en:"No Data", zh:"无数据"},
+    notEntered: {ko:"미입력", en:"Not entered", zh:"未填写"},
+    showing: {ko:"개 지표 표시 중", en:" indicators shown", zh:"个指标显示中"},
+    subsHaveData: {ko:"개 법인 데이터 보유", en:" subsidiaries have data", zh:"个法人有数据"},
+  },
+  // Categories
+  cat: {
+    "폐기물 관리": {en:"Waste Management", zh:"废弃物管理"},
+    "대기오염물질 배출": {en:"Air Pollutant Emissions", zh:"大气污染物排放"},
+    "수자원 관리": {en:"Water Management", zh:"水资源管理"},
+    "폐수 및 수질오염물질 배출": {en:"Wastewater and Water Pollutant Discharge", zh:"废水及水质污染物排放"},
+    "친환경 제품 판매 및 구매": {en:"Eco-friendly Product Sales and Purchases", zh:"环保产品销售及采购"},
+    "원재료 및 재생/재활용 원료 사용": {en:"Raw, Renewable, and Recycled Material Consumption", zh:"原材料及再生/回收原料使用"},
+    "포장재 회수": {en:"Packaging Material Recovery", zh:"包装材料回收"},
+    "환경투자": {en:"Environmental Investment", zh:"环境投资"},
+    "화학물질 관리": {en:"Chemical Substances Management", zh:"化学物质管理"},
+    "친환경 차량": {en:"Eco-friendly Vehicles", zh:"环保车辆"},
+    "법률 및 규정 위반": {en:"Violation of Laws and Regulations", zh:"法律及规定违规"},
+  },
+  // Indicator labels
+  label: {
+    "일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {en:"Non-hazardous Waste > Outsourced Treatment > Recycling(①)", zh:"一般废弃物产生量 > 委托处理 > 再利用(回收利用)(①)"},
+    "일반 폐기물 배출량 > 위탁처리 > 소각": {en:"Non-hazardous Waste > Outsourced Treatment > Incineration", zh:"一般废弃物排放量 > 委托处理 > 焚烧"},
+    "일반 폐기물 배출량 > 위탁처리 > 매립": {en:"Non-hazardous Waste > Outsourced Treatment > Landfill", zh:"一般废弃物排放量 > 委托处理 > 填埋"},
+    "지정 폐기물 배출량 > 자가처리(재활용)(②)": {en:"Hazardous Waste > On-site Treatment (Recycling)(②)", zh:"危险废弃物产生量 > 自行处理（再利用）（②）"},
+    "지정 폐기물 배출량 > 위탁처리 > 재활용(③)": {en:"Hazardous Waste > Outsourced Treatment > Recycling(③)", zh:"指定废弃物排放量 > 委托处理 > 再利用(回收利用)(③)"},
+    "지정 폐기물 배출량 > 위탁처리 > 소각": {en:"Hazardous Waste > Outsourced Treatment > Incineration", zh:"指定废弃物排放量 > 委托处理 > 焚烧"},
+    "지정 폐기물 배출량 > 위탁처리 > 매립": {en:"Hazardous Waste > Outsourced Treatment > Landfill", zh:"指定废弃物排放量 > 委托处理 > 填埋"},
+    "지정 폐기물 배출량 > 위탁처리 > 기타": {en:"Hazardous Waste > Outsourced Treatment > Others", zh:"指定废弃物排放量 > 委托处理 > 其他"},
+    "일반대기오염물질 > 질소산화물(NOx)": {en:"Common Air Pollutants > Nitrogen Oxides (NOx)", zh:"一般大气污染物 > 氮氧化物(NOx)"},
+    "일반대기오염물질 > 황산화물(SOx)": {en:"Common Air Pollutants > Sulfur Oxides (SOx)", zh:"一般大气污染物 > 硫氧化物(SOx)"},
+    "일반대기오염물질 > 먼지(PM)": {en:"Common Air Pollutants > Particulate Matter (PM)", zh:"一般大气污染物 > 颗粒物(PM)"},
+    "일반대기오염물질 > 총탄화수소(THC)": {en:"Common Air Pollutants > Total Hydrocarbons (THC)", zh:"一般大气污染物 > 总烃(THC)"},
+    "휘발성유기화학물질(VOCs)": {en:"VOCs", zh:"挥发性有机化合物(VOCs)"},
+    "유해대기오염물질(HAPs) > 염화수소(HCl)": {en:"Hazardous Air Pollutants (HAPs) > Hydrochloric Acid (HCl)", zh:"有害大气污染物(HAPs) > 氯化氢(HCl)"},
+    "유해대기오염물질(HAPs) > 일산화탄소(CO)": {en:"Hazardous Air Pollutants (HAPs) > Carbon Monoxide (CO)", zh:"有害大气污染物(HAPs) > 一氧化碳(CO)"},
+    "상수도 및 생활용수": {en:"Municipal Water & Domestic Water", zh:"自来水及生活用水"},
+    "공업용수": {en:"Industrial Water", zh:"工业用水"},
+    "하수 재이용수": {en:"Reclaimed Wastewater", zh:"再生污水"},
+    "지하수": {en:"Groundwater", zh:"地下水"},
+    "용수 재활용": {en:"Water Reused", zh:"用水回收利用"},
+    "최종 방류지별 폐수 배출량 > 하수처리": {en:"Wastewater Discharge by Final Destination > Wastewater Treatment", zh:"最终排放地别废水排放量 > 污水处理"},
+    "최종 방류지별 폐수 배출량 > 해양방류": {en:"Wastewater Discharge by Final Destination > Ocean Discharge", zh:"最终排放地别废水排放量 > 海洋排放"},
+    "최종 방류지별 폐수 배출량 > 위탁처리": {en:"Wastewater Discharge by Final Destination > Outsourced Treatment", zh:"最终排放地别废水排放量 > 委托处理"},
+    "수질오염물질 배출량 > BOD": {en:"Water Pollutant Discharged > BOD", zh:"水污染物排放量 > 生物需氧量(BOD)"},
+    "수질오염물질 배출량 > TOC": {en:"Water Pollutant Discharged > TOC", zh:"水质污染物排放量 > 总有机碳量(TOC)"},
+    "수질오염물질 배출량 > COD": {en:"Water Pollutant Discharged > COD", zh:"水质污染物排放量 > 化学需氧量(COD)"},
+    "수질오염물질 배출량 > SS": {en:"Water Pollutant Discharged > SS", zh:"水质污染物排放量 > 悬浮物质(SS)"},
+    "수질오염물질 배출량 > T-N": {en:"Water Pollutant Discharged > T-N", zh:"水质污染物排放量 > 总氮(T-N)"},
+    "수질오염물질 배출량 > T-P": {en:"Water Pollutant Discharged > T-P", zh:"水质污染物排放量 > 总磷(T-P)"},
+    "판매 > 친환경 제품 판매 실적": {en:"Sales > Eco-friendly Product Sales", zh:"销售 > 环保产品销售业绩"},
+    "구매 > 친환경 제품 구매 실적": {en:"Purchases > Eco-friendly Product Purchases", zh:"采购 > 环保产品采购业绩"},
+    "구매 > 총 제품 구매 실적": {en:"Purchases > Total Product Purchases", zh:"采购 > 总产品采购业绩"},
+    "재생 가능한 원료 사용량 (①)": {en:"Amount of Renewable Materials Used (①)", zh:"可再生原料使用量 (①)"},
+    "재활용된 원료 사용량": {en:"Amount of Recycled Materials Used", zh:"回收原料使用量"},
+    "재사용된 원료 사용량": {en:"Amount of Reused Materials Used", zh:"再利用原料用量"},
+    "재생 불가능한 원료 사용량(②)": {en:"Amount of Non-renewable Materials Used (②)", zh:"不可再生原料用量(②)"},
+    "포장재 > 포장재 총 출하량": {en:"Total Amount of Packaging Materials Sold", zh:"包装材料 > 包装材料总出货量"},
+    "포장재 > 포장재 회수량": {en:"Amount of Packaging Material Recovered", zh:"包装材料 > 包装材料回收量"},
+    "폐기물 처리 비용": {en:"Waste Treatment Costs", zh:"废弃物处理费用"},
+    "폐수 처리 비용": {en:"Wastewater Treatment Costs", zh:"废水处理费用"},
+    "환경오염구제 책임보험": {en:"Environmental Pollution Liability Insurance", zh:"环境污染救济责任保险"},
+    "환경배출물질 측정비용": {en:"Environmental Emission Measurement Costs", zh:"环境排放物质测量费用"},
+    "ISO 및 기타 환경 인증비용": {en:"ISO and Other Environmental Certification Costs", zh:"ISO及其他环境认证费用"},
+    "대기·화학물질 및 기타 환경 비용": {en:"Air, Chemical, and Other Environmental Costs", zh:"大气、化学物质及其他环境费用"},
+    "환경개선 시설투자": {en:"Investment in Facilities for Environmental Improvement", zh:"环境改善设施投资"},
+    "환경 기술 투자": {en:"Investment in Eco-friendly Technologies", zh:"环境技术投资"},
+    "유해화학물질 사용량": {en:"Hazardous Chemicals Consumption", zh:"有害化学物质使用量"},
+    "화학물질 배출량": {en:"Chemical Substance Emissions", zh:"化学物质排放量"},
+    "비도로 차량 > 전기차": {en:"Off-road Vehicles > Electric Vehicles", zh:"非道路车辆 > 电动车(EV)"},
+    "비도로 차량 > 수소차": {en:"Off-road Vehicles > Hydrogen Vehicles", zh:"非道路车辆 > 氢燃料电池车"},
+    "비도로 차량 > 기타 (가솔린, 디젤 등)": {en:"Off-road Vehicles > Others (Gasoline, Diesel, etc.)", zh:"非道路车辆 > 其他（汽油、柴油等）"},
+    "도로 차량 > 전기차": {en:"On-road Vehicles > Electric Vehicles", zh:"道路车辆 > 电动车(EV)"},
+    "도로 차량 > 수소차": {en:"On-road Vehicles > Hydrogen Vehicles", zh:"道路车辆 > 氢燃料电池车"},
+    "도로 차량 > 기타 (가솔린, 디젤 등)": {en:"On-road Vehicles > Others (Gasoline, Diesel, etc.)", zh:"道路车辆 > 其他（汽油、柴油等）"},
+    "환경 관련 법규 위반 건수": {en:"Number of Environmental Law Violations", zh:"环境相关法规违规次数"},
+    "환경 관련 법규 위반에 따른 벌금": {en:"Fines for Environmental Law and Regulation Violations", zh:"因环境相关法规违规而处的罚款"},
+  },
+  // Subsidiary names
+  sub: {
+    "가흥무역": {en:"Jiaxing Trading", zh:"嘉兴贸易"},
+    "가흥스판": {en:"Jiaxing Spandex", zh:"嘉兴氨纶"},
+    "가흥화공": {en:"Jiaxing Chemical", zh:"嘉兴化工"},
+    "광동스판": {en:"Guangdong Spandex", zh:"广东氨纶"},
+    "구미": {en:"Gumi", zh:"龟尾"},
+    "기타": {en:"Others", zh:"其他"},
+    "닝샤스판": {en:"Ningxia Spandex", zh:"宁夏氨纶"},
+    "대구": {en:"Daegu", zh:"大邱"},
+    "동나이": {en:"Dong Nai", zh:"同奈"},
+    "멕시코": {en:"Mexico", zh:"墨西哥"},
+    "브라질스판": {en:"Brazil Spandex", zh:"巴西氨纶"},
+    "서울(공덕)": {en:"Seoul (Gongdeok)", zh:"首尔(孔德)"},
+    "서울(마포)": {en:"Seoul (Mapo)", zh:"首尔(麻浦)"},
+    "울산": {en:"Ulsan", zh:"蔚山"},
+    "인도스판": {en:"India Spandex", zh:"印度氨纶"},
+    "주해스판": {en:"Zhuhai Spandex", zh:"珠海氨纶"},
+    "취저우스판": {en:"Quzhou Spandex", zh:"衢州氨纶"},
+    "튀르키예스판": {en:"Türkiye Spandex", zh:"土耳其氨纶"},
+  },
+  // Units
+  unit: {
+    "Ton": {en:"Ton", zh:"吨"},
+    "현지화": {en:"Local Currency", zh:"人民币"},
+    "대": {en:"Unit", zh:"辆"},
+    "건": {en:"Case", zh:"次"},
+    "EA": {en:"EA", zh:"EA"},
+  }
+};
+
+
+const CATS = [...new Set(RAW.indicators.map(i=>i.cat))];
+const SUBS = RAW.subs;
+const YEARS = ["2023","2024","2025"];
+const YOY_THRESHOLD = 0.3;
+
+function fmt(v) {
+  if (v === null || v === undefined) return null;
+  if (Number.isInteger(v)) return v.toLocaleString();
+  if (Math.abs(v) < 0.0001 && v !== 0) return v.toExponential(2);
+  if (Math.abs(v) < 1) return v.toFixed(4);
+  if (Math.abs(v) < 100) return v.toFixed(2);
+  const s = v.toString();
+  const dotIdx = s.indexOf('.');
+  if (dotIdx === -1) return v.toLocaleString();
+  const decimals = Math.min(s.length - dotIdx - 1, 6);
+  return v.toLocaleString(undefined, {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+}
+
+function yoyPct(prev, cur) {
+  if (prev == null || cur == null) return null;
+  if (prev === 0 && cur === 0) return 0;
+  if (prev === 0) return cur > 0 ? 999 : -999;
+  return (cur - prev) / Math.abs(prev);
+}
+
+function cellStatus(vals) {
+  const [y23, y24, y25] = vals;
+  const flags = [];
+  // Missing 2025 when historical exists
+  const hasHist = y23 != null || y24 != null;
+  if (y25 == null && hasHist) flags.push("missing_2025");
+  if (y25 == null && !hasHist) flags.push("no_data");
+  // YoY anomalies (reporting year vs prior year only)
+  const chg25 = yoyPct(y24, y25);
+  if (chg25 != null && Math.abs(chg25) > YOY_THRESHOLD) flags.push("yoy_25");
+  return flags;
+}
+
+function Sparkline({ vals }) {
+  const valid = vals.map((v,i)=>v!=null?{v,i}:null).filter(Boolean);
+  if (valid.length < 2) return <span style={{color:"#999",fontSize:10}}>—</span>;
+  const mn = Math.min(...valid.map(d=>d.v));
+  const mx = Math.max(...valid.map(d=>d.v));
+  const range = mx-mn || 1;
+  const pts = valid.map(d=>`${8+d.i*20},${30-((d.v-mn)/range)*24}`).join(" ");
+  return <svg width="56" height="34" style={{verticalAlign:"middle"}}><polyline points={pts} fill="none" stroke="#6366f1" strokeWidth="2"/>{valid.map(d=><circle key={d.i} cx={8+d.i*20} cy={30-((d.v-mn)/range)*24} r="2.5" fill="#6366f1"/>)}</svg>;
+}
+
+function ManualPanel({label, lang, onClose}) {
+  const m = getManual(label);
+  if (!m) return null;
+  const tl = (obj) => obj ? (obj[lang] || obj.ko) : "";
+  const tArr = (obj) => obj ? (obj[lang] || obj.ko) : [];
+  const tlabel = (lang !== "ko" && LANG.label[label]) ? (LANG.label[label][lang] || label) : label;
+  return React.createElement("div", {style:{position:"fixed",top:0,right:0,width:420,height:"100vh",background:"#fff",boxShadow:"-4px 0 24px rgba(0,0,0,0.15)",zIndex:9999,display:"flex",flexDirection:"column",borderLeft:"3px solid #6366f1",overflow:"hidden"}},
+    React.createElement("div",{style:{padding:"16px 20px",borderBottom:"1px solid #e2e8f0",display:"flex",justifyContent:"space-between",alignItems:"center",background:"#f8fafc"}},
+      React.createElement("div",{style:{fontWeight:700,fontSize:14,color:"#1e293b"}},"\u{1F4D6} ",tlabel),
+      React.createElement("button",{onClick:onClose,style:{border:"none",background:"none",fontSize:18,cursor:"pointer",color:"#64748b"}},"\u2715")
+    ),
+    React.createElement("div",{style:{padding:"20px",overflowY:"auto",flex:1,fontSize:13,lineHeight:1.7,color:"#334155"}},
+      React.createElement("div",{style:{marginBottom:16}},
+        React.createElement("div",{style:{fontWeight:700,color:"#0f172a",marginBottom:4}},lang==="ko"?"\u{25A0} \uC815\uC758":lang==="en"?"\u{25A0} Definition":"\u{25A0} \u5B9A\u4E49"),
+        React.createElement("div",{style:{padding:"8px 12px",background:"#f0f9ff",borderRadius:6,border:"1px solid #bae6fd"}},tl(m.definition))
+      ),
+      React.createElement("div",{style:{marginBottom:16}},
+        React.createElement("div",{style:{fontWeight:700,color:"#16a34a",marginBottom:4}},lang==="ko"?"\u2713 \uD3EC\uD568 \uAE30\uC900":lang==="en"?"\u2713 Include":"\u2713 \u5305\u542B\u6807\u51C6"),
+        React.createElement("ul",{style:{margin:0,paddingLeft:20}},tArr(m.include).map((item,i)=>React.createElement("li",{key:i,style:{marginBottom:3}},item)))
+      ),
+      React.createElement("div",{style:{marginBottom:16}},
+        React.createElement("div",{style:{fontWeight:700,color:"#dc2626",marginBottom:4}},lang==="ko"?"\u2717 \uC81C\uC678 \uAE30\uC900":lang==="en"?"\u2717 Exclude":"\u2717 \u6392\u9664\u6807\u51C6"),
+        React.createElement("ul",{style:{margin:0,paddingLeft:20}},tArr(m.exclude).map((item,i)=>React.createElement("li",{key:i,style:{marginBottom:3}},item)))
+      ),
+      React.createElement("div",{style:{marginBottom:16,display:"flex",flexDirection:"column",gap:8}},
+        React.createElement("div",null,React.createElement("span",{style:{fontWeight:600,color:"#475569"}},lang==="ko"?"\u{1F4C5} \uAE30\uC900\uC77C: ":lang==="en"?"\u{1F4C5} Cutoff: ":"\u{1F4C5} \u57FA\u51C6\u65E5: "),tl(m.cutoff)),
+        React.createElement("div",null,React.createElement("span",{style:{fontWeight:600,color:"#475569"}},lang==="ko"?"\u{1F4CE} \uC99D\uBE59: ":lang==="en"?"\u{1F4CE} Evidence: ":"\u{1F4CE} \u51ED\u8BC1: "),tl(m.evidence)),
+        React.createElement("div",null,React.createElement("span",{style:{fontWeight:600,color:"#475569"}},lang==="ko"?"\u{1F4D0} \uCC38\uC870: ":lang==="en"?"\u{1F4D0} Reference: ":"\u{1F4D0} \u53C2\u8003: "),tl(m.gri))
+      ),
+      m.decisionTree && React.createElement("div",{style:{marginBottom:16,padding:"12px",background:"#fefce8",borderRadius:6,border:"1px solid #fde68a"}},
+        React.createElement("div",{style:{fontWeight:700,color:"#92400e",marginBottom:6}},lang==="ko"?"\u{1F500} \uD310\uB2E8 \uD750\uB984\uB3C4":lang==="en"?"\u{1F500} Decision Tree":"\u{1F500} \u5224\u65AD\u6D41\u7A0B\u56FE"),
+        React.createElement("div",{style:{fontFamily:"monospace",fontSize:12,whiteSpace:"pre-wrap"}},tl(m.decisionTree))
+      ),
+      React.createElement("div",{style:{fontSize:11,color:"#94a3b8",textAlign:"right"}},lang==="ko"?"\uCD5C\uC885 \uC218\uC815: ":lang==="en"?"Last updated: ":"\u6700\u540E\u4FEE\u6539: ",m.updated)
+    )
+  );
+}
+
+const Dashboard = function Dashboard() {
+  const [lang, setLang] = useState("ko");
+  const [selSub, setSelSub] = useState("주해스판");
+  const [selCat, setSelCat] = useState("전체");
+  const [filterMode, setFilterMode] = useState("all"); // all, missing, anomaly
+  const [viewMode, setViewMode] = useState("bySub"); // bySub, byIndicator
+  const [selIndicator, setSelIndicator] = useState(0);
+  const [manualLabel, setManualLabel] = useState(null);
+
+  const t = (section, key) => {
+    if (lang === "ko") return key;
+    const dict = LANG[section];
+    if (!dict) return key;
+    const entry = dict[key];
+    if (!entry) return key;
+    return entry[lang] || key;
+  };
+  const tui = (key) => {
+    const entry = LANG.ui[key];
+    if (!entry) return key;
+    return entry[lang] || entry.ko;
+  };
+  const tNote = (obj) => obj ? (obj[lang] || obj.ko) : "";
+
+  const filteredIndicators = useMemo(() => {
+    let list = RAW.indicators;
+    if (selCat !== "전체") list = list.filter(i => i.cat === selCat);
+    if (viewMode === "bySub") {
+      list = list.filter(i => i.data[selSub]);
+      if (filterMode === "all") list = list.filter(i => {
+        const f = effectiveFlags(selSub, i.label, i.data[selSub]);
+        return !f.includes("na");
+      });
+      if (filterMode === "missing") list = list.filter(i => {
+        const f = effectiveFlags(selSub, i.label, i.data[selSub]);
+        return f.includes("missing_2025");
+      });
+      if (filterMode === "anomaly") list = list.filter(i => {
+        const f = effectiveFlags(selSub, i.label, i.data[selSub]);
+        return f.includes("yoy_24") || f.includes("yoy_25");
+      });
+      if (filterMode === "na") list = list.filter(i => {
+        const f = effectiveFlags(selSub, i.label, i.data[selSub]);
+        return f.includes("na");
+      });
+    }
+    return list;
+  }, [selSub, selCat, filterMode, viewMode]);
+
+  const stats = useMemo(() => {
+    const inds = RAW.indicators.filter(i => i.data[selSub]);
+    let total = 0, missing = 0, anomaly = 0, filled = 0;
+    inds.forEach(i => {
+      const d = i.data[selSub];
+      if (!d) return;
+      const f = effectiveFlags(selSub, i.label, d);
+      if (f.includes("na")) return;
+      total++;
+      if (f.includes("missing_2025")) missing++;
+      if (f.includes("yoy_24") || f.includes("yoy_25")) anomaly++;
+      if (d[2] != null) filled++;
+    });
+    return { total, missing, anomaly, filled, pct: total ? Math.round(filled/total*100) : 0 };
+  }, [selSub]);
+
+  const bgColor = (flags) => {
+    if (flags.includes("na")) return "#f1f5f9";
+    if (flags.includes("missing_2025")) return "#fef3c7";
+    if (flags.includes("yoy_24") || flags.includes("yoy_25")) return "#fee2e2";
+    return "#ecfdf5";
+  };
+
+  const renderBySubTable = () => (
+      <table style={{width:"100%",borderCollapse:"separate",borderSpacing:0,fontSize:13,fontFamily:"'Pretendard','Noto Sans KR',sans-serif"}}>
+        <thead>
+          <tr style={{background:"#1e293b",color:"#fff"}}>
+            <th style={{padding:"10px 12px",textAlign:"left",minWidth:60,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("cat")}</th>
+            <th style={{padding:"10px 6px",textAlign:"center",width:40,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("row")}</th>
+            <th style={{padding:"10px 12px",textAlign:"left",minWidth:200,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("indicator")}</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:50,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("unit")}</th>
+            <th style={{padding:"10px 8px",textAlign:"right",width:130,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>2023</th>
+            <th style={{padding:"10px 8px",textAlign:"right",width:130,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>2024</th>
+            <th style={{padding:"10px 8px",textAlign:"right",width:130,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>2025</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:65,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("trend")}</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:70,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>YoY%</th>
+            <th style={{padding:"10px 8px",textAlign:"center",width:60,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("status")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredIndicators.map((ind, idx) => {
+            const d = ind.data[selSub] || [null,null,null];
+            const flags = effectiveFlags(selSub, ind.label, d);
+            const chg = yoyPct(d[1], d[2]);
+            const vNote = isVerified(selSub, ind.label);
+            const naNote = isNA(selSub, ind.label);
+            const isNARow = flags.includes("na");
+            return (
+              <tr key={idx} style={{background: bgColor(flags), borderBottom:"1px solid #e2e8f0",transition:"background .15s"}}
+                onMouseEnter={e=>e.currentTarget.style.background=isNARow?bgColor(flags):"#f1f5f9"}
+                onMouseLeave={e=>e.currentTarget.style.background=bgColor(flags)}>
+                <td style={{padding:"8px 12px",color:isNARow?"#94a3b8":"#64748b",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{t("cat",ind.cat)}</td>
+                <td style={{padding:"8px 6px",textAlign:"center",fontSize:11,fontWeight:700,color:isNARow?"#94a3b8":"#6366f1",fontVariantNumeric:"tabular-nums",fontFamily:"monospace"}}>{getRow(ind.label) || "—"}</td>
+                <td style={{padding:"8px 12px",fontWeight:500,color:isNARow?"#94a3b8":"#0f172a",cursor:isNARow?"help":"default"}} title={tNote(naNote)}>{t("label",ind.label)}{getManual(ind.label) && <button onClick={()=>setManualLabel(ind.label)} style={{border:"none",background:"none",cursor:"pointer",fontSize:12,marginLeft:4,padding:"0 2px",color:"#6366f1",verticalAlign:"middle"}} title={lang==="ko"?"집계 기준 매뉴얼":lang==="en"?"Reporting Manual":"集计标准手册"}>📖</button>}</td>
+                <td style={{padding:"8px",textAlign:"center",color:"#94a3b8",fontSize:11}}>{t("unit",ind.unit)}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0]):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1]):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2]):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
+                <td style={{padding:"4px 8px",textAlign:"center"}}>{isNARow?<span style={{color:"#cbd5e1",fontSize:10}}>—</span>:<Sparkline vals={d}/>}</td>
+                <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:isNARow?"#cbd5e1":chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
+                  {isNARow?"—":chg!=null ? (chg>=0?"+":"") + (chg*100).toFixed(0)+"%" : "—"}
+                </td>
+                <td style={{padding:"8px",textAlign:"center"}} title={tNote(naNote||vNote)}>
+                  {isNARow && <span title={tNote(naNote)} style={{color:"#94a3b8",fontSize:13,cursor:"help"}}>─</span>}
+                  {!isNARow && flags.includes("missing_2025") && <span title={tui("missing25")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
+                  {!isNARow && (flags.includes("yoy_24")||flags.includes("yoy_25")) && <span title={tui("yoyAnomaly")} style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
+                  {!isNARow && !flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && <span title={tNote(vNote)} style={{color:"#22c55e",fontSize:14,cursor:vNote?"help":"default"}}>✓</span>}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+  );
+
+  const renderByIndicatorTable = () => {
+    const ind = RAW.indicators[selIndicator];
+    if (!ind) return null;
+    const subsWithData = SUBS.filter(s => ind.data[s] && ind.data[s].some(v => v != null));
+    return (
+      <div>
+        <div style={{marginBottom:12}}>
+          <select value={selIndicator} onChange={e=>setSelIndicator(+e.target.value)}
+            style={{padding:"8px 12px",borderRadius:6,border:"1px solid #cbd5e1",fontSize:13,width:"100%",background:"#fff"}}>
+            {RAW.indicators.map((ind,i) => <option key={i} value={i}>{getRow(ind.label) ? `${tui("row")}${getRow(ind.label)} ` : ""}[{t("cat",ind.cat)}] {t("label",ind.label)} ({t("unit",ind.unit)})</option>)}
+          </select>
+        </div>
+        {getManual(ind.label) && <div style={{marginBottom:10,padding:"6px 12px",background:"#f5f3ff",border:"1px solid #c4b5fd",borderRadius:6,fontSize:11,color:"#5b21b6",cursor:"pointer"}} onClick={()=>setManualLabel(ind.label)}>📖 {lang==="ko"?"집계 기준 매뉴얼 보기":lang==="en"?"View Reporting Manual":"查看集计标准手册"}</div>}
+        <table style={{width:"100%",borderCollapse:"separate",borderSpacing:0,fontSize:13,fontFamily:"'Pretendard','Noto Sans KR',sans-serif"}}>
+          <thead>
+            <tr style={{background:"#1e293b",color:"#fff"}}>
+              <th style={{padding:"10px 12px",textAlign:"left",position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("sub")}</th>
+              <th style={{padding:"10px 8px",textAlign:"right",width:130,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>2023</th>
+              <th style={{padding:"10px 8px",textAlign:"right",width:130,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>2024</th>
+              <th style={{padding:"10px 8px",textAlign:"right",width:130,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>2025</th>
+              <th style={{padding:"10px 8px",textAlign:"center",width:65,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("trend")}</th>
+              <th style={{padding:"10px 8px",textAlign:"center",width:80,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>YoY 24→25</th>
+              <th style={{padding:"10px 8px",textAlign:"center",width:60,position:"sticky",top:0,zIndex:2,background:"#1e293b"}}>{tui("status")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {subsWithData.map(sub => {
+              const d = ind.data[sub];
+              const flags = effectiveFlags(sub, ind.label, d);
+              const chg = yoyPct(d[1], d[2]);
+              const isDom = RAW.domestic.includes(sub);
+              const vNote = isVerified(sub, ind.label);
+              const naNote = isNA(sub, ind.label);
+              const isNARow = flags.includes("na");
+              return (
+                <tr key={sub} style={{background: bgColor(flags),borderBottom:"1px solid #e2e8f0"}}>
+                  <td style={{padding:"8px 12px",fontWeight:500,color:isNARow?"#94a3b8":"#0f172a",cursor:isNARow?"help":"default"}} title={tNote(naNote)}>
+                    <span style={{display:"inline-block",width:6,height:6,borderRadius:3,background:isDom?"#3b82f6":"#f59e0b",marginRight:6}}/>
+                    {t("sub",sub)}
+                  </td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0]):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1]):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2]):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
+                  <td style={{padding:"4px 8px",textAlign:"center"}}>{isNARow?<span style={{color:"#cbd5e1",fontSize:10}}>—</span>:<Sparkline vals={d}/>}</td>
+                  <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:isNARow?"#cbd5e1":chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
+                    {isNARow?"—":chg!=null?(chg>=0?"+":"")+(chg*100).toFixed(0)+"%":"—"}
+                  </td>
+                  <td style={{padding:"8px",textAlign:"center"}} title={tNote(naNote||vNote)}>
+                    {isNARow && <span title={tNote(naNote)} style={{color:"#94a3b8",fontSize:13,cursor:"help"}}>─</span>}
+                    {!isNARow && flags.includes("missing_2025") && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#fbbf24",color:"#fff",fontSize:11,fontWeight:700}}>!</span>}
+                    {!isNARow && (flags.includes("yoy_24")||flags.includes("yoy_25")) && <span style={{display:"inline-block",width:20,height:20,lineHeight:"20px",borderRadius:4,background:"#ef4444",color:"#fff",fontSize:11,fontWeight:700,marginLeft:2}}>⚠</span>}
+                    {!isNARow && !flags.includes("missing_2025") && !flags.includes("yoy_24") && !flags.includes("yoy_25") && <span title={tNote(vNote)} style={{color:"#22c55e",fontSize:14,cursor:vNote?"help":"default"}}>✓</span>}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  return (
+    <div style={{fontFamily:"'Pretendard','Noto Sans KR',system-ui,sans-serif",background:"#f8fafc",minHeight:"100vh",color:"#0f172a"}}>
+      {/* Header */}
+      <div style={{background:"linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)",color:"#fff",padding:"20px 24px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:12}}>
+          <div style={{minWidth:0,flex:"1 1 auto"}}>
+            <div style={{fontSize:11,fontWeight:600,letterSpacing:2,color:"#94a3b8",marginBottom:4}}>{tui("subtitle")}</div>
+            <div style={{fontSize:22,fontWeight:800,letterSpacing:-0.5}}>{tui("title")}</div>
+            <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")}</div>
+          </div>
+          <div style={{display:"flex",gap:2,borderRadius:6,overflow:"visible",border:"1px solid #475569",flexShrink:0}}>
+            {["ko","en","zh"].map(l=>(
+              <button key={l} onClick={()=>setLang(l)} style={{padding:"6px 12px",fontSize:12,fontWeight:700,border:"none",cursor:"pointer",background:lang===l?"#fff":"transparent",color:lang===l?"#0f172a":"#94a3b8"}}>
+                {l==="ko"?"KR":l==="en"?"EN":"CN"}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{padding:"16px 24px"}}>
+        {/* View mode toggle */}
+        <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap",alignItems:"center"}}>
+          <div style={{display:"flex",borderRadius:8,overflow:"hidden",border:"1px solid #cbd5e1"}}>
+            {[["bySub",tui("bySub")],["byIndicator",tui("byIndicator")]].map(([m,l])=>(
+              <button key={m} onClick={()=>setViewMode(m)} style={{padding:"8px 16px",fontSize:13,fontWeight:600,border:"none",cursor:"pointer",background:viewMode===m?"#1e293b":"#fff",color:viewMode===m?"#fff":"#64748b",transition:"all .15s"}}>{l}</button>
+            ))}
+          </div>
+          {viewMode==="bySub" && (
+            <>
+              <select value={selSub} onChange={e=>setSelSub(e.target.value)} style={{padding:"8px 12px",borderRadius:6,border:"1px solid #cbd5e1",fontSize:13,fontWeight:600,background:"#fff"}}>
+                <optgroup label={tui("domestic")}>{RAW.domestic.map(s=><option key={s} value={s}>{t("sub",s)}</option>)}</optgroup>
+                <optgroup label={tui("overseas")}>{RAW.overseas.map(s=><option key={s} value={s}>{t("sub",s)}</option>)}</optgroup>
+              </select>
+              <div style={{display:"flex",borderRadius:6,overflow:"hidden",border:"1px solid #cbd5e1"}}>
+                {[["all",tui("all")],["missing",tui("missing")],["anomaly",tui("anomaly")],["na","N/A"]].map(([m,l])=>(
+                  <button key={m} onClick={()=>setFilterMode(m)} style={{padding:"6px 14px",fontSize:12,fontWeight:500,border:"none",cursor:"pointer",background:filterMode===m?"#475569":"#fff",color:filterMode===m?"#fff":"#64748b"}}>{l}</button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Category tabs */}
+        <div style={{display:"flex",gap:4,marginBottom:16,flexWrap:"wrap"}}>
+          <button onClick={()=>setSelCat("전체")} style={{padding:"5px 12px",borderRadius:16,border:selCat==="전체"?"2px solid #1e293b":"1px solid #e2e8f0",background:selCat==="전체"?"#1e293b":"#fff",color:selCat==="전체"?"#fff":"#64748b",fontSize:12,fontWeight:600,cursor:"pointer"}}>{tui("all")}</button>
+          {CATS.map(c=>(
+            <button key={c} onClick={()=>setSelCat(c)} style={{padding:"5px 12px",borderRadius:16,border:selCat===c?"2px solid #1e293b":"1px solid #e2e8f0",background:selCat===c?"#1e293b":"#fff",color:selCat===c?"#fff":"#64748b",fontSize:11,fontWeight:500,cursor:"pointer",whiteSpace:"nowrap"}}>{t("cat",c.trim())}</button>
+          ))}
+        </div>
+
+        {/* KPI cards (bySub mode) */}
+        {viewMode==="bySub" && (
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:10,marginBottom:16}}>
+            {[
+              {label:tui("total"),value:stats.total,color:"#3b82f6",icon:"📊"},
+              {label:tui("filled"),value:stats.filled,color:"#22c55e",icon:"✅",sub:`${stats.pct}%`},
+              {label:tui("missing25"),value:stats.missing,color:"#f59e0b",icon:"⚠️"},
+              {label:tui("yoyAnomaly"),value:stats.anomaly,color:"#ef4444",icon:"🔴"},
+            ].map(({label,value,color,icon,sub})=>(
+              <div key={label} style={{background:"#fff",borderRadius:10,padding:"14px 16px",borderLeft:`4px solid ${color}`,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
+                <div style={{fontSize:11,color:"#94a3b8",fontWeight:600}}>{icon} {label}</div>
+                <div style={{fontSize:26,fontWeight:800,color,marginTop:2,fontVariantNumeric:"tabular-nums"}}>{value}{sub && <span style={{fontSize:13,fontWeight:500,color:"#64748b",marginLeft:4}}>{sub}</span>}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Legend */}
+        <div style={{display:"flex",gap:16,marginBottom:12,fontSize:11,color:"#64748b",flexWrap:"wrap"}}>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#ecfdf5",border:"1px solid #bbf7d0",verticalAlign:"middle",marginRight:4}}/>{tui("normal")}</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#fef3c7",border:"1px solid #fde68a",verticalAlign:"middle",marginRight:4}}/>{tui("missing25")}</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#fee2e2",border:"1px solid #fecaca",verticalAlign:"middle",marginRight:4}}/>YoY ±30%</span>
+          <span><span style={{display:"inline-block",width:14,height:14,borderRadius:3,background:"#f1f5f9",border:"1px solid #e2e8f0",verticalAlign:"middle",marginRight:4}}/>N/A</span>
+        </div>
+
+        {/* Table */}
+        <div style={{background:"#fff",borderRadius:12,overflow:"auto",boxShadow:"0 1px 4px rgba(0,0,0,0.08)",maxHeight:"calc(100vh - 340px)"}}>
+          {viewMode==="bySub" ? renderBySubTable() : renderByIndicatorTable()}
+        </div>
+
+        <div style={{marginTop:12,fontSize:11,color:"#94a3b8",textAlign:"center"}}>
+          {viewMode==="bySub" ? `${t("sub",selSub)}: ${filteredIndicators.length}${tui("showing")}` : `${SUBS.filter(s=>RAW.indicators[selIndicator]?.data[s]?.some(v=>v!=null)).length}${tui('subsHaveData')}`}
+        </div>
+      </div>
+      {manualLabel && <ManualPanel label={manualLabel} lang={lang} onClose={()=>setManualLabel(null)}/>}
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Dashboard));
+</script>
+</body>
+</html>
