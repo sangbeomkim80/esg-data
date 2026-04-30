@@ -235,17 +235,19 @@ function unitDisplay(unit, sub, lang, label) {
   return unit;
 }
 
-function fmt(v) {
+function fmt(v, unit) {
   if (v === null || v === undefined) return null;
+  // 단위 인식형: 정수 강제 처리
+  if (unit === '건' || unit === '대') return Math.round(v).toLocaleString();
+  if (unit === '현지화' || unit === '천 단위 현지화') return Math.round(v).toLocaleString();
+  // Ton·EA 등: 측정 정밀도 차등 보존
   if (Number.isInteger(v)) return v.toLocaleString();
   if (Math.abs(v) < 0.0001 && v !== 0) return v.toExponential(2);
   if (Math.abs(v) < 1) return v.toFixed(4);
   if (Math.abs(v) < 100) return v.toFixed(2);
-  const s = v.toString();
-  const dotIdx = s.indexOf('.');
-  if (dotIdx === -1) return v.toLocaleString();
-  const decimals = Math.min(s.length - dotIdx - 1, 6);
-  return v.toLocaleString(undefined, {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+  if (Math.abs(v) < 10000) return v.toFixed(2);
+  // ≥10,000: 정수 (큰 값에 소수점 의미 미미)
+  return Math.round(v).toLocaleString();
 }
 
 function yoyPct(prev, cur) {
@@ -537,9 +539,9 @@ const Dashboard = function Dashboard() {
                 <td style={{padding:"8px 6px",textAlign:"center",fontSize:11,fontWeight:700,color:isNARow?"#94a3b8":"#6366f1",fontVariantNumeric:"tabular-nums",fontFamily:"monospace"}}>{getRow(ind.label) || "—"}</td>
                 <td style={{padding:"8px 12px",fontWeight:500,color:isNARow?"#94a3b8":"#0f172a",cursor:isNARow?"help":"default"}} title={tNote(naNote)}>{ind.tier==="HQ_MANAGED" && <span style={{display:"inline-block",padding:"1px 6px",marginRight:6,fontSize:10,fontWeight:700,color:"#fff",background:"#6366f1",borderRadius:4,verticalAlign:"middle"}} title={tui("hqTooltip")}>🏢 HQ</span>}{t("label",ind.label)}{ind.type==="OPEX" && <span style={{display:"inline-block",padding:"1px 6px",marginLeft:6,fontSize:10,fontWeight:700,color:"#475569",background:"#e2e8f0",borderRadius:4,verticalAlign:"middle"}} title="Operating Expenses (경상비용)">OPEX</span>}{ind.type==="CAPEX" && <span style={{display:"inline-block",padding:"1px 6px",marginLeft:6,fontSize:10,fontWeight:700,color:"#fff",background:"#3b82f6",borderRadius:4,verticalAlign:"middle"}} title="Capital Expenditure (자본투자)">CAPEX</span>}{getManual(ind.label) && <button onClick={()=>setManualLabel(ind.label)} style={{border:"none",background:"none",cursor:"pointer",fontSize:12,marginLeft:4,padding:"0 2px",color:"#6366f1",verticalAlign:"middle"}} title={lang==="ko"?"집계 기준 매뉴얼":lang==="en"?"Reporting Manual":"集计标准手册"}>📖</button>}</td>
                 <td style={{padding:"8px",textAlign:"center",color:"#94a3b8",fontSize:11}}>{(ind.unit==="현지화"||ind.unit==="천 단위 현지화")?unitDisplay(ind.unit, selSub, lang, ind.label):t("unit",ind.unit)}</td>
-                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0]):"—"}</td>
-                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1]):"—"}</td>
-                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2]):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0], ind.unit):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1], ind.unit):"—"}</td>
+                <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2], ind.unit):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
                 <td style={{padding:"4px 8px",textAlign:"center"}}>{isNARow?<span style={{color:"#cbd5e1",fontSize:10}}>—</span>:<Sparkline vals={d}/>}</td>
                 <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:isNARow?"#cbd5e1":chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
                   {isNARow?"—":chg!=null ? (chg>=0?"+":"") + (chg*100).toFixed(0)+"%" : "—"}
@@ -602,9 +604,9 @@ const Dashboard = function Dashboard() {
                     <span style={{display:"inline-block",width:6,height:6,borderRadius:3,background:isDom?"#3b82f6":"#f59e0b",marginRight:6}}/>
                     {t("sub",sub)}{(ind.unit==="현지화"||ind.unit==="천 단위 현지화")&&<span style={{marginLeft:6,fontSize:10,color:"#94a3b8",fontWeight:400}}>({unitDisplay(ind.unit, sub, lang, ind.label)})</span>}
                   </td>
-                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0]):"—"}</td>
-                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1]):"—"}</td>
-                  <td style={{padding:"8px",textAlign:"right",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2]):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[0]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[0]!=null?fmt(d[0], ind.unit):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontVariantNumeric:"tabular-nums",color:isNARow?"#cbd5e1":d[1]==null?"#cbd5e1":"#334155"}}>{isNARow?"—":d[1]!=null?fmt(d[1], ind.unit):"—"}</td>
+                  <td style={{padding:"8px",textAlign:"right",fontWeight:isNARow?400:600,color:isNARow?"#cbd5e1":d[2]==null?(flags.includes("missing_2025")?"#ef4444":"#cbd5e1"):"#0f172a"}}>{isNARow?"—":d[2]!=null?fmt(d[2], ind.unit):flags.includes("missing_2025")?<span style={{color:"#ef4444",fontWeight:400}}>{tui("notEntered")}</span>:"—"}</td>
                   <td style={{padding:"4px 8px",textAlign:"center"}}>{isNARow?<span style={{color:"#cbd5e1",fontSize:10}}>—</span>:<Sparkline vals={d}/>}</td>
                   <td style={{padding:"8px",textAlign:"center",fontSize:12,fontWeight:600,color:isNARow?"#cbd5e1":chg==null?"#94a3b8":(Math.abs(chg)>YOY_THRESHOLD&&!vNote)?"#dc2626":"#16a34a"}}>
                     {isNARow?"—":chg!=null?(chg>=0?"+":"")+(chg*100).toFixed(0)+"%":"—"}
@@ -635,7 +637,7 @@ const Dashboard = function Dashboard() {
           <div style={{minWidth:0,flex:"1 1 auto"}}>
             <div style={{fontSize:11,fontWeight:600,letterSpacing:2,color:"#94a3b8",marginBottom:4}}>{tui("subtitle")}</div>
             <div style={{fontSize:22,fontWeight:800,letterSpacing:-0.5}}>{tui("title")}</div>
-            <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")} · v64 (2026-04-30)</div>
+            <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")} · v65 (2026-04-30)</div>
           </div>
           <div style={{display:"flex",gap:2,borderRadius:6,overflow:"visible",border:"1px solid #475569",flexShrink:0}}>
             {["ko","en","zh"].map(l=>(
