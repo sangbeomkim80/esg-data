@@ -1,0 +1,4023 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>효성티앤씨 ESG 환경 검수 대시보드 매뉴얼 v1</title>
+<style>
+:root {
+  --primary: #185FA5;
+  --primary-bg: #E6F1FB;
+  --primary-text: #0C447C;
+  --success: #0F6E56;
+  --success-bg: #E1F5EE;
+  --warning: #854F0B;
+  --warning-bg: #FAEEDA;
+  --danger: #A32D2D;
+  --danger-bg: #FCEBEB;
+  --neutral: #5F5E5A;
+  --neutral-bg: #F1EFE8;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9F9F7;
+  --bg-tertiary: #F3F3F0;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555;
+  --text-tertiary: #888;
+  --border: #E5E5E0;
+  --border-strong: #CCCCC5;
+  --code-bg: #F5F5F2;
+  --sidebar-w: 280px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+/* === 헤더 === */
+.top-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 100;
+  gap: 16px;
+}
+
+.top-header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 0 0 auto;
+}
+
+.top-header .meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex: 0 0 auto;
+}
+
+.search-box {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+  margin-left: auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--bg-secondary);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-primary);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  font-size: 14px;
+}
+
+.btn-print, .btn-pdf {
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.btn-print:hover, .btn-pdf:hover {
+  background: var(--primary-bg);
+  border-color: var(--primary);
+  color: var(--primary-text);
+}
+
+/* === 사이드바 === */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--bg-primary);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.sidebar-section {
+  padding: 0 20px 16px;
+}
+
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.toc-list {
+  list-style: none;
+}
+
+.toc-list li {
+  padding: 0;
+}
+
+.toc-list a {
+  display: block;
+  padding: 6px 12px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.toc-list a:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.toc-list a.active {
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  border-left-color: var(--primary);
+  font-weight: 500;
+}
+
+.toc-list .sub {
+  padding-left: 24px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* === 본문 영역 === */
+.main {
+  margin-left: var(--sidebar-w);
+  margin-top: 60px;
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+
+.main h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary);
+  color: var(--text-primary);
+}
+
+.main h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 40px 0 16px;
+  color: var(--text-primary);
+}
+
+.main h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 28px 0 12px;
+  color: var(--text-primary);
+}
+
+.main h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+  color: var(--text-secondary);
+}
+
+.main p {
+  margin: 12px 0;
+}
+
+.main ul, .main ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.main li {
+  margin: 4px 0;
+}
+
+.main code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "JetBrains Mono", "Source Code Pro", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--danger);
+}
+
+.main pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  font-family: "JetBrains Mono", "Source Code Pro", Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.main pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+.main table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+
+.main th, .main td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.main th {
+  background: var(--bg-secondary);
+  font-weight: 600;
+}
+
+.main blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 8px 16px;
+  margin: 16px 0;
+  background: var(--primary-bg);
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+/* === 컴포넌트 박스 === */
+.box-policy {
+  background: var(--primary-bg);
+  border-left: 4px solid var(--primary);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.box-policy h4 {
+  margin: 0 0 8px;
+  color: var(--primary-text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.box-warning {
+  background: var(--warning-bg);
+  border-left: 4px solid var(--warning);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.box-warning h4 {
+  margin: 0 0 8px;
+  color: var(--warning);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.box-danger {
+  background: var(--danger-bg);
+  border-left: 4px solid var(--danger);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.box-danger h4 {
+  margin: 0 0 8px;
+  color: var(--danger);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.box-success {
+  background: var(--success-bg);
+  border-left: 4px solid var(--success);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.box-success h4 {
+  margin: 0 0 8px;
+  color: var(--success);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.box-scenario {
+  background: var(--neutral-bg);
+  border: 1px solid var(--border-strong);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 6px;
+}
+
+.box-scenario h4 {
+  margin: 0 0 8px;
+  color: var(--neutral);
+  font-size: 13px;
+}
+
+.box-scenario .scenario-line {
+  display: flex;
+  gap: 12px;
+  margin: 6px 0;
+}
+
+.box-scenario .scenario-label {
+  font-weight: 600;
+  min-width: 60px;
+  color: var(--neutral);
+}
+
+.checklist {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+
+.checklist h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.checklist ul {
+  list-style: none;
+  padding: 0;
+}
+
+.checklist li {
+  padding: 4px 0 4px 24px;
+  position: relative;
+}
+
+.checklist li::before {
+  content: "☐";
+  position: absolute;
+  left: 0;
+  color: var(--text-tertiary);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  margin: 0 4px;
+}
+
+.tag-risk-a { background: var(--danger-bg); color: var(--danger); }
+.tag-risk-b { background: var(--warning-bg); color: var(--warning); }
+.tag-risk-c { background: var(--success-bg); color: var(--success); }
+.tag-risk-n { background: var(--neutral-bg); color: var(--neutral); }
+
+.cross-ref {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--primary);
+  background: var(--primary-bg);
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.cross-ref:hover {
+  text-decoration: underline;
+}
+
+/* === 인쇄 === */
+@media print {
+  .top-header, .sidebar, .search-box, .btn-print, .btn-pdf { display: none !important; }
+  .main { margin: 0; padding: 20px; max-width: 100%; }
+  .main h1 { page-break-before: always; }
+  .main h1:first-of-type { page-break-before: avoid; }
+}
+
+/* === 검색 하이라이트 === */
+.highlight { background: #FFEB99; padding: 0 2px; }
+
+.section-anchor { 
+  scroll-margin-top: 80px; 
+}
+
+.toc-collapse {
+  cursor: pointer;
+  user-select: none;
+}
+
+.toc-collapse-icon {
+  display: inline-block;
+  transition: transform 0.2s;
+  margin-right: 4px;
+  font-size: 10px;
+}
+
+.toc-collapse.collapsed .toc-collapse-icon {
+  transform: rotate(-90deg);
+}
+
+.toc-children {
+  margin-left: 12px;
+}
+
+.toc-collapse.collapsed + .toc-children {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<header class="top-header">
+  <h1>📘 효성티앤씨 ESG 환경 검수 대시보드 매뉴얼 v1</h1>
+  <div class="meta">대시보드 v98 기준 · 2026-05-03</div>
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="search-input" placeholder="검색 (Ctrl+F)">
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨 인쇄</button>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <!-- ═══════════════════════════════════════════════ -->
+<!-- 사이드바 TOC -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sidebar-section">
+<div class="sidebar-title">📌 자주 찾는 항목</div>
+<ul class="toc-list">
+<li><a href="#quickstart">⚡ 빠른 시작 (Day 1)</a></li>
+<li><a href="#appx-e">❓ FAQ 30선</a></li>
+<li><a href="#troubleshooting">🔧 Troubleshooting</a></li>
+<li><a href="#scripts">📜 검증 스크립트 모음</a></li>
+</ul>
+</div>
+
+<div class="sidebar-section">
+<div class="sidebar-title">📘 Part 1: 입문 (Day 1-7)</div>
+<ul class="toc-list">
+<li><a href="#ch1">1. 매뉴얼 소개 + 대시보드 목적</a></li>
+<li><a href="#ch1-1" class="sub">1.1 본 매뉴얼 활용 방법</a></li>
+<li><a href="#ch1-2" class="sub">1.2 대시보드 탄생 배경</a></li>
+<li><a href="#ch1-3" class="sub">1.3 보고서 작성 프로세스</a></li>
+<li><a href="#ch1-4" class="sub">1.4 ESG경영팀 담당자 역할</a></li>
+<li><a href="#ch1-5" class="sub">1.5 핵심 마감일</a></li>
+<li><a href="#ch2">2. 화면 구조 + 기본 조작</a></li>
+<li><a href="#ch2-1" class="sub">2.1 헤더·메타 정보</a></li>
+<li><a href="#ch2-2" class="sub">2.2 메인 화면 4종</a></li>
+<li><a href="#ch2-3" class="sub">2.3 상태 색상 4종</a></li>
+<li><a href="#ch2-4" class="sub">2.4 다국어 전환</a></li>
+<li><a href="#ch2-5" class="sub">2.5 INDICATOR_MANUAL 모달</a></li>
+<li><a href="#ch2-6" class="sub">2.6 V/NA 툴팁 조회</a></li>
+<li><a href="#ch3">3. 핵심 용어 사전</a></li>
+<li><a href="#ch3-1" class="sub">3.1 RAW vs V vs NA</a></li>
+<li><a href="#ch3-2" class="sub">3.2 0 vs null vs N/A</a></li>
+<li><a href="#ch3-3" class="sub">3.3 SUBSIDIARY vs HQ_MANAGED</a></li>
+<li><a href="#ch3-4" class="sub">3.4 본사 행번호 vs idx</a></li>
+<li><a href="#ch3-5" class="sub">3.5 GRI 기본 개념</a></li>
+<li><a href="#ch3-6" class="sub">3.6 용어 50선</a></li>
+</ul>
+</div>
+
+<div class="sidebar-section">
+<div class="sidebar-title">📗 Part 2: 데이터 운영 (Week 2-4)</div>
+<ul class="toc-list">
+<li><a href="#ch4">4. 사업장·지표 매핑 체계</a></li>
+<li><a href="#ch4-1" class="sub">4.1 보고경계 정책</a></li>
+<li><a href="#ch4-2" class="sub">4.2 15개 사업장 plant 매핑</a></li>
+<li><a href="#ch4-3" class="sub">4.3 통합 plant 사업장</a></li>
+<li><a href="#ch4-4" class="sub">4.4 보고경계 외 plant</a></li>
+<li><a href="#ch4-5" class="sub">4.5 50개 인디케이터 매핑</a></li>
+<li><a href="#ch4-6" class="sub">4.6 SUBSIDIARY vs HQ 분류</a></li>
+<li><a href="#ch4-7" class="sub">4.7 카테고리 12개 그룹</a></li>
+<li><a href="#ch5">5. 데이터 수집 + 검수 절차</a></li>
+<li><a href="#ch5-1" class="sub">5.1 법인 회신 엑셀 7단계</a></li>
+<li><a href="#ch5-2" class="sub">5.2 불일치 6카테고리</a></li>
+<li><a href="#ch5-3" class="sub">5.3 정부 공식 문서 우선 원칙</a></li>
+<li><a href="#ch5-4" class="sub">5.4 SEMS 신뢰성 예외</a></li>
+<li><a href="#ch5-5" class="sub">5.5 본사 일괄 산출 11건</a></li>
+<li><a href="#ch5-6" class="sub">5.6 환경비용 세전 정책</a></li>
+<li><a href="#ch5-7" class="sub">5.7 통화 정책 + OVERRIDE</a></li>
+<li><a href="#ch5-8" class="sub">5.8 폐기물 기말 미처리 재고</a></li>
+<li><a href="#ch6">6. RAW·V·NA 등록 표준 절차</a></li>
+<li><a href="#ch6-1" class="sub">6.1 위험도 4단계</a></li>
+<li><a href="#ch6-2" class="sub">6.2 사용자 합의 의무</a></li>
+<li><a href="#ch6-3" class="sub">6.3 RAW 정정 절차</a></li>
+<li><a href="#ch6-4" class="sub">6.4 V 등록 표준 형식</a></li>
+<li><a href="#ch6-5" class="sub">6.5 NA 등록 3단계</a></li>
+<li><a href="#ch6-6" class="sub">6.6 V/NA 변경 사전 검증</a></li>
+<li><a href="#ch6-7" class="sub">6.7 N/A 표준 사유 7종</a></li>
+</ul>
+</div>
+
+<div class="sidebar-section">
+<div class="sidebar-title">📙 Part 3: 검증 + 발행 (Month 1+)</div>
+<ul class="toc-list">
+<li><a href="#ch7">7. INDICATOR_MANUAL 운영</a></li>
+<li><a href="#ch7-1" class="sub">7.1 표준 8필드 정의</a></li>
+<li><a href="#ch7-2" class="sub">7.2 추가 필드 사용 기준</a></li>
+<li><a href="#ch7-3" class="sub">7.3 매뉴얼 갱신 시점</a></li>
+<li><a href="#ch7-4" class="sub">7.4 다국어 작성 표준</a></li>
+<li><a href="#ch7-5" class="sub">7.5 화면 모달 표시 검증</a></li>
+<li><a href="#ch8">8. 외부 심사원 엑셀 동시 갱신</a></li>
+<li><a href="#ch8-1" class="sub">8.1 11개 시트 구조</a></li>
+<li><a href="#ch8-2" class="sub">8.2 동시 갱신 6단계</a></li>
+<li><a href="#ch8-3" class="sub">8.3 정합성 점검 자동화</a></li>
+<li><a href="#ch8-4" class="sub">8.4 표지 시트 버전 갱신</a></li>
+<li><a href="#ch8-5" class="sub">8.5 GitHub Pages 미러</a></li>
+<li><a href="#ch9">9. 외부 검증 대응</a></li>
+<li><a href="#ch9-1" class="sub">9.1 송부 전 체크리스트</a></li>
+<li><a href="#ch9-2" class="sub">9.2 자주 묻는 질문 20선</a></li>
+<li><a href="#ch9-3" class="sub">9.3 답변 패키지 표준</a></li>
+<li><a href="#ch9-4" class="sub">9.4 표기 금지 사항</a></li>
+<li><a href="#ch9-5" class="sub">9.5 매뉴얼·basis 활용법</a></li>
+</ul>
+</div>
+
+<div class="sidebar-section">
+<div class="sidebar-title">📕 Part 4: 시스템 관리 (Month 2+)</div>
+<ul class="toc-list">
+<li><a href="#ch10">10. 버전 관리 + 백업</a></li>
+<li><a href="#ch10-1" class="sub">10.1 대시보드 버전 정책</a></li>
+<li><a href="#ch10-2" class="sub">10.2 산출물 4종 동기화</a></li>
+<li><a href="#ch10-3" class="sub">10.3 Google Drive 자동 백업</a></li>
+<li><a href="#ch10-4" class="sub">10.4 outputs 폴더 관리</a></li>
+<li><a href="#ch10-5" class="sub">10.5 GitHub Pages 미러</a></li>
+<li><a href="#ch10-6" class="sub">10.6 백업 한도 + 수동</a></li>
+<li><a href="#ch11">11. 정보 매체 3종 + 메모리</a></li>
+<li><a href="#ch11-1" class="sub">11.1 지침 vs 메모리 vs 인계</a></li>
+<li><a href="#ch11-2" class="sub">11.2 정보 분류 원칙</a></li>
+<li><a href="#ch11-3" class="sub">11.3 메모리 갱신 절차</a></li>
+<li><a href="#ch11-4" class="sub">11.4 인계 프롬프트 작성</a></li>
+<li><a href="#ch11-5" class="sub">11.5 지침 버전업 시점</a></li>
+<li><a href="#ch12">12. 차년도 운영 + FY 전환</a></li>
+<li><a href="#ch12-1" class="sub">12.1 신규 회계연도 시작</a></li>
+<li><a href="#ch12-2" class="sub">12.2 FY26 이관 항목</a></li>
+<li><a href="#ch12-3" class="sub">12.3 신규 인디케이터 추가</a></li>
+<li><a href="#ch12-4" class="sub">12.4 6객체 정합성 작업</a></li>
+<li><a href="#ch12-5" class="sub">12.5 외부 검증사 변경</a></li>
+<li><a href="#ch12-6" class="sub">12.6 신규 담당자 인수인계</a></li>
+</ul>
+</div>
+
+<div class="sidebar-section">
+<div class="sidebar-title">📎 부록</div>
+<ul class="toc-list">
+<li><a href="#scripts">A. 검증 스크립트 모음</a></li>
+<li><a href="#appx-b">B. 도구 사용 가이드</a></li>
+<li><a href="#appx-c">C. 6객체 구조 명세</a></li>
+<li><a href="#appx-d">D. 사업장 담당자 연락처</a></li>
+<li><a href="#appx-e">E. 외부 검증사 답변 30선</a></li>
+<li><a href="#troubleshooting">F. Troubleshooting</a></li>
+<li><a href="#appx-g">G. 용어 사전 (한·영·중)</a></li>
+<li><a href="#appx-h">H. 참고 자료</a></li>
+<li><a href="#appx-i">I. 본 매뉴얼 변경 이력</a></li>
+</ul>
+</div>
+
+</aside>
+
+<main class="main" id="main-content">
+  <!-- ═══════════════════════════════════════════════ -->
+<!-- 빠른 시작 + Part 1: 입문 (1~3장) -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="quickstart" class="section-anchor">
+<h1>⚡ 빠른 시작 (Day 1)</h1>
+<p>대시보드를 처음 접한 신규 담당자를 위한 5분 가이드입니다. 본 매뉴얼 전체를 읽기 전에 우선 이 페이지로 핵심 작업 흐름을 이해하실 수 있습니다.</p>
+
+<div class="box-policy">
+<h4>당신이 해야 할 일</h4>
+<p>효성티앤씨 ESG경영팀의 환경 정량 데이터(57개 지표 × 15개 사업장 × 3개년)를 매년 수집·검수·발행하는 업무입니다. 본 대시보드는 그 작업의 단일 진실 원천(SSOT)입니다.</p>
+</div>
+
+<h3>3분 만에 익히는 핵심 용어</h3>
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td><code>RAW</code></td><td>각 사업장의 측정값 원본 데이터 (FY23·FY24·FY25 3개년)</td></tr>
+<tr><td><code>VERIFIED (V)</code></td><td>본사 검수 완료 후 ko/en/zh 다국어로 등록한 검증 자료</td></tr>
+<tr><td><code>NOT_APPLICABLE (NA)</code></td><td>구조적으로 해당 없음 (시설 부재·사업 유형 불일치 등)</td></tr>
+<tr><td><code>HQ_MANAGED</code></td><td>본사가 일괄 산출하는 11개 지표 (재고수불부·SAP 기반)</td></tr>
+<tr><td><code>SUBSIDIARY</code></td><td>각 사업장이 회신한 지표 (39개)</td></tr>
+</table>
+
+<h3>주요 마감일 4종</h3>
+<table>
+<tr><th>일자</th><th>이벤트</th></tr>
+<tr><td>5/8</td><td>외부 심사원 1차 제출</td></tr>
+<tr><td>5/11</td><td>외부 검증사 송부</td></tr>
+<tr><td>5월 말</td><td>외부 검증 의견 수령 + 정정 작업</td></tr>
+<tr><td>6월 초</td><td>지속가능경영보고서 발행</td></tr>
+</table>
+
+<h3>Day 1에 반드시 알아야 할 5가지</h3>
+<ol>
+<li><b>대시보드 직접 검증이 SSOT입니다.</b> 메모리 기록보다 대시보드가 우선합니다. (<a href="#ch5-1" class="cross-ref">§5.1</a>)</li>
+<li><b>위험도 사전 합의는 의무입니다.</b> A·B·C 위험도 분류 후 사용자 합의 받고 진행. (<a href="#ch6-1" class="cross-ref">§6.1</a>)</li>
+<li><b>본사 행번호 ≠ 대시보드 idx입니다.</b> 단순 +56이 아니라 점프 발생. (<a href="#ch3-4" class="cross-ref">§3.4</a>)</li>
+<li><b>다국어 작성은 필수입니다.</b> V/NA 등록 시 ko/en/zh 3개 언어 모두 작성. (<a href="#ch6-4" class="cross-ref">§6.4</a>)</li>
+<li><b>외부 심사원 엑셀 동시 갱신.</b> 대시보드 변경 시 엑셀도 동시 갱신. (<a href="#ch8" class="cross-ref">§8</a>)</li>
+</ol>
+
+<div class="box-warning">
+<h4>주의 사항</h4>
+<p>본 매뉴얼은 <b>2026-05-03 대시보드 v98 기준</b>으로 작성되었습니다. 차후 버전업 시 매뉴얼도 동시 갱신해야 합니다.</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 1장. 매뉴얼 소개 + 대시보드 목적 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch1" class="section-anchor">
+<h1>1장. 매뉴얼 소개 + 대시보드 목적</h1>
+
+<section id="ch1-1" class="section-anchor">
+<h2>1.1 본 매뉴얼 활용 방법</h2>
+
+<p>본 매뉴얼은 효성티앤씨 ESG경영팀의 환경 정량 데이터 검수 대시보드 운영을 위한 종합 가이드입니다. 신규 담당자가 0부터 시작하여 외부 검증 대응까지 자력으로 수행할 수 있도록 설계되었습니다.</p>
+
+<h3>독자 단계별 학습 경로</h3>
+
+<table>
+<tr><th>단계</th><th>독자 수준</th><th>학습 대상</th></tr>
+<tr><td>Day 1-7</td><td>처음 접하는 신규 담당자</td><td>Part 1 (입문) 1~3장 + 빠른 시작</td></tr>
+<tr><td>Week 2-4</td><td>기본 조작 가능, 정책 학습 중</td><td>Part 2 (운영) 4~6장</td></tr>
+<tr><td>Month 2+</td><td>외부 검증 대응 가능</td><td>Part 3·4 + 부록 전체</td></tr>
+</table>
+
+<h3>본 매뉴얼 구성 (12장 + 9개 부록)</h3>
+
+<ul>
+<li><b>Part 1: 입문</b> (1~3장) — 대시보드가 무엇이고 왜 만들었는지</li>
+<li><b>Part 2: 운영</b> (4~6장) — 매일·매주 작업 절차</li>
+<li><b>Part 3: 검증</b> (7~9장) — 외부 검증 대응</li>
+<li><b>Part 4: 관리</b> (10~12장) — 시스템 관리 + 인수인계</li>
+<li><b>부록 A~I</b> — 검증 스크립트·6객체 명세·FAQ·Troubleshooting 등</li>
+</ul>
+
+<h3>매뉴얼 사용 팁</h3>
+
+<ul>
+<li>좌측 사이드바로 챕터별 이동 가능 (마우스 클릭 또는 검색 박스 활용)</li>
+<li>상단 검색 박스에서 키워드 입력 (Ctrl+F 단축키 지원)</li>
+<li>인쇄 버튼으로 종이 출력본 생성 가능</li>
+<li>본문 중 <span class="cross-ref">§N</span> 표시는 다른 챕터 참조 링크</li>
+<li>본문 중 <span class="tag tag-risk-a">위험도 A</span> 표시는 작업 위험도 등급</li>
+</ul>
+
+<div class="box-policy">
+<h4>왜 매뉴얼이 필요한가?</h4>
+<p>본 대시보드는 약 1.5MB·50개 지표·15개 사업장·3개년·6개 객체로 구성된 복잡한 시스템입니다. 매년 5월 외부 검증 송부 시점에 신규 담당자가 인수인계받을 경우, 본 매뉴얼 없이는 정책·절차·표기 원칙을 학습하는 데만 수개월이 소요됩니다. 본 매뉴얼은 이 학습 곡선을 1주일로 단축하는 것이 목적입니다.</p>
+</div>
+</section>
+
+<section id="ch1-2" class="section-anchor">
+<h2>1.2 대시보드 탄생 배경</h2>
+
+<p>효성티앤씨 ESG 환경 검수 대시보드는 FY2025 지속가능경영보고서 작성 과정에서 발생한 다음 문제를 해결하기 위해 개발되었습니다.</p>
+
+<h3>기존 방식의 한계</h3>
+
+<table>
+<tr><th>문제</th><th>구체 사례</th></tr>
+<tr><td>엑셀 기반 단일 워크북 한계</td><td>15개 사업장 × 57개 지표 × 3개년 = 2,565개 셀, 시각 검수 불가</td></tr>
+<tr><td>법인 회신 데이터 통합 불일치</td><td>SEMS·연보·자체 측정값 출처별 차이, 통화·단위 비대칭</td></tr>
+<tr><td>외부 검증사 답변 일관성 부재</td><td>매 질의마다 본사 ESG경영팀 즉답 어려움, 답변 신뢰성 저하</td></tr>
+<tr><td>YoY 이상치 자동 검출 불가</td><td>사람 시각으로는 322배 급감 같은 이상치 누락 가능</td></tr>
+<tr><td>다국어 답변 작성 부담</td><td>법인별 한·중·영 회신 패턴 통합 어려움</td></tr>
+</table>
+
+<h3>대시보드의 해결책</h3>
+
+<ul>
+<li><b>단일 진실 원천(SSOT)</b> — 모든 RAW·V·NA 데이터를 단일 HTML 파일로 통합 관리</li>
+<li><b>4종 상태 색상 자동 표시</b> — 검수 완료·미입력·이상치·NA를 시각적으로 즉시 식별</li>
+<li><b>YoY 이상치 자동 검출</b> — ±30% 초과 시 빨간색 경고 표시</li>
+<li><b>다국어 V/NA 툴팁</b> — ko/en/zh 마우스 오버로 즉시 답변 자료 확인</li>
+<li><b>INDICATOR_MANUAL 모달</b> — 50개 지표 정의·산출 절차 즉시 참조</li>
+<li><b>버전 관리</b> — vNN 단순 정수 증가로 변경 이력 영구 보존</li>
+</ul>
+
+<div class="box-success">
+<h4>운영 성과 (v98 기준)</h4>
+<ul>
+<li>VERIFIED 등록 456건 + NOT_APPLICABLE 등록 235건 = 691건 다국어 검증 완료</li>
+<li>INDICATOR_MANUAL 50/50 표준 8필드 100% 완비</li>
+<li>외부 심사원 엑셀 11개 시트 정합성 ALL PASS</li>
+<li>외부 검증 답변 시간 추정 절감: 메일·구두 답변 50% 이상 감소</li>
+</ul>
+</div>
+</section>
+
+<section id="ch1-3" class="section-anchor">
+<h2>1.3 보고서 작성 프로세스 + 외부 검증 흐름</h2>
+
+<p>지속가능경영보고서 환경 정량 데이터 작성은 다음 5단계 프로세스를 거칩니다.</p>
+
+<h3>전체 프로세스</h3>
+
+<ol>
+<li><b>1단계 (1~3월): 데이터 수집</b>
+<ul>
+<li>본사 ESG경영팀이 15개 사업장에 본사 제공 템플릿 발송</li>
+<li>각 법인이 환경 정량 데이터 (57개 지표 × 3개년) 회신</li>
+<li>본사가 SAP 재고수불부·G/L에서 HQ_MANAGED 11개 지표 자체 산출</li>
+</ul>
+</li>
+<li><b>2단계 (3~4월): 데이터 검수</b>
+<ul>
+<li>법인 회신 엑셀 7단계 점검 절차 (<a href="#ch5-1" class="cross-ref">§5.1</a>)</li>
+<li>YoY 이상치 검출 + 법인 추가 질의</li>
+<li>RAW·V·NA 등록 표준 절차 (<a href="#ch6" class="cross-ref">§6</a>)</li>
+</ul>
+</li>
+<li><b>3단계 (4월 말): 본사 일괄 산출</b>
+<ul>
+<li>재고수불부 기반 11개 HQ_MANAGED 지표 산출 (행85·86·87·88·89·90·91·92·93·103·112)</li>
+<li>매칭 엔진 v2 (R103) + R090 v4 적용</li>
+</ul>
+</li>
+<li><b>4단계 (5월 초): 외부 심사원 제출</b>
+<ul>
+<li>5/8 외부 심사원 엑셀 1차 제출</li>
+<li>11개 시트 정합성 점검 후 발송</li>
+</ul>
+</li>
+<li><b>5단계 (5월 중): 외부 검증사 송부</b>
+<ul>
+<li>5/11 외부 검증사 송부 (대시보드 + 외부 심사원 엑셀 + 증빙 자료)</li>
+<li>5월 말 외부 검증 의견 수령 + 정정 작업</li>
+<li>6월 초 지속가능경영보고서 발행</li>
+</ul>
+</li>
+</ol>
+
+<h3>외부 검증 흐름</h3>
+
+<p>외부 검증사는 GRI Standards + ISAE 3000 기준에 따라 다음 순서로 검증을 진행합니다.</p>
+
+<ol>
+<li><b>대시보드 + 외부 심사원 엑셀 수령</b> → 11개 시트 + 50개 지표 ↔ 매칭 확인</li>
+<li><b>RAW 데이터 ↔ 증빙 자료 교차 검증</b> → 법인 제출값 ↔ 정부 공식 문서 ↔ SAP 자체 산출 일관성 점검</li>
+<li><b>V/NA basis 텍스트 검토</b> → 다국어 ko/en/zh 일관성 + 산출 정의 명확성</li>
+<li><b>이상치·갭 항목 질의</b> → YoY 이상치·일부 미등록·법인 회신 차이 답변 요구</li>
+<li><b>의견서 발급</b> → 한정의견 또는 적정의견</li>
+</ol>
+
+<div class="box-warning">
+<h4>외부 검증사 자주 묻는 질문 유형</h4>
+<ul>
+<li>RAW 값의 출처 (정부 공식 문서·법인 자체 측정·SAP 산출 중 어느 것인가?)</li>
+<li>YoY 이상치 사유 (예: 닝샤 행75 용수 재활용 269,116% 폭증 → C11 신증설)</li>
+<li>NA 등록 사유 (구조적 부재·사업 유형 불일치 등 명확한 근거)</li>
+<li>다국어 답변 일관성 (ko·en·zh 동일 정보 여부)</li>
+<li>HQ_MANAGED 산출 절차 (재고수불부 ↔ 매칭 엔진 ↔ GHS 마스터 매핑)</li>
+</ul>
+</div>
+</section>
+
+<section id="ch1-4" class="section-anchor">
+<h2>1.4 ESG경영팀 담당자 역할 + 책임 범위</h2>
+
+<p>대시보드 담당자는 다음 5종 책임을 가집니다.</p>
+
+<h3>역할 1: 데이터 검수자</h3>
+<ul>
+<li>법인 회신 데이터 정확성 확인 (7단계 점검 절차)</li>
+<li>YoY 이상치·일부 미등록 검출 + 추가 질의</li>
+<li>본사 일괄 산출 11개 지표 (재고수불부·SAP 기반) 산출</li>
+</ul>
+
+<h3>역할 2: 정책 결정자</h3>
+<ul>
+<li>NA 등록 사유 판정 (3단계 분류)</li>
+<li>환경비용 세전·세후 분류 결정</li>
+<li>FY26 이관 항목 결정 (예: 행97 환경 부담금)</li>
+</ul>
+
+<h3>역할 3: 외부 검증 답변 작성자</h3>
+<ul>
+<li>V/NA basis 텍스트 작성 (다국어 ko·en·zh)</li>
+<li>INDICATOR_MANUAL 8필드 작성 + 갱신</li>
+<li>외부 검증사 사전 정리 답변 패키지 작성</li>
+</ul>
+
+<h3>역할 4: 시스템 관리자</h3>
+<ul>
+<li>대시보드 버전 관리 (vNN 정수 증가)</li>
+<li>외부 심사원 엑셀 동시 갱신</li>
+<li>Google Drive 자동 백업 + 메모리·지침 동기화</li>
+</ul>
+
+<h3>역할 5: 인수인계 작성자</h3>
+<ul>
+<li>인계 프롬프트 작성 (세션 종료 시)</li>
+<li>차년도 신규 담당자 학습 자료 보강</li>
+<li>본 매뉴얼 갱신</li>
+</ul>
+
+<div class="box-policy">
+<h4>책임 범위 명확화</h4>
+<ul>
+<li><b>본인이 직접 결정 가능</b>: RAW 정정 (위험도 A 사전 합의 후), V/NA basis 작성, 메모리 갱신</li>
+<li><b>팀장 합의 필요</b>: NA 일괄 등록 정책 변경, FY 이관 항목 결정</li>
+<li><b>임원 승인 필요</b>: 외부 검증 의견서 대응 정책, 신규 보고경계 추가</li>
+</ul>
+</div>
+</section>
+
+<section id="ch1-5" class="section-anchor">
+<h2>1.5 핵심 마감일</h2>
+
+<p>매년 4~6월에 집중되는 핵심 마감일은 다음과 같습니다.</p>
+
+<table>
+<tr><th>일자</th><th>이벤트</th><th>담당자 작업</th></tr>
+<tr><td>3월 초</td><td>법인 회신 템플릿 발송</td><td>15개 사업장에 본사 제공 템플릿 일괄 메일</td></tr>
+<tr><td>3월 말</td><td>법인 회신 데이터 마감</td><td>회신 누락 사업장 추가 독촉</td></tr>
+<tr><td>4월 초</td><td>RAW 등록 + 검수 시작</td><td>7단계 점검 절차 적용</td></tr>
+<tr><td>4월 중</td><td>본사 일괄 산출 완료</td><td>HQ_MANAGED 11건 산출</td></tr>
+<tr><td>4월 말</td><td>1차 V/NA 등록 마감</td><td>전체 V/NA 등록 80% 이상 완료</td></tr>
+<tr><td><b>5/8</b></td><td><b>외부 심사원 1차 제출</b></td><td>외부 심사원 엑셀 발송 (11개 시트)</td></tr>
+<tr><td><b>5/11</b></td><td><b>외부 검증사 송부</b></td><td>대시보드 + 엑셀 + 증빙 자료 송부</td></tr>
+<tr><td>5월 중</td><td>외부 검증 의견 수령</td><td>지적 사항 답변 패키지 작성</td></tr>
+<tr><td>5월 말</td><td>최종 정정 + 발행 준비</td><td>대시보드 최종 vNN 발행</td></tr>
+<tr><td>6월 초</td><td>지속가능경영보고서 발행</td><td>대외 공시</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>마감 임박 시 우선순위</h4>
+<ol>
+<li>외부 검증사 즉시 지적 가능 항목 (3년 모두 미등록·NA 미등록 RAW null)</li>
+<li>YoY 이상치 미해소 항목</li>
+<li>다국어 V basis 미작성 항목</li>
+<li>외부 심사원 엑셀 ↔ 대시보드 정합성</li>
+</ol>
+</div>
+
+<div class="checklist">
+<h4>1장 점검 체크리스트</h4>
+<ul>
+<li>본 매뉴얼이 4개 Part + 9개 부록으로 구성되었음을 안다</li>
+<li>대시보드 탄생 배경 5종 문제를 설명할 수 있다</li>
+<li>지속가능경영보고서 작성 5단계 프로세스를 안다</li>
+<li>담당자 5종 역할을 안다</li>
+<li>핵심 마감일 5/8·5/11을 기억한다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 2장. 화면 구조 + 기본 조작 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch2" class="section-anchor">
+<h1>2장. 화면 구조 + 기본 조작</h1>
+
+<section id="ch2-1" class="section-anchor">
+<h2>2.1 헤더·메타 정보</h2>
+
+<p>대시보드 상단 헤더에는 다음 정보가 표시됩니다.</p>
+
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│ 효성티앤씨 ESG 환경 검수 대시보드                          │
+│ FY2023 – FY2025 · 보고경계 15 사업장 · 50개 지표         │
+│ v98 (2026-05-03) · V 456 / NA 235 · 마감: 외부 5/8     │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+<table>
+<tr><th>항목</th><th>의미</th></tr>
+<tr><td>대시보드명</td><td>효성티앤씨 ESG 환경 검수 대시보드</td></tr>
+<tr><td>보고 기간</td><td>FY2023 – FY2025 (3개년)</td></tr>
+<tr><td>보고경계</td><td>15개 사업장 (재무/자산소유 통제 기준)</td></tr>
+<tr><td>지표 수</td><td>50개 (idx 0~49, 행56~행112 — 행107~110 결락)</td></tr>
+<tr><td>버전</td><td>vNN (작업당 +1, 메모리 §5.6 정책)</td></tr>
+<tr><td>V/NA 카운트</td><td>실시간 등록 건수 (직접 검증 권고)</td></tr>
+<tr><td>마감일</td><td>외부 심사원 1차 제출일·외부 검증 송부일</td></tr>
+</table>
+</section>
+
+<section id="ch2-2" class="section-anchor">
+<h2>2.2 메인 화면 4종</h2>
+
+<p>대시보드는 4종 화면으로 구성됩니다.</p>
+
+<h3>화면 1: 법인별 조회</h3>
+<ul>
+<li>좌측 사이드바에서 사업장 선택 (15개)</li>
+<li>우측에 해당 사업장의 50개 지표 × 3개년 데이터 표시</li>
+<li>각 지표명 옆 상태 아이콘 (✓·!·⚠·─)</li>
+<li>지표명 위 마우스 오버 시 V/NA 다국어 툴팁 표시</li>
+<li>지표명 옆 ⓘ/📖 아이콘 클릭 시 INDICATOR_MANUAL 모달 표시</li>
+</ul>
+
+<h3>화면 2: 지표별 비교</h3>
+<ul>
+<li>상단에서 지표 선택 (50개)</li>
+<li>15개 사업장 × 3개년 비교 표 표시</li>
+<li>사업장명 옆 상태 아이콘</li>
+<li>사업장명 위 마우스 오버 시 V/NA 툴팁 표시</li>
+</ul>
+
+<h3>화면 3: 전체 그리드</h3>
+<ul>
+<li>50개 지표 × 15개 사업장 = 750개 셀 한 화면 표시</li>
+<li>색상으로 상태 즉시 식별 가능</li>
+<li>YoY 이상치·일부 미등록 위치 시각적 검출</li>
+</ul>
+
+<h3>화면 4: INDICATOR_MANUAL 모달</h3>
+<ul>
+<li>표준 8필드 표시 (정의·포함·제외·기준일·증빙·참조·판단흐름도·최종갱신)</li>
+<li>다국어 ko/en/zh 전환 가능</li>
+<li>외부 검증사 답변 시 즉시 참조 가능</li>
+</ul>
+</section>
+
+<section id="ch2-3" class="section-anchor">
+<h2>2.3 상태 색상 4종</h2>
+
+<table>
+<tr><th>상태</th><th>색상</th><th>코드</th><th>정의</th></tr>
+<tr><td>✓ 검수 완료</td><td>녹색</td><td>#ecfdf5</td><td>데이터 정상 또는 이상치 사유 확인 완료</td></tr>
+<tr><td>! 2025 미입력</td><td>노란색</td><td>#fef3c7</td><td>과거 데이터 있으나 2025년 값 누락</td></tr>
+<tr><td>⚠ YoY 이상치</td><td>빨간색</td><td>#fee2e2</td><td>전년 대비 ±30% 초과, 미해소</td></tr>
+<tr><td>─ N/A</td><td>회색</td><td>#f1f5f9</td><td>구조적 해당 없음</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>주의: 엑셀 셀 배경색과 별도 체계</h4>
+<p>외부 심사원 엑셀의 셀 배경색 (FF92D050 녹색·FFFFC000 주황·FFFFFF00 노랑)은 본 대시보드 상태 색상과 별도 체계입니다. 혼동 금지.</p>
+</div>
+</section>
+
+<section id="ch2-4" class="section-anchor">
+<h2>2.4 다국어 전환 (ko/en/zh)</h2>
+
+<p>대시보드는 한국어·영어·중국어 3개 언어를 지원합니다.</p>
+
+<ul>
+<li>UI 텍스트 (메뉴·버튼·상태 표시) — LANG 객체로 관리</li>
+<li>V/NA basis 텍스트 — VERIFIED·NOT_APPLICABLE 객체에 다국어 동시 등록</li>
+<li>INDICATOR_MANUAL 8필드 — definition·include·exclude 등 다국어 동시 작성</li>
+</ul>
+
+<h3>다국어 작성 표준</h3>
+<ul>
+<li>ko: 한국어 (본사 기본 언어)</li>
+<li>en: 영어 (외부 검증사 기본 언어)</li>
+<li>zh: 중국어 (중국 7개 사업장 + 외부 검증사 중문 답변)</li>
+</ul>
+
+<div class="box-policy">
+<h4>다국어 작성 원칙</h4>
+<p>다국어 ko·en·zh 3개 언어는 100% 동일 정보를 담아야 합니다 (1:1 번역). 영어·중국어 V basis 작성 시 한국어를 기계 번역하지 말고, 자연스러운 비즈니스 톤으로 작성합니다.</p>
+</div>
+</section>
+
+<section id="ch2-5" class="section-anchor">
+<h2>2.5 INDICATOR_MANUAL 모달 (ⓘ/📖 아이콘 클릭)</h2>
+
+<p>각 지표명 옆에 표시되는 ⓘ 또는 📖 아이콘을 클릭하면 해당 지표의 산출 매뉴얼 모달이 표시됩니다.</p>
+
+<h3>모달 표시 8필드</h3>
+
+<ol>
+<li><b>정의 (definition)</b> — 지표의 본질적 정의</li>
+<li><b>포함 기준 (include)</b> — 산출 대상 항목</li>
+<li><b>제외 기준 (exclude)</b> — 산출 비대상 항목</li>
+<li><b>기준일 (cutoff)</b> — 보고연도 1.1~12.31 등</li>
+<li><b>증빙 출처 (evidence)</b> — 재고수불부·SAP·인보이스 등</li>
+<li><b>참조 (gri)</b> — GRI 305-7 등 표준 매핑</li>
+<li><b>산출 의사결정 트리 (decisionTree)</b> — 단계별 산출 절차</li>
+<li><b>최종 갱신 (updated)</b> — 매뉴얼 최종 수정 일자</li>
+</ol>
+
+<h3>외부 검증 활용</h3>
+<p>외부 검증사가 "왜 이 지표를 이렇게 산출했는가?" 질의 시 모달만 보여주면 즉시 답변 가능합니다. 자세한 운영 정책은 <a href="#ch7" class="cross-ref">§7</a>장 참조.</p>
+
+<div class="box-success">
+<h4>v97 (2026-05-03) 표준화 완료</h4>
+<p>50/50 인디케이터 모두 표준 8필드 100% 완비. 다국어 ko/en/zh 일관성 100% 확보.</p>
+</div>
+</section>
+
+<section id="ch2-6" class="section-anchor">
+<h2>2.6 V/NA 툴팁 조회</h2>
+
+<p>지표명 또는 사업장명 위에 마우스를 올리면 다국어 V/NA 툴팁이 표시됩니다.</p>
+
+<h3>V 툴팁 표시 항목</h3>
+<ul>
+<li>confirmed: 확정값 요약 (1줄)</li>
+<li>basis: 검증 근거 (배열, 보통 3-5개)</li>
+<li>meta: 등록·정정 이력 (선택)</li>
+</ul>
+
+<h3>NA 툴팁 표시 항목</h3>
+<ul>
+<li>confirmed: NA 확정 + 사유 요약</li>
+<li>basis: NA 등록 근거 (배열, 보통 3-4개)</li>
+</ul>
+
+<div class="box-policy">
+<h4>툴팁 작성 원칙</h4>
+<p>툴팁은 외부 검증사가 즉시 답변 자료로 활용 가능해야 합니다. 추상적 표현 지양, 구체 사실·증빙 출처·정책 근거 명시 필수.</p>
+</div>
+
+<div class="checklist">
+<h4>2장 점검 체크리스트</h4>
+<ul>
+<li>대시보드 헤더 7종 정보를 안다</li>
+<li>메인 화면 4종 (법인별·지표별·전체 그리드·매뉴얼 모달) 차이를 안다</li>
+<li>상태 색상 4종 (✓·!·⚠·─) 의미를 안다</li>
+<li>다국어 ko/en/zh 작성 원칙 (1:1 번역) 을 안다</li>
+<li>INDICATOR_MANUAL 8필드를 외울 수 있다</li>
+<li>임의 사업장의 임의 지표 V basis를 5초 안에 조회할 수 있다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 3장. 핵심 용어 사전 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch3" class="section-anchor">
+<h1>3장. 핵심 용어 사전</h1>
+
+<section id="ch3-1" class="section-anchor">
+<h2>3.1 RAW vs VERIFIED vs NOT_APPLICABLE 차이</h2>
+
+<p>대시보드 6객체 중 데이터 핵심 3종 객체의 역할 구분입니다.</p>
+
+<h3>RAW</h3>
+<ul>
+<li><b>역할</b>: 각 사업장의 측정값 원본 데이터</li>
+<li><b>구조</b>: <code>{ "사업장명": [FY2023값, FY2024값, FY2025값] }</code></li>
+<li><b>값 유형</b>: 숫자 (실측값) 또는 null (미입력) 또는 0 (실적 없음)</li>
+<li><b>변경 빈도</b>: 법인 회신 또는 정정 시</li>
+<li><b>위험도</b>: 정정 시 위험도 A (백업·검증 필수)</li>
+</ul>
+
+<h3>VERIFIED (V)</h3>
+<ul>
+<li><b>역할</b>: 본사 검수 완료 후 등록한 검증 자료 (다국어 ko/en/zh)</li>
+<li><b>구조</b>: <code>{ "사업장명:지표명": { ko: {confirmed, basis, meta}, en: {...}, zh: {...} } }</code></li>
+<li><b>키 형식</b>: <code>"사업장명:지표명"</code> (콜론으로 결합)</li>
+<li><b>변경 빈도</b>: 신규 등록 또는 basis 갱신 시</li>
+<li><b>위험도</b>: 신규 등록·basis 갱신 시 위험도 A</li>
+</ul>
+
+<h3>NOT_APPLICABLE (NA)</h3>
+<ul>
+<li><b>역할</b>: 구조적으로 해당 없음 (시설 부재·사업 유형 불일치 등)</li>
+<li><b>구조</b>: V와 동일 (<code>"사업장명:지표명": { ko, en, zh }</code>)</li>
+<li><b>RAW 값</b>: null 또는 0 (NA 등록 시 RAW 정합성 점검 필수)</li>
+<li><b>변경 빈도</b>: 신규 등록 또는 사유 갱신 시</li>
+<li><b>위험도</b>: 신규 등록 시 위험도 A</li>
+</ul>
+
+<div class="box-danger">
+<h4>핵심 원칙</h4>
+<p>V·NA 동일 키 동시 등록 금지 (충돌 방지). V 등록 후 NA 변경 시 V 삭제 의무.</p>
+</div>
+</section>
+
+<section id="ch3-2" class="section-anchor">
+<h2>3.2 0 vs null vs N/A 데이터 상태 구분</h2>
+
+<p>RAW 데이터 상태 3종은 의미가 다릅니다. 혼동 시 외부 검증사 즉시 지적 가능.</p>
+
+<table>
+<tr><th>상태</th><th>의미</th><th>대시보드 표시</th><th>예시</th></tr>
+<tr><td><b>0</b></td><td>측정·관리하나 실적 없음</td><td>검정 "0"</td><td>법규 위반 건수 0건, 환경 부담금 0원</td></tr>
+<tr><td><b>null</b></td><td>해당 없음 또는 미입력</td><td>회색 "—"</td><td>측정 자료 미회신, 시설 부재로 측정 불가</td></tr>
+<tr><td><b>N/A</b></td><td>구조적 해당 없음 (NA 등록)</td><td>회색 "─"</td><td>가흥무역 = 무역법인이라 폐기물 측정 불가</td></tr>
+</table>
+
+<h3>N/A 판정 3단계</h3>
+
+<ol>
+<li><b>1단계 즉시 전환</b>: 시설·인프라 부재, 사업 유형 불일치, 측정 대상 외
+<ul>
+<li>예: 취저우스판 행74 지하수 → 지하수 취수 시설 부재</li>
+<li>예: 가흥무역 폐기물 지표 → 무역법인이라 제조 활동 부재</li>
+</ul>
+</li>
+<li><b>2단계 0 유지</b>: 실적 미발생이 유의미한 지표
+<ul>
+<li>예: 법규 위반 건수 0건 → 잘 관리되고 있음을 시사</li>
+<li>예: 환경 부담금 0원 → 비용 미발생을 명시</li>
+</ul>
+</li>
+<li><b>3단계 법인 확인</b>: 동일 유형 법인 간 0/VALUE 차이가 있어 판단 유보
+<ul>
+<li>예: A·B·C 법인 모두 동일 시설 보유, A·B는 측정값 있는데 C만 0</li>
+<li>이런 경우 C 법인에 측정 여부 추가 질의 필요</li>
+</ul>
+</li>
+</ol>
+
+<div class="box-warning">
+<h4>실수 방지 팁</h4>
+<p>"0이 아니라 null 아닌가요?" 질의는 외부 검증사가 자주 합니다. 의심스러운 경우 RAW 정정 + V/NA basis에 정확한 의미 명시.</p>
+</div>
+</section>
+
+<section id="ch3-3" class="section-anchor">
+<h2>3.3 SUBSIDIARY vs HQ_MANAGED tier</h2>
+
+<p>50개 지표는 산출 주체에 따라 2종 tier로 분류됩니다.</p>
+
+<h3>SUBSIDIARY (39건)</h3>
+<ul>
+<li><b>산출 주체</b>: 각 사업장 (법인 회신)</li>
+<li><b>산출 방식</b>: 사업장 자체 측정·SEMS·정부 보고서 등</li>
+<li><b>본사 역할</b>: 회신 데이터 검수 + V/NA 등록</li>
+<li><b>예</b>: 행56~행84 (폐기물·대기·수자원·폐수·수질), 행99·행104·행105·행106 (자동차·R&D 등)</li>
+</ul>
+
+<h3>HQ_MANAGED (11건)</h3>
+<ul>
+<li><b>산출 주체</b>: 본사 ESG경영팀</li>
+<li><b>산출 방식</b>: SAP 재고수불부·G/L·매칭 엔진 자체 산출</li>
+<li><b>본사 역할</b>: 산출 → RAW 입력 → V 등록 (모두 본사가)</li>
+<li><b>지표 11건</b>: 행85·86·87·88·89·90·91·92·93·103·112</li>
+<li><b>현황 (v98)</b>: 산출 완료 10건, 대기 1건 (행93 포장재 단위중량 정보 부족)</li>
+</ul>
+
+<table>
+<tr><th>행번호</th><th>지표</th><th>산출 정의</th></tr>
+<tr><td>행85</td><td>친환경 제품 판매 실적</td><td>사업부 매출 자료 (리젠+리젠테크)</td></tr>
+<tr><td>행86</td><td>총 제품 판매 실적</td><td>사업부 매출 자료 (한국 = 본사 섬유 사업부 합)</td></tr>
+<tr><td>행87</td><td>친환경 제품 구매 실적</td><td>재고수불부 BIO/RECYCLED 자체 분류</td></tr>
+<tr><td>행88</td><td>총 제품 구매 실적</td><td>재고수불부 VC 3000+3010+4000 입고 금액</td></tr>
+<tr><td>행89</td><td>재생가능 원료 사용량</td><td>BIO 원료</td></tr>
+<tr><td>행90</td><td>재활용된 원료 사용량</td><td>R090 v4 매칭 엔진 (VC 3000)</td></tr>
+<tr><td>행91</td><td>회수된 솔벤트 사용량</td><td>DMAc 자체회수 = 총사용 − Fresh Make-up</td></tr>
+<tr><td>행92</td><td>재생 불가능한 원료 사용량</td><td>VC 3000+3010+VC4000 사용중량</td></tr>
+<tr><td>행93</td><td>포장재 총 출하량</td><td>SAP EA → 단위 중량 적용 ton 환산 (대기)</td></tr>
+<tr><td>행103</td><td>유해화학물질 사용량</td><td>매칭 엔진 v2 + GHS 8차 140종 CAS</td></tr>
+<tr><td>행112</td><td>환경 법규 위반 벌금</td><td>SAP G/L 53119900 자체 추출</td></tr>
+</table>
+</section>
+
+<section id="ch3-4" class="section-anchor">
+<h2>3.4 본사 행번호 vs 대시보드 idx (점프 매핑)</h2>
+
+<div class="box-danger">
+<h4>핵심 주의 사항</h4>
+<p>본사 보고 템플릿 행번호와 대시보드 인덱스(idx)는 <b>단순 +56 매핑이 아닙니다</b>. 행100~102 + 행107~110에 점프 발생.</p>
+</div>
+
+<table>
+<tr><th>idx 범위</th><th>본사 행번호</th><th>카테고리</th><th>비고</th></tr>
+<tr><td>0~28</td><td>행56~행84</td><td>폐기물·대기·수자원·폐수·수질</td><td>29개, 직선 매핑</td></tr>
+<tr><td>29</td><td>행85</td><td>친환경 제품 판매 실적</td><td>—</td></tr>
+<tr><td>30</td><td>행86</td><td>총 제품 판매 실적</td><td>—</td></tr>
+<tr><td>31~38</td><td>행87~행94</td><td>구매·원료·포장재</td><td>8개</td></tr>
+<tr><td>39~43</td><td>행95~행99</td><td>환경 비용·투자</td><td>5개</td></tr>
+<tr><td><b>44</b></td><td><b>행103</b></td><td>유해화학물질 사용량</td><td>⚠ 행100~102 점프</td></tr>
+<tr><td>45</td><td>행104</td><td>화학물질 배출량</td><td>—</td></tr>
+<tr><td>46</td><td>행105</td><td>환경친화적 자동차 보유 대수</td><td>—</td></tr>
+<tr><td>47</td><td>행106</td><td>전체 자동차 보유 대수</td><td>—</td></tr>
+<tr><td><b>48</b></td><td><b>행111</b></td><td>환경 법규 위반 건수</td><td>⚠ 행107~110 점프</td></tr>
+<tr><td>49</td><td>행112</td><td>환경 법규 위반 벌금</td><td>—</td></tr>
+</table>
+
+<h3>외부 심사원 엑셀 시트명 매핑</h3>
+<ul>
+<li>엑셀 [행103] 시트 = 대시보드 idx 44 (유해화학물질 사용량)</li>
+<li>엑셀 [행112] 시트 = 대시보드 idx 49 (환경 법규 위반 벌금)</li>
+</ul>
+
+<div class="box-warning">
+<h4>실수 방지 팁</h4>
+<p>"행104 = idx 48"로 자동 적용하면 잘못된 지표를 선택합니다 (실제는 idx 45). 항상 라벨 직접 검색으로 확인.</p>
+</div>
+</section>
+
+<section id="ch3-5" class="section-anchor">
+<h2>3.5 GRI Standards 기본 개념</h2>
+
+<p>GRI(Global Reporting Initiative) Standards는 글로벌 지속가능성 보고 가이드라인입니다. 효성티앤씨 환경 정량 지표는 GRI 최신 버전(2021)을 우선 적용합니다.</p>
+
+<h3>주요 GRI 표준 (환경 영역)</h3>
+
+<table>
+<tr><th>표준</th><th>주제</th><th>해당 지표</th></tr>
+<tr><td>GRI 301</td><td>원재료 (Materials)</td><td>행87·89·90·91·92</td></tr>
+<tr><td>GRI 303</td><td>물·폐수 (Water and Effluents)</td><td>행71·72·73·74·75·76·77·78·79·80·81·82·83·84</td></tr>
+<tr><td>GRI 305</td><td>배출 (Emissions)</td><td>행64·65·66·67·68·69·70·104</td></tr>
+<tr><td>GRI 306</td><td>폐기물 (Waste)</td><td>행56·57·58·59·60·61·62·63</td></tr>
+<tr><td>GRI 2-27</td><td>법규 준수 (Compliance)</td><td>행111·112</td></tr>
+</table>
+
+<h3>GRI 요구 수준 3종</h3>
+
+<ul>
+<li><b>shall</b>: 반드시 보고해야 함 (의무)</li>
+<li><b>should</b>: 보고하는 것이 권장됨</li>
+<li><b>can</b>: 보고할 수 있음 (선택)</li>
+</ul>
+
+<div class="box-policy">
+<h4>효성 자체 지표</h4>
+<p>GRI에 명시되지 않은 일부 지표 (예: 행85·86 친환경 매출, 행99 환경 R&D)는 효성 자체 보고 프레임워크 기준으로 작성합니다. INDICATOR_MANUAL gri 필드에 "효성 자체 지표" 명시.</p>
+</div>
+</section>
+
+<section id="ch3-6" class="section-anchor">
+<h2>3.6 자주 등장하는 용어 50선</h2>
+
+<p>본 매뉴얼에서 자주 등장하는 핵심 용어를 카테고리별로 정리합니다.</p>
+
+<h3>대시보드 시스템</h3>
+
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td>SSOT (Single Source of Truth)</td><td>단일 진실 원천 — 대시보드 HTML이 SSOT</td></tr>
+<tr><td>RAW</td><td>각 사업장 측정값 원본</td></tr>
+<tr><td>VERIFIED (V)</td><td>본사 검수 완료 + 다국어 등록</td></tr>
+<tr><td>NOT_APPLICABLE (NA)</td><td>구조적 해당 없음</td></tr>
+<tr><td>INDICATOR_MANUAL</td><td>지표별 산출 매뉴얼 객체 (let 선언)</td></tr>
+<tr><td>ROW_MAP</td><td>행번호↔라벨 매핑 객체</td></tr>
+<tr><td>LANG</td><td>UI 다국어 텍스트 객체</td></tr>
+<tr><td>CURRENCY_MAP</td><td>사업장 기본 통화 매핑</td></tr>
+<tr><td>CURRENCY_OVERRIDE</td><td>사업장:지표 단위 통화 예외 처리</td></tr>
+<tr><td>YoY 이상치</td><td>전년 대비 ±30% 초과 변동</td></tr>
+</table>
+
+<h3>tier 분류</h3>
+
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td>SUBSIDIARY</td><td>각 사업장 회신 지표 (39건)</td></tr>
+<tr><td>HQ_MANAGED</td><td>본사 일괄 산출 지표 (11건)</td></tr>
+</table>
+
+<h3>회계·통화</h3>
+
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td>VC (Valuation Class)</td><td>SAP 평가 클래스 — 3000(원재료)·3010(부재료)·4000(포장재)·5000(제외)</td></tr>
+<tr><td>SAP G/L</td><td>SAP 회계 계정 (예: 53119900 = 환경 법규 위반 벌금)</td></tr>
+<tr><td>不含税 / 세전</td><td>VAT·간접세 제외 금액</td></tr>
+<tr><td>含税 / 세후</td><td>VAT 포함 금액</td></tr>
+<tr><td>현지화</td><td>각 법인의 기능통화 (KRW·CNY·USD·BRL·INR 등)</td></tr>
+</table>
+
+<h3>측정·증빙</h3>
+
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td>SEMS (在线监测系统)</td><td>중국 대기·수질 자동 모니터링 시스템</td></tr>
+<tr><td>CEMS</td><td>한국 대기 자동 측정 시스템</td></tr>
+<tr><td>CMA 검측 보고서</td><td>중국 환경 측정 인증 검사 보고서</td></tr>
+<tr><td>排污许可证</td><td>중국 폐수·폐기물 배출 허가증</td></tr>
+<tr><td>PRTR</td><td>한국 환경부 화학물질 배출·이동량 조사</td></tr>
+<tr><td>폐수배출업소 조사표</td><td>한국 환경부 수질 정부 공식 보고서</td></tr>
+<tr><td>생태환경통계 연보</td><td>중국 정부 환경 공식 통계 자료</td></tr>
+<tr><td>汇총 (汇总)</td><td>중국 대기·수질 합계 보고서 (兴蓉 수신 기준)</td></tr>
+</table>
+
+<h3>화학·원료</h3>
+
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td>GHS 8차 마스터</td><td>UN GHS 8차 개정판 유해화학물질 140종 CAS 리스트</td></tr>
+<tr><td>CAS</td><td>화학물질 등록 번호 (Chemical Abstracts Service)</td></tr>
+<tr><td>매칭 엔진 v2</td><td>R103 자재명 첫 _ 분리 prefix 매칭</td></tr>
+<tr><td>R090 v4</td><td>재활용 원료 매칭 엔진 (옵션 A·C 병행)</td></tr>
+<tr><td>BIO·RECYCLED·BMB·CAVACO</td><td>재고수불부 자재 자체 분류 키워드</td></tr>
+<tr><td>리젠·리젠테크</td><td>친환경 제품 분류 (행85)</td></tr>
+<tr><td>MDI·DMAc·EDA</td><td>스판덱스 주요 원료 화학물질</td></tr>
+</table>
+
+<h3>업무 절차</h3>
+
+<table>
+<tr><th>용어</th><th>의미</th></tr>
+<tr><td>위험도 A·B·C·무관</td><td>작업 위험도 4단계 분류</td></tr>
+<tr><td>사전 합의</td><td>작업 시작 전 사용자 동의 받는 절차</td></tr>
+<tr><td>7단계 점검 절차</td><td>법인 회신 엑셀 검수 표준 절차</td></tr>
+<tr><td>불일치 6카테고리</td><td>법인 회신 vs 대시보드 RAW 불일치 분류</td></tr>
+<tr><td>위치 추적 공식</td><td>memory_user_edits 도구 안전 사용 공식</td></tr>
+<tr><td>bracket-depth 추출</td><td>HTML 객체 안전 추출 정규식 패턴</td></tr>
+</table>
+
+<div class="checklist">
+<h4>3장 점검 체크리스트</h4>
+<ul>
+<li>RAW·V·NA 3종 객체 차이를 설명할 수 있다</li>
+<li>0·null·N/A 구분 기준을 안다</li>
+<li>SUBSIDIARY·HQ_MANAGED tier 차이를 안다</li>
+<li>본사 행번호 ≠ 대시보드 idx + 56 임을 안다 (행100~102, 행107~110 점프)</li>
+<li>GRI 301·303·305·306·2-27 5종 표준을 안다</li>
+<li>용어 50선 중 30개 이상 의미를 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 4장. 사업장·지표 매핑 체계 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch4" class="section-anchor">
+<h1>4장. 사업장·지표 매핑 체계</h1>
+
+<section id="ch4-1" class="section-anchor">
+<h2>4.1 보고경계 정책</h2>
+
+<p>효성티앤씨 지속가능경영보고서의 환경 정량 데이터 보고경계는 <b>재무/자산소유 통제 기준</b>입니다.</p>
+
+<div class="box-policy">
+<h4>핵심 원칙</h4>
+<p>효성티앤씨가 재무적으로 통제 가능하거나 자산을 소유한 사업장만 보고경계에 포함합니다. 운영 통제 기준 (operational control)이 아닌 재무/자산소유 기준 (financial/equity ownership) 적용.</p>
+</div>
+
+<h3>보고경계 4종 분류</h3>
+
+<table>
+<tr><th>분류</th><th>적용 기준</th><th>예시</th></tr>
+<tr><td>완전 자회사</td><td>지분 100% 보유</td><td>가흥스판·취저우스판·동나이</td></tr>
+<tr><td>지배 자회사</td><td>지분 50% 초과</td><td>닝샤스판·튀르키예스판</td></tr>
+<tr><td>합작 자회사</td><td>지분 30% 이상 + 통제권</td><td>법인별 별도 검토</td></tr>
+<tr><td>관계회사 (보고경계 외)</td><td>지분 30% 미만 또는 통제권 없음</td><td>1160 (HS첨단소재 베트남)</td></tr>
+</table>
+
+<h3>운영통제 vs 재무통제 차이</h3>
+
+<table>
+<tr><th>기준</th><th>운영통제</th><th>재무통제 (효성 적용)</th></tr>
+<tr><td>판단 기준</td><td>실제 운영 영향력</td><td>재무 보고 통합 여부</td></tr>
+<tr><td>1160 처리</td><td>포함 가능 (운영 통제 시)</td><td><b>제외</b> (지분 미보유)</td></tr>
+<tr><td>외부 검증사 답변</td><td>"효성이 운영 관여한다"</td><td>"효성티앤씨 재무 통합 외부"</td></tr>
+</table>
+</section>
+
+<section id="ch4-2" class="section-anchor">
+<h2>4.2 15개 사업장 + plant 코드 매핑</h2>
+
+<p>본 보고서 보고경계 15개 사업장과 SAP plant 코드는 다음과 같이 매핑됩니다.</p>
+
+<h3>한국 사업장 (3개)</h3>
+
+<table>
+<tr><th>사업장명</th><th>plant 코드</th><th>사업 유형</th><th>비고</th></tr>
+<tr><td>구미</td><td>1103 + 1215</td><td>SP + 폴리에스터 (PET)</td><td>2개 plant 통합</td></tr>
+<tr><td>대구</td><td>1303</td><td>제조</td><td>—</td></tr>
+<tr><td>울산</td><td>1204 + 1216</td><td>SP·PET·NY</td><td>2개 plant 통합</td></tr>
+</table>
+
+<h3>해외 사업장 (12개)</h3>
+
+<table>
+<tr><th>사업장명</th><th>plant 코드</th><th>사업 유형</th><th>국가</th></tr>
+<tr><td>가흥스판</td><td>3540 (단일)</td><td>SP (스판덱스)</td><td>중국 가흥</td></tr>
+<tr><td>광동스판</td><td>—</td><td>SP</td><td>중국 광동</td></tr>
+<tr><td>주해스판</td><td>—</td><td>SP</td><td>중국 주해</td></tr>
+<tr><td>취저우스판</td><td>—</td><td>SP</td><td>중국 취저우</td></tr>
+<tr><td>닝샤스판</td><td>1144 + 3741</td><td>SP + PTMG</td><td>중국 닝샤 (v71 통합)</td></tr>
+<tr><td>튀르키예스판</td><td>—</td><td>SP</td><td>튀르키예</td></tr>
+<tr><td>동나이</td><td>1161 + 1261 + 1262 + 2261 + 2163 + 3761</td><td>SP·NY·PET·T/C·PTMG</td><td>베트남 동나이 (6 plant 통합)</td></tr>
+<tr><td>브라질스판</td><td>—</td><td>SP</td><td>브라질</td></tr>
+<tr><td>인도스판</td><td>—</td><td>SP</td><td>인도</td></tr>
+<tr><td>가흥무역</td><td>—</td><td>무역</td><td>중국 가흥 (무역법인)</td></tr>
+<tr><td>가흥화공</td><td>3740</td><td>화공 (PTMG)</td><td>중국 가흥</td></tr>
+<tr><td>취저우네오캠</td><td>3543</td><td>첨단소재</td><td>중국 취저우 (HF·NH3 등)</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>주의: 사업장명 표기 통일</h4>
+<p>"닝샤" vs "닝샤스판" 등 표기 혼동 금지. 본 보고서는 항상 "닝샤스판"으로 표기 (PTMG 통합 후에도 동일).</p>
+</div>
+</section>
+
+<section id="ch4-3" class="section-anchor">
+<h2>4.3 통합 plant 사업장 (닝샤·동나이·구미·울산)</h2>
+
+<p>일부 사업장은 여러 plant가 통합되어 단일 보고 단위로 처리됩니다. 산정 시 plant별 데이터 합산 필수.</p>
+
+<h3>닝샤스판 (2 plant 통합, v71부터)</h3>
+<ul>
+<li>1144 (SP, 스판덱스)</li>
+<li>3741 (PTMG, 폴리테트라메틸렌 글리콜)</li>
+<li>통합 사유: PTMG가 SP의 핵심 원료, 동일 사업장 내 운영</li>
+</ul>
+
+<h3>동나이 (6 plant 통합, v73부터)</h3>
+<ul>
+<li>1161 (SP)</li>
+<li>1261 (NY, 나일론)</li>
+<li>1262 (NY, 동나이나일론)</li>
+<li>2261 (PET, 폴리에스터)</li>
+<li>2163 (T/C, 타이어 코드)</li>
+<li>3761 (PTMG)</li>
+</ul>
+
+<div class="box-policy">
+<h4>FY26 동나이 통합 예정</h4>
+<p>현재 동나이나일론 (1262)은 별도 운영 중이나 FY26부터 단일 사업장으로 통합 보고 예정. 외부 검증 단계 답변 자료에 사전 명시 필요.</p>
+</div>
+
+<h3>구미 (2 plant 통합)</h3>
+<ul>
+<li>1103 (SP)</li>
+<li>1215 (PET, 폴리에스터)</li>
+</ul>
+
+<h3>울산 (2 plant 통합)</h3>
+<ul>
+<li>1204 (SP)</li>
+<li>1216 (NY)</li>
+</ul>
+
+<div class="box-warning">
+<h4>vendor 전환 사례</h4>
+<p>구미 1215 (PET)는 vendor 전환으로 FY24·FY25 데이터 패턴이 변동되었습니다. 외부 검증 단계 사전 정리 항목 #3 (메모리 #16) 참조.</p>
+</div>
+</section>
+
+<section id="ch4-4" class="section-anchor">
+<h2>4.4 보고경계 외 plant</h2>
+
+<p>다음 plant는 효성티앤씨 보고경계 외부로 본 보고서에 포함되지 않습니다.</p>
+
+<h3>1160 (HS첨단소재 베트남)</h3>
+<ul>
+<li>사유: 효성티앤씨 자산 미보유, HS첨단소재 별도 법인</li>
+<li>외부 검증사 답변: "재무/자산소유 통제 기준 적용 → 1160 자산 외"</li>
+<li>운영 통제 가능성은 있으나 본 보고서는 재무/자산소유 기준 일관 적용</li>
+</ul>
+
+<div class="box-scenario">
+<h4>시나리오: 외부 검증사 1160 질의</h4>
+<div class="scenario-line">
+<div class="scenario-label">질의:</div>
+<div>"1160 plant도 효성티앤씨가 운영 관여하는데 왜 보고경계 외인가?"</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">답변:</div>
+<div>"본 보고서 보고경계는 재무/자산소유 통제 기준입니다. 1160은 효성티앤씨 자산이 아닌 HS첨단소재 자산으로, 재무 보고 통합 외부입니다. 운영 통제 기준 (operational control)이 아닌 재무/자산소유 기준 (financial/equity ownership)을 일관 적용합니다."</div>
+</div>
+</div>
+</section>
+
+<section id="ch4-5" class="section-anchor">
+<h2>4.5 50개 인디케이터 + 본사 행번호 매핑 표</h2>
+
+<p>대시보드 50개 인디케이터와 본사 보고 템플릿 행번호의 완전 매핑입니다.</p>
+
+<table>
+<tr><th>idx</th><th>본사 행번호</th><th>지표명</th><th>tier</th></tr>
+<tr><td>0</td><td>행56</td><td>일반 폐기물 위탁처리 > 재활용</td><td>SUBSIDIARY</td></tr>
+<tr><td>1</td><td>행57</td><td>일반 폐기물 위탁처리 > 소각</td><td>SUBSIDIARY</td></tr>
+<tr><td>2</td><td>행58</td><td>일반 폐기물 위탁처리 > 매립</td><td>SUBSIDIARY</td></tr>
+<tr><td>3</td><td>행59</td><td>지정 폐기물 자가처리 > 재활용</td><td>SUBSIDIARY</td></tr>
+<tr><td>4</td><td>행60</td><td>지정 폐기물 위탁처리 > 재활용</td><td>SUBSIDIARY</td></tr>
+<tr><td>5</td><td>행61</td><td>지정 폐기물 위탁처리 > 소각</td><td>SUBSIDIARY</td></tr>
+<tr><td>6</td><td>행62</td><td>지정 폐기물 위탁처리 > 매립</td><td>SUBSIDIARY</td></tr>
+<tr><td>7</td><td>행63</td><td>지정 폐기물 위탁처리 > 기타</td><td>SUBSIDIARY</td></tr>
+<tr><td>8</td><td>행64</td><td>유해화학물질 사용량 (별도 idx 8)</td><td>—</td></tr>
+<tr><td>9</td><td>행65</td><td>화학물질 배출량</td><td>SUBSIDIARY</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>29</td><td>행85</td><td>친환경 제품 판매 실적</td><td>HQ_MANAGED</td></tr>
+<tr><td>30</td><td>행86</td><td>총 제품 판매 실적</td><td>HQ_MANAGED</td></tr>
+<tr><td>31</td><td>행87</td><td>친환경 제품 구매 실적</td><td>HQ_MANAGED</td></tr>
+<tr><td>32</td><td>행88</td><td>총 제품 구매 실적</td><td>HQ_MANAGED</td></tr>
+<tr><td>33</td><td>행89</td><td>재생가능 원료 사용량</td><td>HQ_MANAGED</td></tr>
+<tr><td>34</td><td>행90</td><td>재활용된 원료 사용량</td><td>HQ_MANAGED</td></tr>
+<tr><td>35</td><td>행91</td><td>회수된 솔벤트 사용량</td><td>HQ_MANAGED</td></tr>
+<tr><td>36</td><td>행92</td><td>재생 불가능한 원료 사용량</td><td>HQ_MANAGED</td></tr>
+<tr><td>37</td><td>행93</td><td>포장재 총 출하량</td><td>HQ_MANAGED (대기)</td></tr>
+<tr><td>38</td><td>행94</td><td>포장재 회수량</td><td>SUBSIDIARY</td></tr>
+<tr><td>39</td><td>행95</td><td>환경 처리·방지 비용</td><td>SUBSIDIARY</td></tr>
+<tr><td>40</td><td>행96</td><td>환경 모니터링·인증 비용</td><td>SUBSIDIARY</td></tr>
+<tr><td>41</td><td>행97</td><td>환경 부담금·세금 (FY26부터)</td><td>SUBSIDIARY</td></tr>
+<tr><td>42</td><td>행98</td><td>환경 시설투자</td><td>SUBSIDIARY</td></tr>
+<tr><td>43</td><td>행99</td><td>환경 R&D·기술 투자 (NA 일괄)</td><td>SUBSIDIARY</td></tr>
+<tr><td><b>44</b></td><td><b>행103</b></td><td><b>유해화학물질 사용량</b></td><td><b>HQ_MANAGED</b></td></tr>
+<tr><td>45</td><td>행104</td><td>화학물질 배출량</td><td>SUBSIDIARY</td></tr>
+<tr><td>46</td><td>행105</td><td>환경친화적 자동차 보유 대수</td><td>SUBSIDIARY</td></tr>
+<tr><td>47</td><td>행106</td><td>전체 자동차 보유 대수</td><td>SUBSIDIARY</td></tr>
+<tr><td><b>48</b></td><td><b>행111</b></td><td>환경 법규 위반 건수</td><td>SUBSIDIARY</td></tr>
+<tr><td>49</td><td>행112</td><td>환경 법규 위반 벌금</td><td>HQ_MANAGED</td></tr>
+</table>
+
+<p>전체 50개 매핑 자세한 내역은 대시보드의 ROW_MAP 객체 직접 참조.</p>
+</section>
+
+<section id="ch4-6" class="section-anchor">
+<h2>4.6 SUBSIDIARY 39건 + HQ_MANAGED 11건 분류</h2>
+
+<h3>SUBSIDIARY (39건)</h3>
+<p>각 사업장이 회신하는 지표. 본사는 회신 데이터를 검수·등록.</p>
+
+<h3>HQ_MANAGED (11건)</h3>
+<table>
+<tr><th>행번호</th><th>지표명</th><th>산출 방식</th><th>현황 (v98)</th></tr>
+<tr><td>행85</td><td>친환경 제품 판매 실적</td><td>사업부 매출 자료 (한국 = 본사 섬유 5개 합)</td><td>완료</td></tr>
+<tr><td>행86</td><td>총 제품 판매 실적</td><td>사업부 매출 자료</td><td>완료 (가흥화공 잔존)</td></tr>
+<tr><td>행87</td><td>친환경 제품 구매 실적</td><td>재고수불부 BIO/RECYCLED 자체 분류</td><td>완료</td></tr>
+<tr><td>행88</td><td>총 제품 구매 실적</td><td>재고수불부 VC 3000+3010+4000 입고 금액</td><td>완료</td></tr>
+<tr><td>행89</td><td>재생가능 원료 사용량</td><td>BIO 원료</td><td>완료</td></tr>
+<tr><td>행90</td><td>재활용된 원료 사용량</td><td>R090 v4 매칭 엔진</td><td>완료</td></tr>
+<tr><td>행91</td><td>회수된 솔벤트 사용량</td><td>DMAc 자체회수 = 총사용 − Fresh Make-up</td><td>완료</td></tr>
+<tr><td>행92</td><td>재생 불가능한 원료 사용량</td><td>VC 3000+3010+VC4000 사용중량</td><td>완료</td></tr>
+<tr><td>행93</td><td>포장재 총 출하량</td><td>SAP EA → 단위 중량 적용 ton 환산</td><td>대기 (단위중량 미수령)</td></tr>
+<tr><td>행103</td><td>유해화학물질 사용량</td><td>매칭 엔진 v2 + GHS 8차 140종 CAS</td><td>완료</td></tr>
+<tr><td>행112</td><td>환경 법규 위반 벌금</td><td>SAP G/L 53119900 자체 추출</td><td>완료</td></tr>
+</table>
+</section>
+
+<section id="ch4-7" class="section-anchor">
+<h2>4.7 카테고리 12개 그룹</h2>
+
+<p>50개 인디케이터는 카테고리별 12개 그룹으로 분류됩니다.</p>
+
+<table>
+<tr><th>카테고리</th><th>idx 범위</th><th>지표 수</th><th>주요 GRI</th></tr>
+<tr><td>일반 폐기물</td><td>0~2</td><td>3</td><td>GRI 306</td></tr>
+<tr><td>지정 폐기물</td><td>3~7</td><td>5</td><td>GRI 306</td></tr>
+<tr><td>화학물질</td><td>8~9</td><td>2</td><td>GRI 305-7</td></tr>
+<tr><td>매출/구매</td><td>10~13, 29~32</td><td>8</td><td>효성 자체</td></tr>
+<tr><td>법규 위반</td><td>14~15, 48~49</td><td>4</td><td>GRI 2-27</td></tr>
+<tr><td>대기오염</td><td>16~22</td><td>7</td><td>GRI 305-7</td></tr>
+<tr><td>수자원</td><td>23~27</td><td>5</td><td>GRI 303-3</td></tr>
+<tr><td>폐수 배출</td><td>28~30</td><td>3</td><td>GRI 303-4</td></tr>
+<tr><td>수질오염물질</td><td>31~36</td><td>6</td><td>GRI 303-4</td></tr>
+<tr><td>원료 사용</td><td>37~40</td><td>4</td><td>GRI 301</td></tr>
+<tr><td>포장재</td><td>41~42</td><td>2</td><td>GRI 301-3</td></tr>
+<tr><td>자동차/환경비용</td><td>43~47</td><td>5</td><td>효성 자체</td></tr>
+</table>
+
+<div class="checklist">
+<h4>4장 점검 체크리스트</h4>
+<ul>
+<li>보고경계 = 재무/자산소유 통제 기준임을 안다</li>
+<li>15개 사업장과 SAP plant 코드를 매칭할 수 있다</li>
+<li>닝샤·동나이·구미·울산이 통합 plant 사업장임을 안다</li>
+<li>1160이 보고경계 외인 사유를 설명할 수 있다</li>
+<li>HQ_MANAGED 11개 지표를 외울 수 있다</li>
+<li>본사 행번호 ↔ 대시보드 idx 점프 매핑을 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 5장. 데이터 수집 + 검수 절차 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch5" class="section-anchor">
+<h1>5장. 데이터 수집 + 검수 절차</h1>
+
+<section id="ch5-1" class="section-anchor">
+<h2>5.1 법인 회신 엑셀 7단계 표준 절차</h2>
+
+<p>각 사업장에서 회신한 환경 정량 데이터 엑셀은 다음 7단계 절차에 따라 검수됩니다.</p>
+
+<h3>7단계 절차</h3>
+
+<ol>
+<li><b>1단계: 수령 확인</b>
+<ul>
+<li>회신 일자·발신자·파일 무결성 확인</li>
+<li>회신 누락 시 재요청 메일 작성</li>
+</ul>
+</li>
+<li><b>2단계: SSOT 직접 검증</b>
+<ul>
+<li>대시보드 직접 검증 (메모리 의존 금지)</li>
+<li>현재 등록 RAW·V·NA 상태 확인</li>
+<li>충돌·갭 사전 식별</li>
+</ul>
+</li>
+<li><b>3단계: 회신값 ↔ 대시보드 RAW 비교</b>
+<ul>
+<li>3개년 (FY23·FY24·FY25) 모든 셀 1:1 비교</li>
+<li>차이 발생 항목 카테고리별 분류 (불일치 6카테고리)</li>
+<li>YoY 이상치 (±30% 초과) 자동 검출</li>
+</ul>
+</li>
+<li><b>4단계: 정합성 점검</b>
+<ul>
+<li>단위 일관성 (ton·m³·천 KRW 등)</li>
+<li>통화 일관성 (CURRENCY_MAP·OVERRIDE)</li>
+<li>0 vs null 구분 정확성</li>
+</ul>
+</li>
+<li><b>5단계: 추가 질의 작성</b>
+<ul>
+<li>법인 통합 메일 (한국어 + 현지어)</li>
+<li>위험도 C 사전 합의 (단순 질의)</li>
+</ul>
+</li>
+<li><b>6단계: 회신 수령 후 RAW 정정</b>
+<ul>
+<li>위험도 A 사전 합의 (RAW 변경)</li>
+<li>백업 + str_replace 또는 Node.js 처리</li>
+<li>JS 파싱 검증 + V/NA 충돌 점검</li>
+</ul>
+</li>
+<li><b>7단계: V/NA 등록 + 매뉴얼 갱신</b>
+<ul>
+<li>다국어 ko/en/zh 1:1 번역</li>
+<li>INDICATOR_MANUAL updated 필드 갱신</li>
+<li>외부 심사원 엑셀 동시 갱신</li>
+</ul>
+</li>
+</ol>
+
+<div class="box-policy">
+<h4>왜 이 7단계인가?</h4>
+<p>법인 회신 데이터를 무비판 적용하면 외부 검증 단계 즉시 지적 가능. 7단계 절차는 메모리 §1.12 정부 공식 문서 우선 + §1.12.1 SEMS 신뢰성 예외 + §5.1 SSOT 원칙을 모두 통합한 표준 작업 흐름입니다.</p>
+</div>
+</section>
+
+<section id="ch5-2" class="section-anchor">
+<h2>5.2 불일치 6카테고리 분류</h2>
+
+<p>법인 회신값과 대시보드 RAW 비교 시 차이 발생 항목은 다음 6카테고리로 분류·처리합니다.</p>
+
+<table>
+<tr><th>카테고리</th><th>설명</th><th>처리 방향</th></tr>
+<tr><td>1. 단위 차이</td><td>ton vs kg, m³ vs L 등</td><td>단위 환산 후 일치 확인</td></tr>
+<tr><td>2. 통화 차이</td><td>VND vs USD, CNY vs KRW 등</td><td>CURRENCY_MAP·OVERRIDE 검토</td></tr>
+<tr><td>3. 시점 차이</td><td>회계연도 ≠ 측정 기간</td><td>1.1~12.31 보고연도 기준 일관 적용</td></tr>
+<tr><td>4. 분류 차이</td><td>지정 vs 일반 폐기물 등</td><td>한국 처분코드·중국 처분 분류 검증</td></tr>
+<tr><td>5. 측정 방식 차이</td><td>SEMS vs 汇总 vs 자체 측정</td><td>정부 공식 문서 우선, SEMS 예외 적용</td></tr>
+<tr><td>6. 보고경계 차이</td><td>plant 통합 미반영 등</td><td>15개 사업장 + plant 매핑 (§4.2) 재확인</td></tr>
+</table>
+
+<div class="box-scenario">
+<h4>시나리오: 닝샤 행76 폐수 배출량 차이</h4>
+<div class="scenario-line">
+<div class="scenario-label">발견:</div>
+<div>법인 회신 SEMS 819,971 m³ vs 대시보드 RAW 332,420 m³ (3.4배 차이)</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">분류:</div>
+<div>카테고리 5 측정 방식 차이</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">처리:</div>
+<div>SEMS 신뢰성 예외 적용 → 汇总(兴蓉 수신 기준) 332,420 m³ 적용 (지침 §1.12.1)</div>
+</div>
+</div>
+</section>
+
+<section id="ch5-3" class="section-anchor">
+<h2>5.3 정부 공식 문서 우선 원칙 (지침 §1.12)</h2>
+
+<p>법인 회신값과 정부 공식 문서가 차이날 경우, <b>정부 공식 문서 우선 적용</b>이 원칙입니다.</p>
+
+<h3>정부 공식 문서 종류</h3>
+
+<table>
+<tr><th>국가</th><th>문서명</th><th>적용 지표</th></tr>
+<tr><td>한국</td><td>환경부 PRTR (화학물질 배출·이동량)</td><td>행104</td></tr>
+<tr><td>한국</td><td>폐수배출업소 조사표</td><td>행79~84 (BOD·COD·SS·T-N·T-P·TOC)</td></tr>
+<tr><td>한국</td><td>폐기물 신고 (이체 연계서)</td><td>행56~63</td></tr>
+<tr><td>중국</td><td>생태환경통계 연보</td><td>행64~70 (대기), 행76~84 (수질)</td></tr>
+<tr><td>중국</td><td>SEMS (在线监测系统)</td><td>대기·수질 자동 모니터링</td></tr>
+<tr><td>중국</td><td>排污许可证 (배출 허가증)</td><td>행67·68·76·79·82 등</td></tr>
+<tr><td>중국</td><td>CMA 검측 보고서</td><td>대기·수질 정기 검측</td></tr>
+</table>
+
+<h3>우선 순위</h3>
+<ol>
+<li>중국 생태환경통계 연보</li>
+<li>SEMS (자동 모니터링)</li>
+<li>CMA 검측 보고서</li>
+<li>법인 자체 제출값</li>
+</ol>
+
+<div class="box-warning">
+<h4>예외: 연보 vs 자체값 큰 차이</h4>
+<p>NOx·VOCs는 연보 수치가 자체값보다 높으면 보수적으로 연보 적용. PM·SOx는 사전 확인 필수 (외부 검증사 답변 자료 준비).</p>
+</div>
+</section>
+
+<section id="ch5-4" class="section-anchor">
+<h2>5.4 SEMS 신뢰성 예외 처리 (지침 §1.12.1)</h2>
+
+<p>SEMS는 정부 공식 시스템이지만 통신 오류·유량계 비정상 등으로 신뢰성 문제가 발생할 수 있습니다. 무비판 적용 시 보고값 신뢰성 손상.</p>
+
+<div class="box-policy">
+<h4>왜?</h4>
+<p>닝샤 FY25 7월부터 SEMS 유량이 兴蓉 汇总 대비 3.4-3.9배 폭증한 사례 학습. SEMS 단독 신뢰 시 외부 검증사 즉시 지적.</p>
+</div>
+
+<h3>SEMS 신뢰성 검증 절차</h3>
+
+<ol>
+<li>SEMS 수치 ↔ 汇总 (兴蓉 수신 기준) 또는 排污许可证 한도 비교</li>
+<li>차이 ±30% 이내: SEMS 수용</li>
+<li>차이 30% 초과: 사안별 검증 필요
+<ul>
+<li>농도: SEMS 유지 (자동 측정값 신뢰)</li>
+<li>유량: 汇总 적용 (수동 검증)</li>
+<li>배출량: 농도 × 汇总 유량 = 보정값</li>
+</ul>
+</li>
+<li>외부 검증 단계 답변 자료에 사유 명시</li>
+</ol>
+
+<h3>닝샤스판 적용 사례 (FY25)</h3>
+
+<table>
+<tr><th>지표</th><th>SEMS 단순 적용</th><th>예외 적용 (汇总)</th><th>차이</th></tr>
+<tr><td>행76 폐수 배출량</td><td>819,971 m³</td><td>332,420 m³</td><td>3.4배</td></tr>
+<tr><td>행83 T-N</td><td>40.434 ton</td><td>16.679 ton</td><td>3.9배</td></tr>
+</table>
+</section>
+
+<section id="ch5-5" class="section-anchor">
+<h2>5.5 본사 일괄 산출 11건</h2>
+
+<p>HQ_MANAGED 11개 지표는 본사가 SAP·재고수불부·G/L에서 자체 산출합니다. 산출 자료 위치·산식·증빙은 다음과 같습니다.</p>
+
+<table>
+<tr><th>행</th><th>산출 자료 위치</th><th>산식</th></tr>
+<tr><td>행85</td><td>경영기획팀 M_1-3 경영지수</td><td>SP 사업부 + 폴리에스터 사업부 구미공장산 친환경 매출 (NY 미포함)</td></tr>
+<tr><td>행86</td><td>경영기획팀 M_1-3 경영지수</td><td>한국 = 본사 섬유 5개 합 동일값, 해외 = 사업부별 매출</td></tr>
+<tr><td>행87</td><td>SAP 재고수불부 Raw 시트</td><td>VC 3000+3010, BIO/RECYCLED 자체 분류</td></tr>
+<tr><td>행88</td><td>SAP 재고수불부 Raw 시트</td><td>VC 3000+3010+4000 입고 금액</td></tr>
+<tr><td>행89</td><td>SAP 재고수불부 Raw 시트</td><td>BIO 원료 (자재명 키워드)</td></tr>
+<tr><td>행90</td><td>R090 v4 매칭 엔진</td><td>옵션 A (GRI 엄격) + 옵션 C (Closed-loop) 병행</td></tr>
+<tr><td>행91</td><td>법인 회신 + DMAc 자체 산출</td><td>총사용 − Fresh Make-up</td></tr>
+<tr><td>행92</td><td>SAP 재고수불부 Raw 시트</td><td>VC 3000+3010+VC4000 사용중량</td></tr>
+<tr><td>행93</td><td>SAP EA + 단위중량 자료</td><td>EA × g/EA → ton (단위중량 대기)</td></tr>
+<tr><td>행103</td><td>매칭 엔진 v2 + GHS 8차</td><td>VC 3000+3010, GHS 140종 CAS, 별칭 371건</td></tr>
+<tr><td>행112</td><td>SAP G/L 53119900</td><td>본사 자체 추출</td></tr>
+</table>
+</section>
+
+<section id="ch5-6" class="section-anchor">
+<h2>5.6 환경비용 세전 정책 (지침 §1.3)</h2>
+
+<div class="box-policy">
+<h4>핵심 원칙</h4>
+<p>환경 비용 (행95~99) 모든 보고값은 <b>세전 (不含税)</b> 기준 작성합니다.</p>
+</div>
+
+<h3>국가별 세제 처리</h3>
+
+<table>
+<tr><th>국가</th><th>제외 대상 세제</th></tr>
+<tr><td>한국</td><td>부가세 (VAT)</td></tr>
+<tr><td>중국</td><td>VAT (增值税)</td></tr>
+<tr><td>브라질</td><td>ICMS·ISS·PIS·COFINS</td></tr>
+<tr><td>인도</td><td>GST</td></tr>
+<tr><td>튀르키예</td><td>KDV (VAT)</td></tr>
+</table>
+
+<h3>SAP 데이터 출처별 세전·세후</h3>
+
+<table>
+<tr><th>SAP 화면</th><th>표시 금액</th><th>세전·세후</th></tr>
+<tr><td>KR (공급업체 인보이스)</td><td>VAT 포함</td><td>세후</td></tr>
+<tr><td>RD (입고 확정 금액)</td><td>VAT 제외</td><td>세전 (그대로 사용)</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>실수 방지 팁</h4>
+<p>SAP KR (공급업체 인보이스)에서 직접 추출 시 세후 → 세전 보정 필수. RD (입고 확정)에서 추출 시 그대로 사용 가능.</p>
+</div>
+
+<h3>주요 정정 사례 (v68)</h3>
+
+<table>
+<tr><th>사업장</th><th>지표</th><th>세후</th><th>세전 (정정)</th></tr>
+<tr><td>닝샤스판</td><td>행95 폐기물 처리비</td><td>—</td><td>¥11,467,020.28 (인보이스 83건 검증)</td></tr>
+<tr><td>브라질스판</td><td>행96</td><td>80,300.30 BRL</td><td>61,118.01 BRL</td></tr>
+<tr><td>브라질스판</td><td>행98</td><td>31,001.26 BRL</td><td>29,094.68 BRL</td></tr>
+</table>
+</section>
+
+<section id="ch5-7" class="section-anchor">
+<h2>5.7 통화 정책 + CURRENCY_OVERRIDE (지침 §1.4)</h2>
+
+<p>각 사업장은 기능통화로 보고하나, 일부 지표는 별도 통화로 OVERRIDE 적용됩니다.</p>
+
+<h3>CURRENCY_MAP (사업장별 기능통화)</h3>
+
+<table>
+<tr><th>사업장</th><th>통화</th></tr>
+<tr><td>구미·대구·울산</td><td>KRW</td></tr>
+<tr><td>중국 7개 사업장</td><td>CNY</td></tr>
+<tr><td>튀르키예스판</td><td>TRY</td></tr>
+<tr><td>동나이</td><td>VND</td></tr>
+<tr><td>브라질스판</td><td>BRL</td></tr>
+<tr><td>인도스판</td><td>INR</td></tr>
+</table>
+
+<h3>CURRENCY_OVERRIDE (8건)</h3>
+
+<table>
+<tr><th>사업장</th><th>지표</th><th>OVERRIDE 통화</th><th>사유</th></tr>
+<tr><td>튀르키예스판</td><td>행85·86·87·88</td><td>USD</td><td>사업부 매출/본사 SAP 산출 기반</td></tr>
+<tr><td>동나이</td><td>행85·86·87·88</td><td>USD</td><td>사업부 매출/본사 SAP 산출 기반</td></tr>
+</table>
+
+<div class="box-danger">
+<h4>동나이 행87 정정 필요 (메모리 #11)</h4>
+<p>동나이 행87 FY23·FY24 RAW 등록값 (87B/27B)이 VND 단위로 잘못 등록됨. USD 단위로 정정 필요. 5/8 PwC 제출 전 처리 권고.</p>
+</div>
+</section>
+
+<section id="ch5-8" class="section-anchor">
+<h2>5.8 폐기물 기말 미처리 재고 처리</h2>
+
+<p>폐기물은 발생 시점이 아닌 <b>처리 완료 시점</b> 기준 연도 분류가 원칙입니다.</p>
+
+<div class="box-policy">
+<h4>왜?</h4>
+<p>발생 시점 기준 분류 시 기말 미처리 재고가 다음 회계연도로 이월되어 측정 누락 위험. 처리 완료 시점 기준이 GRI 306 권고.</p>
+</div>
+
+<h3>처리 시점 분류 4종</h3>
+
+<ol>
+<li>당해 발생 + 당해 처리: 당해 보고 (정상)</li>
+<li>당해 발생 + 익년 처리: 익년 보고 (이월)</li>
+<li>전년 발생 + 당해 처리: 당해 보고 (전년 미처리분 포함)</li>
+<li>당해 발생 + 미처리 (보고 시점): 다음 회계연도 처리 시 보고</li>
+</ol>
+
+<h3>네트웍스와이 일괄 정합 (메모리 #9)</h3>
+
+<p>외부 전문업체 네트웍스와이가 Scope 3 산정용 폐기물 데이터 제공 예정. 수령 시 대시보드 전수 비교 후 일괄 교체.</p>
+
+<div class="checklist">
+<h4>5장 점검 체크리스트</h4>
+<ul>
+<li>법인 회신 엑셀 7단계 절차를 외울 수 있다</li>
+<li>불일치 6카테고리 분류를 안다</li>
+<li>정부 공식 문서 우선 원칙을 안다</li>
+<li>SEMS 신뢰성 예외 처리 사례를 설명할 수 있다 (닝샤 행76·83)</li>
+<li>HQ_MANAGED 11건 산출 자료 위치를 안다</li>
+<li>환경비용 세전 정책 + 국가별 제외 세제를 안다</li>
+<li>CURRENCY_OVERRIDE 8건을 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 6장. RAW·V·NA 등록 표준 절차 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch6" class="section-anchor">
+<h1>6장. RAW·V·NA 등록 표준 절차</h1>
+
+<section id="ch6-1" class="section-anchor">
+<h2>6.1 위험도 4단계 분류</h2>
+
+<p>대시보드 작업은 위험도에 따라 4단계로 분류되며, 각 단계별 사전 합의·검증 절차가 다릅니다.</p>
+
+<table>
+<tr><th>위험도</th><th>대상 작업</th><th>사전 의무</th><th>사후 검증</th></tr>
+<tr><td><span class="tag tag-risk-a">A</span></td><td>구조 변경, 다중 객체, str_replace 1KB 이상</td><td>백업 + 사용자 합의</td><td>JS 파싱 + 카운트 + 충돌 점검</td></tr>
+<tr><td><span class="tag tag-risk-b">B</span></td><td>일괄 10건 이상 단순 정정</td><td>사용자 합의</td><td>작업 종료 시 검증</td></tr>
+<tr><td><span class="tag tag-risk-c">C</span></td><td>1-2건 단순 작업, 텍스트 작성</td><td>—</td><td>세션 종료 시 검증</td></tr>
+<tr><td><span class="tag tag-risk-n">무관</span></td><td>단순 조회·확인·분석</td><td>—</td><td>—</td></tr>
+</table>
+
+<h3>위험도 A 사례</h3>
+<ul>
+<li>RAW 일괄 정정 (10건 이상)</li>
+<li>VERIFIED·NOT_APPLICABLE 객체 신규 등록 (10건 이상)</li>
+<li>INDICATOR_MANUAL 50/50 일괄 갱신</li>
+<li>버전업 (vNN → v(N+1))</li>
+</ul>
+
+<h3>위험도 B 사례</h3>
+<ul>
+<li>특정 사업장 V basis 일괄 갱신</li>
+<li>외부 심사원 엑셀 시트 일괄 갱신</li>
+<li>다국어 ko/en/zh 동시 작성</li>
+</ul>
+
+<h3>위험도 C 사례</h3>
+<ul>
+<li>특정 인디케이터의 1-2개 사업장 V 등록</li>
+<li>법인 회신 메일 작성</li>
+<li>외부 검증 답변 패키지 작성</li>
+</ul>
+</section>
+
+<section id="ch6-2" class="section-anchor">
+<h2>6.2 작업 시작 전 사용자 합의 의무</h2>
+
+<div class="box-policy">
+<h4>핵심 원칙</h4>
+<p>위험도 A·B 작업은 <b>반드시 사용자 합의</b>를 받은 후 진행합니다. 임의 진행 금지.</p>
+</div>
+
+<h3>사용자 합의 표준 절차</h3>
+
+<ol>
+<li>작업 위험도 선언 (A·B·C·무관)</li>
+<li>작업 영향도 명시 (V/NA 카운트 변화 예상치 등)</li>
+<li>작업 단계 명시 (백업 → 정정 → 검증 → 산출)</li>
+<li>사용자 결정 대기</li>
+<li>합의 후 진행</li>
+</ol>
+
+<div class="box-scenario">
+<h4>시나리오: 행99 환경 R&D NA 일괄 등록</h4>
+<div class="scenario-line">
+<div class="scenario-label">위험도:</div>
+<div>A (RAW 정정 10건 + V 삭제 10건 + NA 등록 15건 동시)</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">영향도:</div>
+<div>V 466 → 456, NA 224 → 235</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">단계:</div>
+<div>백업 → RAW 정정 → V 삭제 → NA 등록 → 매뉴얼 갱신 → 검증</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">합의:</div>
+<div>"옵션 B로 진행" → 즉시 작업 착수</div>
+</div>
+</div>
+</section>
+
+<section id="ch6-3" class="section-anchor">
+<h2>6.3 RAW 정정 절차</h2>
+
+<p>RAW 정정은 위험도 A 작업입니다. 다음 5단계 절차 준수.</p>
+
+<ol>
+<li><b>백업</b>: <code>cp dashboard_v(N).html dashboard_v(N+1)_backup.html</code></li>
+<li><b>대상 식별</b>: 라벨 직접 검색 (idx 가정 금지)</li>
+<li><b>정정 실행</b>:
+<ul>
+<li>소량 (1-2건): str_replace로 직접 수정</li>
+<li>대량 (10건+): Python + Node.js 객체 직렬화</li>
+</ul>
+</li>
+<li><b>검증</b>:
+<ul>
+<li>HTML 외부 구조 5종 (DOCTYPE·html·body·script 쌍)</li>
+<li>JS 파싱 (Object.keys 평가)</li>
+<li>V/NA 충돌 점검</li>
+</ul>
+</li>
+<li><b>산출</b>: outputs 폴더 + Google Drive 백업</li>
+</ol>
+
+<h3>표준 정정 패턴 (Python + JSON 직렬화)</h3>
+
+<pre><code># RAW 객체 추출 (bracket-depth 정규식)
+def find_obj_bounds(html, var_name):
+    pattern = re.compile(rf'(?:const|let)\s+{var_name}\s*=\s*\{{')
+    m = pattern.search(html)
+    if not m: return None, None
+    obj_start = m.end() - 1
+    depth = 0
+    for i in range(obj_start, len(html)):
+        c = html[i]
+        if c == '{': depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0: return obj_start, i + 1
+    return None, None
+
+raw_s, raw_e = find_obj_bounds(html, 'RAW')
+RAW = json.loads(html[raw_s:raw_e])
+
+# 라벨로 직접 검색 (idx 가정 금지)
+target_label = '환경 R&D·기술 투자'
+ind = next((i for i in RAW['indicators'] if i['label'] == target_label), None)
+
+# 정정
+ind['data']['구미'] = [None, None, None]
+
+# 직렬화 + 교체
+new_raw_str = json.dumps(RAW, ensure_ascii=False, separators=(',', ':'))
+html = html[:raw_s] + new_raw_str + html[raw_e:]
+</code></pre>
+</section>
+
+<section id="ch6-4" class="section-anchor">
+<h2>6.4 V 등록 표준 형식</h2>
+
+<p>VERIFIED 객체는 다음 표준 형식으로 등록합니다.</p>
+
+<h3>표준 V 객체 구조</h3>
+
+<pre><code>"사업장명:지표명": {
+  "ko": {
+    "confirmed": "확정값 요약 (1줄, 정량 + 단위 + 출처)",
+    "basis": [
+      "산출 근거 1 (구체 사실)",
+      "산출 근거 2 (증빙 출처)",
+      "산출 근거 3 (정책 근거)",
+      "산출 근거 4 (외부 답변 자료)"
+    ],
+    "meta": {
+      "registered": "YYYY-MM-DD",
+      "version": "vNN"
+    }
+  },
+  "en": { ... },
+  "zh": { ... }
+}</code></pre>
+
+<h3>basis 작성 원칙</h3>
+
+<ul>
+<li>각 항목은 30-100자 (너무 짧거나 길지 않게)</li>
+<li>3-5개 항목 (외부 검증 답변에 충분한 근거)</li>
+<li>구체 사실 + 증빙 + 정책 근거 + 외부 답변 자료 4종 포함</li>
+<li>추상 표현 지양 ("적절히"·"일반적으로" 등 금지)</li>
+</ul>
+
+<div class="box-scenario">
+<h4>좋은 V basis 예시 (행85 친환경 매출 구미)</h4>
+<pre><code>"basis": [
+  "본사 섬유 사업부 5개 합 동일값 적용 (사업장 회계 분리 부재 정책)",
+  "M_1-3 경영지수 12월누계 R10 소계 기반 (FY25 1,076,482,640 천 KRW)",
+  "SP 사업부 + 폴리에스터 사업부 구미공장산 친환경 매출 합산 (NY 미포함)",
+  "외부 공시명: 지속가능한 솔루션 (리젠 + 리젠테크)",
+  "24년·25년 자료 FY24 교차 검증 차이 0"
+]</code></pre>
+</div>
+</section>
+
+<section id="ch6-5" class="section-anchor">
+<h2>6.5 NA 등록 3단계</h2>
+
+<p>NOT_APPLICABLE 등록은 N/A 판정 3단계 절차에 따라 진행합니다.</p>
+
+<h3>1단계: 즉시 전환</h3>
+<p>다음 사유 발생 시 사업장 회신 대기 없이 즉시 NA 등록:</p>
+
+<ul>
+<li>시설·인프라 부재 (예: 취저우스판 행74 지하수)</li>
+<li>사업 유형 불일치 (예: 가흥무역 폐기물 지표)</li>
+<li>측정 대상 외 (예: 효성티앤씨 R&D 효성기술원 단독)</li>
+</ul>
+
+<h3>2단계: 0 유지</h3>
+<p>다음 경우는 NA가 아닌 0 유지:</p>
+
+<ul>
+<li>실적 미발생이 의미 있는 정보 (예: 법규 위반 0건 = 잘 관리됨)</li>
+<li>측정 결과가 명확히 0 (예: 환경 부담금 0원)</li>
+</ul>
+
+<h3>3단계: 법인 확인</h3>
+<p>판단 유보 시 법인 추가 질의:</p>
+
+<ul>
+<li>동일 유형 법인 간 0/VALUE 차이</li>
+<li>외부 검증사 지적 가능 항목</li>
+<li>증빙 자료 부재</li>
+</ul>
+
+<h3>표준 NA 객체 구조</h3>
+
+<pre><code>"사업장명:지표명": {
+  "ko": {
+    "confirmed": "구조적 N/A — 사유 요약",
+    "basis": [
+      "NA 사유 1 (구체)",
+      "NA 사유 2 (증빙·정책)",
+      "외부 검증 답변 기준 명시"
+    ]
+  },
+  "en": { ... },
+  "zh": { ... }
+}</code></pre>
+</section>
+
+<section id="ch6-6" class="section-anchor">
+<h2>6.6 V/NA basis 변경 사전 검증 절차 (메모리 #19)</h2>
+
+<div class="box-danger">
+<h4>핵심 원칙</h4>
+<p>V/NA basis 변경·갱신 작업 전 <b>현재 대시보드 텍스트 직접 추출 의무</b>입니다. 메모리 의존 금지.</p>
+</div>
+
+<h3>사전 검증 절차</h3>
+
+<ol>
+<li>SSOT 원칙 적용 (메모리 §5.1)</li>
+<li>Node.js로 VERIFIED·NOT_APPLICABLE 객체 평가</li>
+<li>해당 키 텍스트 직접 추출하여 현재 상태 확인</li>
+<li>이미 표준 V basis 적용 완료된 항목에 갱신 자동 제안 금지</li>
+</ol>
+
+<div class="box-scenario">
+<h4>실수 사례 (v87, 2026-04-29)</h4>
+<div class="scenario-line">
+<div class="scenario-label">상황:</div>
+<div>행85 구미 표준 V basis 적용 완료 상태에서 "나일론폴리에스터 사업부" 명칭 혼동으로 V basis 갱신 자동 제안 오류</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">해결:</div>
+<div>사용자 지적 → 현재 V basis 직접 추출 → 정확성 확인 → 갱신 불요 확정</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">교훈:</div>
+<div>대시보드 텍스트 직접 검증을 작업 시작 전 필수 단계로 도입</div>
+</div>
+</div>
+</section>
+
+<section id="ch6-7" class="section-anchor">
+<h2>6.7 N/A 표준 사유 7종</h2>
+
+<p>NA 등록 시 사용 가능한 표준 사유 7종입니다. 통일 적용으로 외부 검증 답변 일관성 확보.</p>
+
+<table>
+<tr><th>유형</th><th>예시</th><th>적용 사례</th></tr>
+<tr><td>1. 시설 부재</td><td>지하수 취수 시설 없음</td><td>취저우스판 행74</td></tr>
+<tr><td>2. 사업 유형 불일치</td><td>무역법인은 제조 활동 외</td><td>가흥무역 폐기물 지표</td></tr>
+<tr><td>3. 측정 의무 부재</td><td>현지 법규상 측정 대상 외</td><td>동나이 행104</td></tr>
+<tr><td>4. 본사 보고경계 결정</td><td>온실가스만 측정 결정</td><td>취저우네오캠 환경 정량 47건</td></tr>
+<tr><td>5. 본사 정책 결정</td><td>FY26부터 집계 시작</td><td>15개 사업장 행97</td></tr>
+<tr><td>6. 지주사 단독 집행</td><td>효성기술원 R&D 단독</td><td>15개 사업장 행99</td></tr>
+<tr><td>7. 측정 자료 부재</td><td>전사 시스템 미구축</td><td>특정 사업장 행별 잔존</td></tr>
+</table>
+
+<div class="box-policy">
+<h4>NA 표준 사유 일관 적용 원칙</h4>
+<p>유사 사례에 동일 사유 적용. 외부 검증사가 "같은 사례 다른 사유" 발견 시 즉시 지적 가능.</p>
+</div>
+
+<div class="checklist">
+<h4>6장 점검 체크리스트</h4>
+<ul>
+<li>위험도 4단계 (A·B·C·무관) 분류 기준을 안다</li>
+<li>위험도 A·B 작업 시 사용자 합의 의무를 안다</li>
+<li>RAW 정정 5단계 절차를 외울 수 있다</li>
+<li>V·NA 표준 객체 구조를 작성할 수 있다</li>
+<li>N/A 판정 3단계 (즉시 전환·0 유지·법인 확인)를 안다</li>
+<li>V/NA basis 변경 사전 검증 절차를 안다</li>
+<li>N/A 표준 사유 7종을 외울 수 있다</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 7장. INDICATOR_MANUAL 운영 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch7" class="section-anchor">
+<h1>7장. INDICATOR_MANUAL 운영</h1>
+
+<section id="ch7-1" class="section-anchor">
+<h2>7.1 표준 8필드 정의 + 작성 원칙</h2>
+
+<p>INDICATOR_MANUAL 객체는 50개 지표마다 표준 8필드를 보유합니다.</p>
+
+<div class="box-policy">
+<h4>왜 8필드인가?</h4>
+<p>외부 검증사가 산출 절차를 5초 이내 검증할 수 있도록 8필드로 표준화. 추가 필드 (notes·standardMapping)는 가치 있는 정보만 선별 보존.</p>
+</div>
+
+<h3>표준 8필드</h3>
+
+<table>
+<tr><th>필드명</th><th>한국어 표시명</th><th>역할</th><th>예시</th></tr>
+<tr><td><code>definition</code></td><td>정의</td><td>지표의 본질적 정의 (1-2 문장)</td><td>"본사가 자체 분류한 친환경 제품의 외부 매출 실적"</td></tr>
+<tr><td><code>include</code></td><td>포함 기준</td><td>산출 대상 항목 (배열)</td><td>["리젠 (리사이클·바이오)", "리젠테크 (원착사 친환경)"]</td></tr>
+<tr><td><code>exclude</code></td><td>제외 기준</td><td>산출 비대상 항목 (배열)</td><td>["일반 제품 매출", "사내거래·환불·할인"]</td></tr>
+<tr><td><code>cutoff</code></td><td>기준일</td><td>보고 시점 기준</td><td>"보고연도 1.1~12.31"</td></tr>
+<tr><td><code>evidence</code></td><td>증빙 출처</td><td>증빙 자료 (배열)</td><td>["사업부 기획관리팀 매출 자료 (해외)", "경영기획팀 관리회계 마감 자료 (한국)"]</td></tr>
+<tr><td><code>gri</code></td><td>GRI 매핑</td><td>표준 매핑</td><td>"효성 자체 지표" 또는 "GRI 305-7"</td></tr>
+<tr><td><code>decisionTree</code></td><td>산출 의사결정 트리</td><td>단계별 산출 절차 (1줄)</td><td>"① 보고경계 식별 → ② 친환경 분류 → ③ 합산 → ④ 단위 환산"</td></tr>
+<tr><td><code>updated</code></td><td>최종 갱신</td><td>매뉴얼 최종 수정 일자</td><td>"2026-05-03"</td></tr>
+</table>
+
+<h3>작성 원칙</h3>
+
+<ul>
+<li>모든 필드 다국어 ko/en/zh 동시 작성 (1:1 번역)</li>
+<li>구체적·정량적 표현 우선 (추상 표현 지양)</li>
+<li>외부 검증사 즉시 답변 가능 수준 작성</li>
+<li>updated 필드는 작업 완료 일자로 갱신</li>
+</ul>
+</section>
+
+<section id="ch7-2" class="section-anchor">
+<h2>7.2 추가 필드 (standardMapping·notes) 사용 기준</h2>
+
+<p>표준 8필드 외 추가 필드는 가치 있는 정보만 보존합니다.</p>
+
+<h3>standardMapping (1건 사용)</h3>
+
+<ul>
+<li><b>대상</b>: 산출 표준 매핑 정보가 핵심인 지표</li>
+<li><b>현재 사용</b>: idx 8 (행103 유해화학물질) — 키워드 9종 CAS 매핑</li>
+<li><b>형식</b>: <code>{ "MDI": "101-68-8", "DMAC": "127-19-5", ... }</code></li>
+</ul>
+
+<h3>notes (5건 사용, v97 정리 후)</h3>
+
+<table>
+<tr><th>idx</th><th>지표명</th><th>notes 내용</th></tr>
+<tr><td>9</td><td>화학물질 배출량</td><td>해외법인 0/NA 일반 원칙</td></tr>
+<tr><td>43</td><td>환경친화적 자동차</td><td>하이브리드 분류 잠정값 (확정 대기)</td></tr>
+<tr><td>45</td><td>환경 처리·방지 비용</td><td>FY26 행97 분리 계획</td></tr>
+<tr><td>47</td><td>환경 부담금·세금</td><td>FY26 집계 시작 + 15법인 회신 안내</td></tr>
+<tr><td>49</td><td>환경 R&D·기술 투자</td><td>NA 등록 사유 (효성기술원 단독)</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>notes 추가 시 검토 기준</h4>
+<ul>
+<li>외부 검증 답변 가치 있는 정보인가?</li>
+<li>표준 8필드로 표현 불가능한 정보인가?</li>
+<li>단순 등록 이력 (제거 대상)인가?</li>
+</ul>
+</div>
+</section>
+
+<section id="ch7-3" class="section-anchor">
+<h2>7.3 매뉴얼 갱신 시점 + 절차</h2>
+
+<h3>갱신 시점</h3>
+
+<ul>
+<li>RAW 정정·V/NA 등록 시 동시 갱신</li>
+<li>정책 변경 시 (예: NA 일괄 등록 정책)</li>
+<li>FY 전환 시 (예: FY26 행97 분리 등)</li>
+<li>외부 검증 의견 수령 후 정정 시</li>
+</ul>
+
+<h3>갱신 절차</h3>
+
+<ol>
+<li>현재 매뉴얼 직접 추출 (Node.js 객체 평가)</li>
+<li>변경 필드 식별 + 다국어 ko/en/zh 작성</li>
+<li>updated 필드 작업 일자로 갱신</li>
+<li>객체 직렬화 + HTML 교체</li>
+<li>JS 파싱 검증 + 모달 표시 확인</li>
+</ol>
+
+<h3>표준 갱신 패턴 (Node.js + JSON 직렬화)</h3>
+
+<pre><code>// INDICATOR_MANUAL 추출 + 갱신
+const im = INDICATOR_MANUAL_OBJECT;
+const k = '환경 R&D·기술 투자';
+const today = '2026-05-03';
+
+if (im[k]) {
+    im[k].decisionTree = {
+        ko: '⚠ 효성티앤씨 R&D는 지주사 산하 효성기술원 단독 집행 → 15개 사업장 NA 일괄 등록',
+        en: '⚠ R&D solely executed by Hyosung R&DB Labs → 15 sites NA mass registered',
+        zh: '⚠ R&D由控股公司旗下晓星技术院单独执行 → 15家事业场NA统一登记'
+    };
+    im[k].updated = today;
+}
+
+require('fs').writeFileSync('/tmp/im_v98.json', JSON.stringify(im));</code></pre>
+</section>
+
+<section id="ch7-4" class="section-anchor">
+<h2>7.4 다국어 작성 표준</h2>
+
+<div class="box-policy">
+<h4>핵심 원칙</h4>
+<p>다국어 ko·en·zh 3개 언어는 100% 동일 정보를 담아야 합니다 (1:1 번역). 기계 번역 금지, 자연스러운 비즈니스 톤으로 작성.</p>
+</div>
+
+<h3>언어별 톤 가이드</h3>
+
+<table>
+<tr><th>언어</th><th>톤</th><th>주의 사항</th></tr>
+<tr><td>한국어 (ko)</td><td>경어체, 비즈니스 공식</td><td>"~합니다", "~됩니다" 일관 사용</td></tr>
+<tr><td>영어 (en)</td><td>Business formal</td><td>능동태 우선, 간결한 문장</td></tr>
+<tr><td>중국어 (zh)</td><td>书面语 (서면체)</td><td>简体字 사용, 一般 → 一般 (간체)</td></tr>
+</table>
+
+<h3>전문 용어 대역 표</h3>
+
+<table>
+<tr><th>한국어</th><th>영어</th><th>중국어</th></tr>
+<tr><td>지속가능경영보고서</td><td>Sustainability Report</td><td>可持续发展报告</td></tr>
+<tr><td>환경 정량 데이터</td><td>Environmental Quantitative Data</td><td>环境定量数据</td></tr>
+<tr><td>본사 일괄 산출</td><td>HQ Batch Calculation</td><td>本部统一核算</td></tr>
+<tr><td>외부 검증사</td><td>External Assurance Provider</td><td>外部审验机构</td></tr>
+<tr><td>구조적 N/A</td><td>Structural N/A</td><td>结构性N/A</td></tr>
+<tr><td>지주사</td><td>Holding Company</td><td>控股公司</td></tr>
+<tr><td>효성기술원</td><td>Hyosung R&DB Labs</td><td>晓星技术院</td></tr>
+</table>
+</section>
+
+<section id="ch7-5" class="section-anchor">
+<h2>7.5 화면 모달 표시 검증</h2>
+
+<p>매뉴얼 갱신 후 대시보드 모달이 정상 표시되는지 시각 검증 필수.</p>
+
+<h3>모달 표시 검증 절차</h3>
+
+<ol>
+<li>대시보드 HTML 브라우저 로드</li>
+<li>임의 사업장 선택 (예: 구미·취저우스판)</li>
+<li>임의 지표 선택 (예: 행85 친환경 매출·행99 환경 R&D)</li>
+<li>지표명 옆 ⓘ/📖 아이콘 클릭</li>
+<li>모달 표시 8필드 모두 확인</li>
+<li>다국어 전환 (ko·en·zh) 모두 확인</li>
+</ol>
+
+<div class="box-warning">
+<h4>표시 안 됨 디버깅</h4>
+<ul>
+<li>JS 파싱 오류 → Node.js로 객체 평가 + 충돌 점검</li>
+<li>특정 필드 누락 → 8필드 보유 매트릭스 직접 검증</li>
+<li>다국어 누락 → ko/en/zh 1:1 번역 재확인</li>
+</ul>
+</div>
+
+<div class="checklist">
+<h4>7장 점검 체크리스트</h4>
+<ul>
+<li>표준 8필드를 외울 수 있다</li>
+<li>standardMapping·notes 추가 필드 사용 기준을 안다</li>
+<li>매뉴얼 갱신 시점 + 5단계 절차를 안다</li>
+<li>다국어 ko·en·zh 1:1 번역 원칙을 안다</li>
+<li>모달 표시 검증 절차를 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 8장. 외부 심사원 엑셀 동시 갱신 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch8" class="section-anchor">
+<h1>8장. 외부 심사원 엑셀 동시 갱신</h1>
+
+<section id="ch8-1" class="section-anchor">
+<h2>8.1 11개 시트 구조 + 시트명↔대시보드 idx 매핑</h2>
+
+<p>외부 심사원 엑셀은 11개 시트로 구성되며, 대시보드 idx와 다음과 같이 매핑됩니다.</p>
+
+<table>
+<tr><th>시트명</th><th>대시보드 idx</th><th>지표명</th></tr>
+<tr><td>표지·일람</td><td>—</td><td>버전 + 시트 인덱스</td></tr>
+<tr><td>행85</td><td>idx 29</td><td>친환경 제품 판매 실적</td></tr>
+<tr><td>행86</td><td>idx 30</td><td>총 제품 판매 실적</td></tr>
+<tr><td>행87</td><td>idx 31</td><td>친환경 제품 구매 실적</td></tr>
+<tr><td>행88</td><td>idx 32</td><td>총 제품 구매 실적</td></tr>
+<tr><td>행89</td><td>idx 33</td><td>재생가능 원료 사용량</td></tr>
+<tr><td>행90</td><td>idx 34</td><td>재활용된 원료 사용량</td></tr>
+<tr><td>행91</td><td>idx 35</td><td>회수된 솔벤트 사용량</td></tr>
+<tr><td>행92</td><td>idx 36</td><td>재생 불가능한 원료 사용량</td></tr>
+<tr><td>행103</td><td>idx 44</td><td>유해화학물질 사용량</td></tr>
+<tr><td>행112</td><td>idx 49</td><td>환경 법규 위반 벌금</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>시트명 매핑 주의 (메모리 #20)</h4>
+<p>엑셀 시트명은 본사 행번호 기준이지만, 대시보드 idx는 점프 매핑 적용. 엑셀 [행103] = 대시보드 idx 44 (행104·행105·행106 분리), 엑셀 [행112] = 대시보드 idx 49 (행107~111 점프).</p>
+</div>
+</section>
+
+<section id="ch8-2" class="section-anchor">
+<h2>8.2 동시 갱신 6단계 절차</h2>
+
+<div class="box-policy">
+<h4>핵심 원칙 (메모리 #20)</h4>
+<p>대시보드 변경 작업 시 외부 심사원 엑셀 항상 함께 반영. 두 파일 동일 버전 번호 유지.</p>
+</div>
+
+<h3>6단계 절차</h3>
+
+<ol>
+<li><b>대시보드 변경</b>
+<ul>
+<li>RAW 정정 또는 V/NA 등록</li>
+<li>매뉴얼 갱신</li>
+<li>JS 파싱 검증</li>
+</ul>
+</li>
+<li><b>엑셀 v(N-1) 복사</b>
+<ul>
+<li><code>shutil.copy(엑셀_v(N-1).xlsx, 엑셀_v(N).xlsx)</code></li>
+</ul>
+</li>
+<li><b>변경 행 갱신</b>
+<ul>
+<li>대시보드 변경 사항 → 해당 시트만 갱신</li>
+<li>RAW·V·NA·산출 자료 모두 반영</li>
+</ul>
+</li>
+<li><b>11개 시트 정합성 점검</b>
+<ul>
+<li>대시보드 ↔ 엑셀 셀 1:1 비교</li>
+<li>차이 시 대시보드 기준으로 엑셀 갱신</li>
+</ul>
+</li>
+<li><b>표지 시트 버전 갱신</b>
+<ul>
+<li>표지·일람 시트 R6C2 셀 vNN → v(N+1) 변경</li>
+</ul>
+</li>
+<li><b>두 파일 동일 버전 outputs 산출</b>
+<ul>
+<li>대시보드 vNN HTML + 엑셀 vNN xlsx 동일 폴더</li>
+<li>Google Drive 동기 업로드</li>
+</ul>
+</li>
+</ol>
+</section>
+
+<section id="ch8-3" class="section-anchor">
+<h2>8.3 정합성 점검 자동화 스크립트 사용법</h2>
+
+<p>대시보드 ↔ 엑셀 정합성 점검은 Python openpyxl + JSON 직렬화로 자동화합니다.</p>
+
+<h3>표준 점검 스크립트</h3>
+
+<pre><code>import openpyxl, json, re
+
+# 1. 대시보드 RAW 추출
+with open('대시보드_v98.html', 'r', encoding='utf-8') as f:
+    html = f.read()
+raw_s, raw_e = find_obj_bounds(html, 'RAW')
+RAW = json.loads(html[raw_s:raw_e])
+
+# 2. 엑셀 시트 순회
+wb = openpyxl.load_workbook('엑셀_v98.xlsx')
+sheets_to_check = ['행85', '행86', '행87', '행88', '행89', '행90', '행91', '행92', '행103', '행112']
+
+for sheet_name in sheets_to_check:
+    ws = wb[sheet_name]
+    # 시트별 정합성 점검 로직
+    # ...
+
+# 3. 차이 발견 시 알림
+print(f"정합성 점검 결과: ALL PASS / 차이 N건")</code></pre>
+
+<h3>자주 발생하는 차이 유형</h3>
+
+<table>
+<tr><th>유형</th><th>원인</th><th>해결</th></tr>
+<tr><td>RAW 값 불일치</td><td>대시보드만 정정, 엑셀 미갱신</td><td>엑셀 동시 갱신</td></tr>
+<tr><td>V basis 차이</td><td>다국어 1:1 번역 미적용</td><td>엑셀 ko/en/zh 동시 갱신</td></tr>
+<tr><td>버전 표기 차이</td><td>표지 시트 미갱신</td><td>R6C2 셀 직접 갱신</td></tr>
+<tr><td>합계 행 차이</td><td>법인별 RAW 정정 후 합계 미반영</td><td>합계 재계산</td></tr>
+</table>
+</section>
+
+<section id="ch8-4" class="section-anchor">
+<h2>8.4 표지·일람 시트 버전 갱신</h2>
+
+<p>표지·일람 시트는 엑셀 첫 번째 시트로, 다음 정보 포함:</p>
+
+<ul>
+<li>대시보드 버전 + 발행 일자 (R6C2 셀)</li>
+<li>11개 시트 인덱스 + 지표명</li>
+<li>HQ_MANAGED 11건 산출 책임자 + 산출 자료 위치</li>
+<li>외부 심사원 답변 표준 시나리오</li>
+</ul>
+
+<h3>버전 갱신 표준 패턴</h3>
+
+<pre><code>import openpyxl, shutil
+
+# 이전 버전 복사
+shutil.copy('엑셀_v97.xlsx', '엑셀_v98.xlsx')
+
+# 표지 시트 버전 갱신
+wb = openpyxl.load_workbook('엑셀_v98.xlsx')
+ws = wb['표지·일람']
+for r in range(1, ws.max_row+1):
+    for c in range(1, ws.max_column+1):
+        v = ws.cell(r, c).value
+        if v and 'v97' in str(v):
+            ws.cell(r, c).value = str(v).replace('v97', 'v98')
+wb.save('엑셀_v98.xlsx')</code></pre>
+</section>
+
+<section id="ch8-5" class="section-anchor">
+<h2>8.5 GitHub Pages 미러 업로드</h2>
+
+<p>대시보드 + 엑셀은 GitHub Pages에 미러 업로드되어 외부 검증사 즉시 접근 가능합니다.</p>
+
+<h3>업로드 위치</h3>
+
+<ul>
+<li>GitHub Repo: <code>sangbeomkim80/esg-data</code></li>
+<li>Pages URL: <code>https://sangbeomkim80.github.io/esg-data/</code></li>
+<li>업로드 파일: 대시보드 HTML + 외부 심사원 엑셀 + 지침 PDF + 인계 프롬프트 MD</li>
+</ul>
+
+<h3>업로드 절차</h3>
+
+<ol>
+<li>GitHub 웹 인터페이스 또는 git push</li>
+<li>업로드 파일 동일 폴더 (esg-data/) 일괄 갱신</li>
+<li>커밋 메시지: "v98: 행99 환경 R&D NA 일괄 등록"</li>
+<li>Pages 자동 배포 확인 (1-2분 소요)</li>
+</ol>
+
+<div class="box-warning">
+<h4>주의: 민감 정보 검토</h4>
+<p>GitHub Pages는 공개 저장소입니다. 업로드 전 SAP G/L 코드·법인 인보이스 번호 등 민감 정보 누락 확인 필수.</p>
+</div>
+
+<div class="checklist">
+<h4>8장 점검 체크리스트</h4>
+<ul>
+<li>외부 심사원 엑셀 11개 시트 구조를 안다</li>
+<li>엑셀 [행103] = 대시보드 idx 44 매핑을 안다</li>
+<li>동시 갱신 6단계 절차를 외울 수 있다</li>
+<li>정합성 점검 자동화 스크립트를 사용할 수 있다</li>
+<li>GitHub Pages 미러 업로드 절차를 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 9장. 외부 검증 대응 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch9" class="section-anchor">
+<h1>9장. 외부 검증 대응</h1>
+
+<section id="ch9-1" class="section-anchor">
+<h2>9.1 외부 검증 송부 전 체크리스트</h2>
+
+<p>5/11 외부 검증사 송부 전 다음 사항 모두 확인 필수.</p>
+
+<div class="checklist">
+<h4>송부 전 필수 점검 사항</h4>
+<ul>
+<li>대시보드 + 엑셀 동일 vNN 버전 보유</li>
+<li>11개 시트 정합성 ALL PASS</li>
+<li>VERIFIED 등록 누락 0건 (RAW 값 있는 셀 모두 V 또는 NA)</li>
+<li>NOT_APPLICABLE 등록 누락 0건 (사유 명확화)</li>
+<li>다국어 ko/en/zh 일관성 100%</li>
+<li>INDICATOR_MANUAL 50/50 표준 8필드 100% 완비</li>
+<li>YoY 이상치 모두 사유 명시 또는 V basis 반영</li>
+<li>외부 검증 사전 정리 6건 답변 패키지 준비</li>
+<li>표기 금지 사항 (PwC·외부 검증사 명칭 등) 위반 0건</li>
+<li>GitHub Pages 미러 동기화 완료</li>
+</ul>
+</div>
+</section>
+
+<section id="ch9-2" class="section-anchor">
+<h2>9.2 외부 검증사 자주 묻는 질문 20선</h2>
+
+<p>외부 검증사가 자주 묻는 질문 + 표준 답변입니다.</p>
+
+<h3>RAW·산출 관련</h3>
+
+<table>
+<tr><th>질문</th><th>답변 방향</th></tr>
+<tr><td>1. RAW 값 출처는?</td><td>정부 공식 문서 우선 (SEMS·연보·CMA 등)</td></tr>
+<tr><td>2. 측정 기간은?</td><td>보고연도 1.1~12.31 일관 적용</td></tr>
+<tr><td>3. 단위 환산 방식은?</td><td>kg→ton (÷1,000), m³→ton (1:1) 등</td></tr>
+<tr><td>4. SEMS 신뢰성 검증은?</td><td>지침 §1.12.1 SEMS 신뢰성 예외 처리 적용 (汇总 보정)</td></tr>
+<tr><td>5. 본사 일괄 산출 11건은?</td><td>SAP·재고수불부·매칭 엔진 자체 산출</td></tr>
+</table>
+
+<h3>YoY 이상치 관련</h3>
+
+<table>
+<tr><th>질문</th><th>답변 방향</th></tr>
+<tr><td>6. ±30% 초과 변동 사유는?</td><td>법인 회신 + 본사 검증 결과 명시</td></tr>
+<tr><td>7. 닝샤 행75 269,116% 폭증?</td><td>C11 신증설로 인한 신규 순환 시스템 도입</td></tr>
+<tr><td>8. 취저우 VOCs 322배 급감?</td><td>FY25 운영시간 데이터 미수령으로 보류</td></tr>
+<tr><td>9. 동나이 1261 V자 패턴?</td><td>FY24 일시 폭증 → FY25 정상화 (생산 변동)</td></tr>
+<tr><td>10. 울산 1204 점진 감소?</td><td>나일론 사업부 이관·생산 중단</td></tr>
+</table>
+
+<h3>NA 등록 관련</h3>
+
+<table>
+<tr><th>질문</th><th>답변 방향</th></tr>
+<tr><td>11. NA 등록 사유 표준은?</td><td>N/A 표준 사유 7종 적용</td></tr>
+<tr><td>12. 행99 환경 R&D NA 일괄?</td><td>효성기술원 단독 집행, 사업장 차원 부재</td></tr>
+<tr><td>13. 행97 환경 부담금 NA 일괄?</td><td>FY26부터 집계 시작 (본사 정책)</td></tr>
+<tr><td>14. 가흥무역 환경 47건 NA?</td><td>무역법인 사업 유형 불일치</td></tr>
+<tr><td>15. 취저우네오캠 47건 NA?</td><td>본사 보고경계 결정 — 온실가스만 측정</td></tr>
+</table>
+
+<h3>보고경계 관련</h3>
+
+<table>
+<tr><th>질문</th><th>답변 방향</th></tr>
+<tr><td>16. 보고경계 기준은?</td><td>재무/자산소유 통제 기준 (운영통제 아님)</td></tr>
+<tr><td>17. 1160 plant 제외 사유?</td><td>HS첨단소재 자산, 효성티앤씨 재무 통합 외부</td></tr>
+<tr><td>18. 동나이 6 plant 통합 사유?</td><td>v73부터 자산소유 확인 후 통합</td></tr>
+<tr><td>19. 닝샤 PTMG 3741 통합?</td><td>v71부터 동일 사업장 내 운영 통합</td></tr>
+<tr><td>20. FY26 동나이나일론 통합 예정?</td><td>FY26부터 단일 사업장 통합 보고</td></tr>
+</table>
+</section>
+
+<section id="ch9-3" class="section-anchor">
+<h2>9.3 답변 패키지 표준 형식</h2>
+
+<p>외부 검증 사전 정리 답변 패키지는 다음 표준 형식으로 작성합니다.</p>
+
+<h3>답변 패키지 구성</h3>
+
+<ol>
+<li><b>질의 번호 + 사항</b></li>
+<li><b>현재 상태 요약</b> (RAW 값 + V basis)</li>
+<li><b>답변 방향</b> (정책 근거 + 증빙 출처)</li>
+<li><b>증빙 자료 첨부</b> (스크린샷·PDF·CSV 등)</li>
+<li><b>차후 조치 계획</b> (해당 시)</li>
+</ol>
+
+<h3>표준 답변 예시</h3>
+
+<div class="box-scenario">
+<h4>예시: 닝샤 행75 용수 재활용 269,116% 폭증 답변</h4>
+<div class="scenario-line">
+<div class="scenario-label">질의:</div>
+<div>닝샤스판 행75 용수 재활용 FY24 → FY25 130,140,000 ton (269,116% 증가) 사유?</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">현재:</div>
+<div>RAW: FY24 48,342 → FY25 130,140,000 ton (V 등록 대기)</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">답변:</div>
+<div>C11 신증설로 인한 실제 폭증입니다. 폐쇄형 순환 냉각수 시스템 (closed-loop cooling water system)의 누계 순환량 계상 방식으로, C11 신규 라인 도입으로 새로운 대규모 순환 시스템이 추가되었습니다. 닝샤 측 증빙 자료 확보 완료, 차후 V 등록 예정.</div>
+</div>
+<div class="scenario-line">
+<div class="scenario-label">증빙:</div>
+<div>닝샤 자체 산출 자료「循环水量」 23·24·25 (메모리 §14)</div>
+</div>
+</div>
+</section>
+
+<section id="ch9-4" class="section-anchor">
+<h2>9.4 표기 금지 사항</h2>
+
+<div class="box-danger">
+<h4>절대 금지 사항</h4>
+<p>외부 검증사·외부 심사원 답변 자료에 다음 표기 일체 금지:</p>
+</div>
+
+<table>
+<tr><th>금지 표기</th><th>대체 표기</th><th>사유</th></tr>
+<tr><td>"PwC"</td><td>"법인 제출값" 또는 "본사 제공 템플릿"</td><td>외부 심사원 명칭 노출 금지</td></tr>
+<tr><td>특정 외부 검증사 명칭</td><td>"외부 검증사" 또는 "외부 검증 단계"</td><td>외부 검증사 명칭 노출 금지</td></tr>
+<tr><td>"R0~R55" R 인덱스</td><td>본사 행번호 (행56~행112)</td><td>내부 코드 노출 방지</td></tr>
+<tr><td>행번호 단독 표기</td><td>행번호 + 지표 라벨 ("행68 VOCs")</td><td>외부 검증사 즉시 식별 위함</td></tr>
+<tr><td>틸다 (~)</td><td>en-dash (–) 또는 "부터·에서"</td><td>마크다운 취소선 오해석 방지</td></tr>
+</table>
+</section>
+
+<section id="ch9-5" class="section-anchor">
+<h2>9.5 답변 시 INDICATOR_MANUAL·V basis 활용법</h2>
+
+<p>외부 검증사 답변 시 매뉴얼·V basis를 즉시 참조 자료로 활용합니다.</p>
+
+<h3>매뉴얼 활용 시나리오</h3>
+
+<ol>
+<li>외부 검증사 질의 수령</li>
+<li>대시보드에서 해당 지표명 + ⓘ/📖 아이콘 클릭</li>
+<li>모달 8필드 즉시 표시</li>
+<li>definition·include·exclude·decisionTree 답변에 활용</li>
+<li>증빙 출처 (evidence) 첨부 자료 식별</li>
+</ol>
+
+<h3>V basis 활용 시나리오</h3>
+
+<ol>
+<li>특정 사업장 + 지표 V basis 마우스 오버</li>
+<li>다국어 툴팁 즉시 표시</li>
+<li>basis 배열 답변 자료로 직접 인용</li>
+<li>외부 검증사 언어에 맞춰 ko/en/zh 선택</li>
+</ol>
+
+<div class="box-success">
+<h4>답변 시간 절감 효과</h4>
+<p>매뉴얼·V basis 사전 작성 → 외부 검증 답변 시간 50% 이상 절감 가능. 메일·구두 답변 시 매뉴얼 모달 스크린샷 첨부 → 답변 신뢰성 향상.</p>
+</div>
+
+<div class="checklist">
+<h4>9장 점검 체크리스트</h4>
+<ul>
+<li>송부 전 10개 점검 사항을 안다</li>
+<li>외부 검증사 자주 묻는 질문 20선 답변 방향을 안다</li>
+<li>답변 패키지 표준 형식을 작성할 수 있다</li>
+<li>표기 금지 사항 5종을 외울 수 있다</li>
+<li>매뉴얼·V basis 활용 시나리오를 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 10장. 버전 관리 + 백업 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch10" class="section-anchor">
+<h1>10장. 버전 관리 + 백업</h1>
+
+<section id="ch10-1" class="section-anchor">
+<h2>10.1 대시보드 버전 정책</h2>
+
+<div class="box-policy">
+<h4>핵심 원칙</h4>
+<p>대시보드 버전은 vNN 단순 정수 증가 정책 적용. 위험도 A·B 작업 1건당 +1 증가.</p>
+</div>
+
+<h3>버전 표기 규칙</h3>
+
+<ul>
+<li>형식: <code>vNN</code> (소문자 v + 정수, 점 없음)</li>
+<li>예: v1, v2, ..., v97, v98, v99, v100</li>
+<li>날짜 별도 표기: <code>v98 (2026-05-03)</code></li>
+<li>버전 표기 위치: 헤더·파일명·표지 시트·메모리</li>
+</ul>
+
+<h3>버전업 시점</h3>
+
+<table>
+<tr><th>작업</th><th>버전업</th></tr>
+<tr><td>RAW 일괄 정정 (10건+)</td><td>+1</td></tr>
+<tr><td>VERIFIED·NA 일괄 등록 (10건+)</td><td>+1</td></tr>
+<tr><td>INDICATOR_MANUAL 일괄 갱신</td><td>+1</td></tr>
+<tr><td>버그 수정 (단순 표시 오류)</td><td>+1</td></tr>
+<tr><td>단순 조회·분석</td><td>버전업 없음</td></tr>
+</table>
+</section>
+
+<section id="ch10-2" class="section-anchor">
+<h2>10.2 산출물 4종 + 버전 동기화</h2>
+
+<p>본 시스템은 4종 산출물로 구성되며, 버전 동기화 정책이 다릅니다.</p>
+
+<table>
+<tr><th>#</th><th>산출물</th><th>파일명 패턴</th><th>버전 정책</th></tr>
+<tr><td>1</td><td>대시보드 (SSOT)</td><td>효성티앤씨_ESG_환경_검수_대시보드_YYYY-MM-DD_vNN.html</td><td>vNN 정수 증가</td></tr>
+<tr><td>2</td><td>외부 심사원 엑셀</td><td>효성티앤씨_FY2025_본사_일괄_산출_지표_근거자료_vNN.xlsx</td><td>대시보드와 동일 vNN</td></tr>
+<tr><td>3</td><td>프로젝트 지침</td><td>효성티앤씨_ESG_프로젝트지침_백업_YYYY-MM-DD_vN.md</td><td>대시보드와 별도 vN (보통 v1·v2·v3)</td></tr>
+<tr><td>4</td><td>인계 프롬프트</td><td>효성티앤씨_ESG_환경_검수_인계_프롬프트_YYYY-MM-DD_vNN.md</td><td>대시보드와 동일 vNN</td></tr>
+</table>
+
+<div class="box-warning">
+<h4>버전 불일치 방지</h4>
+<p>대시보드 v98 발행 시 외부 심사원 엑셀도 v98로 동시 발행. 버전 불일치 시 외부 검증사 즉시 지적 가능.</p>
+</div>
+</section>
+
+<section id="ch10-3" class="section-anchor">
+<h2>10.3 Google Drive 자동 백업 + 폴더 ID</h2>
+
+<p>outputs/ 폴더 산출물은 Google Drive 자동 백업 적용 (메모리 #21).</p>
+
+<h3>백업 폴더 구조</h3>
+
+<table>
+<tr><th>폴더</th><th>ID</th><th>저장 파일</th></tr>
+<tr><td>메인</td><td><code>1xeCp3O8JOoivzjSJe3DGapQBJIejtIpu</code></td><td>전체 백업 루트</td></tr>
+<tr><td>01_프로젝트_지침</td><td><code>1Z-ITkpgjPKmhrZEEF0sqSupI9r_oCV_D</code></td><td>지침 v1·v2·v3·v4·v5</td></tr>
+<tr><td>02_대시보드</td><td><code>1uqqfBHkOCR2PSTIFo1lNL5X9NobMnZb8</code></td><td>대시보드 vNN HTML</td></tr>
+<tr><td>03_외부_심사원_엑셀</td><td><code>1G5LOAnVUUBuMii4ms0LtdMMUCocWi356</code></td><td>엑셀 vNN xlsx</td></tr>
+<tr><td>04_인계_프롬프트</td><td><code>1KPj7aKH_3n8vlrme9kBUdYRcCawvVf9M</code></td><td>인계 프롬프트 MD</td></tr>
+<tr><td>05_매뉴얼</td><td>(차후 생성)</td><td>본 매뉴얼 v1·v2·...</td></tr>
+</table>
+
+<h3>자동 백업 한도 (옵션 A)</h3>
+
+<ul>
+<li>마크다운 (텍스트): 약 100KB까지 직접 업로드 가능</li>
+<li>바이너리 (HTML·xlsx): base64 인코딩 후 약 70KB까지 직접 업로드</li>
+<li>한도 초과 시 사용자 수동 업로드 안내</li>
+</ul>
+
+<div class="box-warning">
+<h4>대시보드·엑셀 수동 업로드 필요</h4>
+<p>대시보드 HTML (1.5MB), 외부 심사원 엑셀 (50KB) 모두 자동 백업 한도 초과. 사용자 수동 업로드 필수.</p>
+</div>
+</section>
+
+<section id="ch10-4" class="section-anchor">
+<h2>10.4 outputs 폴더 관리</h2>
+
+<p>outputs/ 폴더는 사용자 다운로드용 산출물 보관 위치입니다.</p>
+
+<h3>폴더 위치</h3>
+
+<ul>
+<li>경로: <code>/mnt/user-data/outputs/</code></li>
+<li>read-only: 아니오 (작업 산출 가능)</li>
+<li>접근: 사용자 + 시스템</li>
+</ul>
+
+<h3>관리 정책</h3>
+
+<ul>
+<li>최신 vNN + 직전 v(N-1) + 직전 v(N-2) 보관 (3 generation)</li>
+<li>차차전 v(N-3) 이전은 Google Drive로 이관 후 outputs 정리</li>
+<li>임시 작업 파일은 <code>/home/claude/work/</code> 사용</li>
+</ul>
+
+<h3>파일명 규칙</h3>
+
+<ul>
+<li>날짜 + 버전 포함 (예: <code>대시보드_2026-05-03_v98.html</code>)</li>
+<li>한글 파일명 사용 가능</li>
+<li>공백·특수문자 (?·*·:) 사용 금지</li>
+</ul>
+</section>
+
+<section id="ch10-5" class="section-anchor">
+<h2>10.5 GitHub Pages 미러 운영</h2>
+
+<p>GitHub Pages는 외부 검증사 즉시 접근 가능한 공개 미러입니다.</p>
+
+<h3>저장소 정보</h3>
+
+<ul>
+<li>Repo: <code>sangbeomkim80/esg-data</code></li>
+<li>Pages URL: <code>https://sangbeomkim80.github.io/esg-data/</code></li>
+<li>업로드 권한: 사용자 (상범님) 직접 관리</li>
+</ul>
+
+<h3>업로드 파일</h3>
+
+<ul>
+<li>대시보드 최신 vNN HTML</li>
+<li>외부 심사원 엑셀 최신 vNN xlsx</li>
+<li>프로젝트 지침 최신 vN MD</li>
+<li>인계 프롬프트 최신 vNN MD (선택)</li>
+</ul>
+
+<div class="box-warning">
+<h4>주의: 민감 정보 검토</h4>
+<p>GitHub은 공개 저장소. 업로드 전 SAP G/L 코드·법인 인보이스 번호·개인 연락처 등 민감 정보 누락 확인 필수.</p>
+</div>
+</section>
+
+<section id="ch10-6" class="section-anchor">
+<h2>10.6 백업 한도 + 수동 업로드 절차</h2>
+
+<h3>자동 백업 한도</h3>
+
+<table>
+<tr><th>파일 유형</th><th>한도</th><th>처리</th></tr>
+<tr><td>마크다운 (.md)</td><td>약 100KB</td><td>자동 직접 업로드 가능</td></tr>
+<tr><td>바이너리 base64</td><td>약 70KB</td><td>자동 base64 인코딩 후 업로드</td></tr>
+<tr><td>대시보드 HTML</td><td>약 1.5MB</td><td>한도 초과 → 수동 업로드</td></tr>
+<tr><td>외부 심사원 엑셀</td><td>약 50KB</td><td>한도 초과 → 수동 업로드</td></tr>
+</table>
+
+<h3>수동 업로드 절차</h3>
+
+<ol>
+<li>outputs/ 폴더에서 파일 다운로드</li>
+<li>Google Drive 백업 폴더 접속 (해당 카테고리)</li>
+<li>드래그 앤 드롭 또는 "파일 업로드" 메뉴</li>
+<li>파일명 검증 (날짜 + 버전 포함)</li>
+<li>이전 버전 보관 (overwrite 금지)</li>
+</ol>
+
+<div class="checklist">
+<h4>10장 점검 체크리스트</h4>
+<ul>
+<li>대시보드 버전 정책 (vNN 정수 증가)을 안다</li>
+<li>산출물 4종 + 버전 동기화 정책을 안다</li>
+<li>Google Drive 백업 폴더 ID 5개를 안다</li>
+<li>outputs 폴더 관리 정책을 안다</li>
+<li>GitHub Pages 미러 운영 절차를 안다</li>
+<li>자동 백업 한도 + 수동 업로드 절차를 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 11장. 정보 매체 3종 + 메모리 시스템 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch11" class="section-anchor">
+<h1>11장. 정보 매체 3종 + 메모리 시스템</h1>
+
+<section id="ch11-1" class="section-anchor">
+<h2>11.1 프로젝트 지침 vs 메모리 vs 인계 프롬프트 역할 구분</h2>
+
+<p>본 시스템은 3종 정보 매체로 구성되며, 각 역할이 다릅니다.</p>
+
+<table>
+<tr><th>매체</th><th>역할</th><th>변경 빈도</th><th>접근 방식</th></tr>
+<tr><td><b>프로젝트 지침</b></td><td>영구 정책·표기 원칙·정합성 규칙</td><td>분기·반기 단위 (소수)</td><td>사용자가 Anthropic 인터페이스 등록</td></tr>
+<tr><td><b>메모리</b></td><td>작업 사례·현재 상태·잔여 과제</td><td>작업당 (다수)</td><td>memory_user_edits 도구</td></tr>
+<tr><td><b>인계 프롬프트</b></td><td>세션 종료 시 다음 세션 인수인계</td><td>세션당 1회</td><td>마크다운 파일 발행</td></tr>
+</table>
+
+<h3>차이점 비교</h3>
+
+<table>
+<tr><th>구분</th><th>프로젝트 지침</th><th>메모리</th><th>인계 프롬프트</th></tr>
+<tr><td>대상</td><td>영구 정책</td><td>가변 사실</td><td>세션 컨텍스트</td></tr>
+<tr><td>예시</td><td>"세전 정책 §1.3"</td><td>"v98 V 456 / NA 235"</td><td>"가흥화공 회신 대기"</td></tr>
+<tr><td>버전 관리</td><td>vN (소수)</td><td>없음 (자동)</td><td>vNN (대시보드 동기)</td></tr>
+</table>
+</section>
+
+<section id="ch11-2" class="section-anchor">
+<h2>11.2 정보 분류 원칙</h2>
+
+<div class="box-policy">
+<h4>핵심 원칙</h4>
+<p>새로운 정보는 영구성 + 변경 빈도에 따라 3종 매체에 적절히 분류 등록.</p>
+</div>
+
+<h3>분류 기준 트리</h3>
+
+<ol>
+<li>영구 정책 + 표기 원칙 + 정합성 규칙인가? → <b>프로젝트 지침</b></li>
+<li>가변 작업 사실 + 잔여 과제 + 사례인가? → <b>메모리</b></li>
+<li>현재 세션 컨텍스트 + 다음 세션 인수인계인가? → <b>인계 프롬프트</b></li>
+</ol>
+
+<h3>분류 사례</h3>
+
+<table>
+<tr><th>정보</th><th>분류</th><th>사유</th></tr>
+<tr><td>"세전 정책 일관 적용"</td><td>지침 §1.3</td><td>영구 정책</td></tr>
+<tr><td>"닝샤 행75 269,116% 폭증 = C11"</td><td>메모리 #4</td><td>특정 사례</td></tr>
+<tr><td>"행99 NA 일괄 등록 v98 완료"</td><td>메모리 #10</td><td>현재 상태</td></tr>
+<tr><td>"가흥화공 회신 대기 중"</td><td>인계 프롬프트</td><td>세션 컨텍스트</td></tr>
+<tr><td>"위험도 4단계 분류"</td><td>지침 §5</td><td>영구 절차</td></tr>
+</table>
+</section>
+
+<section id="ch11-3" class="section-anchor">
+<h2>11.3 메모리 갱신 시점 + 절차</h2>
+
+<h3>갱신 시점</h3>
+
+<ul>
+<li>새로운 작업 사례 발생 시 (사례 기록)</li>
+<li>현재 상태 변경 시 (V/NA 카운트 변동 등)</li>
+<li>잔여 과제 추가/완료 시</li>
+<li>정책 변경 시 (예: NA 일괄 정책)</li>
+</ul>
+
+<h3>memory_user_edits 도구 표준 사용 패턴</h3>
+
+<pre><code># 1. 현재 메모리 조회
+memory_user_edits(command="view")
+
+# 2. 신규 메모리 추가
+memory_user_edits(
+    command="add",
+    control="신규 메모리 내용 (500자 이내)"
+)
+
+# 3. 기존 메모리 정정
+memory_user_edits(
+    command="replace",
+    line_number=10,
+    replacement="정정 메모리 내용"
+)
+
+# 4. 메모리 제거
+memory_user_edits(
+    command="remove",
+    line_number=15
+)</code></pre>
+
+<h3>메모리 작성 표준</h3>
+
+<ul>
+<li>날짜 + 버전 포함 (예: "(2026-05-03 v98 등록)")</li>
+<li>한 메모리당 500자 이내 (한도)</li>
+<li>구조화된 형식 (①·②·③ 등)</li>
+<li>구체 사실 + 정책 근거 + 잔여 과제</li>
+</ul>
+</section>
+
+<section id="ch11-4" class="section-anchor">
+<h2>11.4 인계 프롬프트 작성 표준</h2>
+
+<p>인계 프롬프트는 세션 종료 시 다음 세션 작업자에게 전달되는 종합 인수인계 문서입니다.</p>
+
+<h3>표준 10개 섹션 구조</h3>
+
+<ol>
+<li>현재 상태 한 줄 요약</li>
+<li>본 세션 작업 결과 누적</li>
+<li>잔여 과제 우선순위 (1순위·2순위·3순위)</li>
+<li>외부 검증 사전 정리 답변 패키지</li>
+<li>핵심 산출물 파일 경로 (verbatim)</li>
+<li>Google Drive 백업 폴더 ID</li>
+<li>다음 세션 즉시 수행 권고 작업</li>
+<li>핵심 정책·표기 원칙 재확인</li>
+<li>INDICATOR_MANUAL 운영</li>
+<li>사용자 직접 작업 진행 사항</li>
+</ol>
+
+<h3>발행 시점</h3>
+
+<ul>
+<li>세션 종료 시 (작업 완료 후)</li>
+<li>대시보드 vNN 발행 직후</li>
+<li>메모리 갱신 직후</li>
+</ul>
+
+<h3>발행 위치</h3>
+
+<ul>
+<li>outputs/: 사용자 다운로드용</li>
+<li>Google Drive 04_인계_프롬프트: 자동 백업 (한도 100KB 이내 가능)</li>
+</ul>
+</section>
+
+<section id="ch11-5" class="section-anchor">
+<h2>11.5 지침 버전업 시점 + 절차</h2>
+
+<h3>지침 버전업 시점</h3>
+
+<ul>
+<li>영구 정책 신규 추가 시</li>
+<li>정합성 규칙 변경 시</li>
+<li>표기 원칙 변경 시</li>
+<li>FY 전환 시</li>
+</ul>
+
+<h3>지침 변경 이력 (참고)</h3>
+
+<table>
+<tr><th>버전</th><th>주요 변경</th></tr>
+<tr><td>v1</td><td>초기 발행 (보고경계·세전 정책 등)</td></tr>
+<tr><td>v2</td><td>SEMS 신뢰성 예외 처리 신설 (§1.12.1)</td></tr>
+<tr><td>v3</td><td>위험도 4단계 분류 정식화 (§5)</td></tr>
+<tr><td>v4</td><td>다국어 작성 표준 + 메모리 §5 신설</td></tr>
+<tr><td>v5</td><td>§2.2 행번호 매핑 정정 + §1.5.4 행97 FY26 이관 + §5.10 INDICATOR_MANUAL 운영 정책</td></tr>
+</table>
+
+<h3>지침 발행 절차</h3>
+
+<ol>
+<li>변경 사항 정리 (소수 단위 갱신)</li>
+<li>지침 vN-1 복사 → vN 작업본 생성</li>
+<li>변경 절·항목 갱신</li>
+<li>v(N-1) → v(N) 표지 갱신</li>
+<li>outputs + Google Drive 01 폴더 동시 산출</li>
+<li>메모리 또는 인계 프롬프트에 변경 사항 명시</li>
+</ol>
+
+<div class="checklist">
+<h4>11장 점검 체크리스트</h4>
+<ul>
+<li>지침·메모리·인계 프롬프트 3종 매체 역할 차이를 안다</li>
+<li>정보 분류 기준 트리를 외울 수 있다</li>
+<li>memory_user_edits 도구 4종 명령을 안다</li>
+<li>인계 프롬프트 표준 10개 섹션을 안다</li>
+<li>지침 버전업 시점 + 절차를 안다</li>
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 12장. 차년도 운영 + FY 전환 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="ch12" class="section-anchor">
+<h1>12장. 차년도 운영 + FY 전환</h1>
+
+<section id="ch12-1" class="section-anchor">
+<h2>12.1 신규 회계연도 시작 시 작업 목록</h2>
+
+<p>매년 1월 신규 회계연도 시작 시 다음 작업 진행.</p>
+
+<h3>1월 작업 목록</h3>
+
+<ol>
+<li><b>대시보드 RAW 객체 새 컬럼 추가</b>
+<ul>
+<li>FY(N) 추가 (3개년 → 4개년 = 가장 오래된 FY 삭제)</li>
+<li>예: FY23·FY24·FY25 → FY24·FY25·FY26</li>
+</ul>
+</li>
+<li><b>법인 회신 템플릿 발송</b>
+<ul>
+<li>본사 제공 템플릿 갱신 (FY26 컬럼 추가)</li>
+<li>15개 사업장 일괄 메일</li>
+</ul>
+</li>
+<li><b>SAP 산출 자료 신규 추출</b>
+<ul>
+<li>재고수불부·G/L·매출 자료 FY26 추출</li>
+<li>매칭 엔진 v2 + R090 v4 적용</li>
+</ul>
+</li>
+<li><b>FY26 이관 항목 처리</b>
+<ul>
+<li>행97 환경 부담금 신규 집계 시작</li>
+<li>행93 포장재 단위중량 자료 수령 후 산출</li>
+</ul>
+</li>
+<li><b>메모리 갱신</b>
+<ul>
+<li>"v100 (2027-01-XX): FY26 회계연도 시작" 등록</li>
+</ul>
+</li>
+</ol>
+</section>
+
+<section id="ch12-2" class="section-anchor">
+<h2>12.2 FY26 이관 항목 (현재 보류)</h2>
+
+<p>본 보고서 (FY25)에서 보류된 FY26 이관 항목:</p>
+
+<h3>행97 환경 부담금·세금</h3>
+
+<ul>
+<li>FY23·FY24·FY25 NA 일괄 등록 (15개 사업장)</li>
+<li>FY26부터 본사 SAP G/L 자체 산출 정책 적용 예정</li>
+<li>15법인 일괄 회신 요청 진행 (FY26 작업 일정)</li>
+<li>행112 패턴 참고 (G/L 53119900 자체 추출 방식)</li>
+</ul>
+
+<h3>행93 포장재 총 출하량</h3>
+
+<ul>
+<li>SAP EA 데이터 추출 완료, 단위 중량 정보 부족</li>
+<li>FY26 단위 중량 자료 수령 후 산출 가능</li>
+<li>본사 일괄 처리 (법인 회신 불필요)</li>
+</ul>
+
+<h3>동나이나일론 (1262) 통합</h3>
+
+<ul>
+<li>현재 동나이 6 plant 통합 보고 중</li>
+<li>FY26부터 단일 사업장 통합 보고 예정</li>
+<li>외부 검증 단계 사전 명시 필요</li>
+</ul>
+
+<h3>효성기술원 환경 R&D 비용 본사 차원 집계</h3>
+
+<ul>
+<li>현재 사업장 차원 NA 일괄 등록</li>
+<li>차후 효성기술원 분리 집계 가능 여부 확인 후 본사 차원 단일 RAW 등록 검토 (HQ_MANAGED tier)</li>
+<li>가능 시 보고서 부록·각주에 명시</li>
+</ul>
+</section>
+
+<section id="ch12-3" class="section-anchor">
+<h2>12.3 신규 인디케이터 추가 절차</h2>
+
+<p>FY 전환 시 신규 지표 추가 시 다음 절차 적용.</p>
+
+<h3>6객체 정합성 작업</h3>
+
+<ol>
+<li>RAW 객체 indicators 배열에 신규 항목 추가</li>
+<li>VERIFIED·NOT_APPLICABLE 빈 키 준비</li>
+<li>INDICATOR_MANUAL 표준 8필드 신규 작성 (다국어)</li>
+<li>ROW_MAP 행번호 매핑 추가 (점프 발생 시 주의)</li>
+<li>LANG 객체 다국어 라벨 추가</li>
+<li>CURRENCY_MAP 통화 정책 (해당 시)</li>
+</ol>
+
+<h3>외부 심사원 엑셀 신규 시트</h3>
+
+<ul>
+<li>HQ_MANAGED 신규 추가 시 시트 신규 생성</li>
+<li>표지·일람 시트에 시트명 추가</li>
+<li>11개 시트 → 12개 시트 갱신</li>
+</ul>
+
+<div class="box-warning">
+<h4>위험도 A 사전 합의</h4>
+<p>신규 인디케이터 추가는 위험도 A. 6객체 동시 갱신으로 정합성 작업 부담 큼. 사용자 합의 + 다단계 백업 필수.</p>
+</div>
+</section>
+
+<section id="ch12-4" class="section-anchor">
+<h2>12.4 정책 변경 시 6객체 정합성 작업</h2>
+
+<p>정책 변경 시 영향받는 6객체를 일괄 정합 작업합니다.</p>
+
+<h3>6객체 정합성 점검 체크리스트</h3>
+
+<ol>
+<li><b>RAW</b>: indicators 배열·data 객체 검증</li>
+<li><b>VERIFIED</b>: 키 충돌·다국어 일관성</li>
+<li><b>NOT_APPLICABLE</b>: 키 충돌·다국어 일관성</li>
+<li><b>INDICATOR_MANUAL</b>: 50/50 표준 8필드 완비</li>
+<li><b>ROW_MAP</b>: 행번호 ↔ idx 매핑</li>
+<li><b>LANG</b>: UI 다국어 텍스트</li>
+</ol>
+
+<h3>정합성 점검 자동화</h3>
+
+<pre><code># Node.js 객체 평가 + 카운트
+const v = VERIFIED_OBJECT;
+const na = NOT_APPLICABLE_OBJECT;
+const im = INDICATOR_MANUAL;
+
+console.log('V 총수:', Object.keys(v).length);
+console.log('NA 총수:', Object.keys(na).length);
+console.log('충돌:', Object.keys(v).filter(k =&gt; k in na).length);
+console.log('INDICATOR_MANUAL:', Object.keys(im).length);
+
+// 표준 8필드 보유 확인
+let stdOK = 0;
+for (const k of Object.keys(im)) {
+    const m = im[k];
+    if (m.definition && m.include && m.exclude && m.cutoff && 
+        m.evidence && m.gri && m.decisionTree && m.updated) stdOK++;
+}
+console.log('표준 8필드 100%:', stdOK + '/50');</code></pre>
+</section>
+
+<section id="ch12-5" class="section-anchor">
+<h2>12.5 외부 검증사 변경 시 인수인계</h2>
+
+<p>외부 검증사가 변경될 경우 다음 인수인계 자료 준비.</p>
+
+<h3>인수인계 자료 5종</h3>
+
+<ol>
+<li>대시보드 + 외부 심사원 엑셀 (최신 vNN)</li>
+<li>프로젝트 지침 (최신 vN)</li>
+<li>외부 검증 사전 정리 답변 패키지 (모든 사항)</li>
+<li>외부 검증사 자주 묻는 질문 답변 (FAQ 30선)</li>
+<li>매뉴얼 v1 (본 문서)</li>
+</ol>
+
+<h3>이관 회의 표준 의제</h3>
+
+<ol>
+<li>대시보드 시연 (4종 화면 + 8필드 모달)</li>
+<li>보고경계 정책 + 15개 사업장 매핑</li>
+<li>HQ_MANAGED 11건 산출 절차</li>
+<li>외부 검증 사전 정리 답변 패키지 검토</li>
+<li>FY 전환 일정 + FY26 이관 항목</li>
+</ol>
+</section>
+
+<section id="ch12-6" class="section-anchor">
+<h2>12.6 신규 담당자 인수인계 체크리스트</h2>
+
+<p>신규 ESG경영팀 담당자 인수인계 시 다음 체크리스트 적용.</p>
+
+<div class="checklist">
+<h4>Day 1-7 인수인계 체크리스트</h4>
+<ul>
+<li>본 매뉴얼 Part 1 (1~3장) 학습 완료</li>
+<li>대시보드 4종 화면 직접 조작 가능</li>
+<li>15개 사업장 + plant 매핑 외움</li>
+<li>50개 인디케이터 + 본사 행번호 매핑 외움 (점프 매핑 주의)</li>
+<li>HQ_MANAGED 11건 외움</li>
+<li>위험도 4단계 분류 외움</li>
+</ul>
+</div>
+
+<div class="checklist">
+<h4>Week 2-4 인수인계 체크리스트</h4>
+<ul>
+<li>본 매뉴얼 Part 2 (4~6장) 학습 완료</li>
+<li>법인 회신 엑셀 7단계 점검 절차 자력 수행 가능</li>
+<li>RAW 정정·V/NA 등록 표준 절차 자력 수행 가능</li>
+<li>다국어 ko/en/zh V basis 작성 가능</li>
+<li>정부 공식 문서 우선 원칙 + SEMS 신뢰성 예외 처리 사례 학습</li>
+<li>환경비용 세전 정책 + CURRENCY_OVERRIDE 외움</li>
+</ul>
+</div>
+
+<div class="checklist">
+<h4>Month 2+ 인수인계 체크리스트</h4>
+<ul>
+<li>본 매뉴얼 Part 3·4 + 부록 학습 완료</li>
+<li>INDICATOR_MANUAL 갱신 자력 수행 가능</li>
+<li>외부 심사원 엑셀 동시 갱신 자력 수행 가능</li>
+<li>외부 검증사 자주 묻는 질문 20선 답변 가능</li>
+<li>표기 금지 사항 5종 외움</li>
+<li>Google Drive 자동 백업 운영 가능</li>
+<li>인계 프롬프트 작성 가능</li>
+<li>FY 전환 작업 절차 학습</li>
+</ul>
+</div>
+
+<div class="box-success">
+<h4>인수인계 완료 기준</h4>
+<p>3개 체크리스트 모두 ✓ 시 신규 담당자가 자력으로 외부 검증 송부 + 답변 가능. 본 매뉴얼 + 메모리 + 인계 프롬프트 3종 매체 활용으로 학습 곡선 1주일로 단축 목표.</p>
+</div>
+</section>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 A. 검증 스크립트 모음 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="scripts" class="section-anchor">
+<h1>부록 A. 검증 스크립트 모음</h1>
+
+<p>대시보드 작업에 자주 사용되는 검증 스크립트 모음입니다.</p>
+
+<h2>A.1 객체 추출 (bracket-depth 정규식)</h2>
+
+<pre><code>def find_obj_bounds(html, var_name):
+    """HTML에서 const/let 객체 정확 추출 (괄호 깊이 추적)"""
+    pattern = re.compile(rf'(?:const|let)\s+{var_name}\s*=\s*\{{')
+    m = pattern.search(html)
+    if not m: return None, None
+    obj_start = m.end() - 1
+    depth = 0
+    for i in range(obj_start, len(html)):
+        c = html[i]
+        if c == '{': depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0: return obj_start, i + 1
+    return None, None
+
+# 사용 예
+raw_s, raw_e = find_obj_bounds(html, 'RAW')
+RAW = json.loads(html[raw_s:raw_e])</code></pre>
+
+<h2>A.2 V/NA 카운트 + 충돌 점검</h2>
+
+<pre><code>node_script = f"""
+const v = {html[v_s:v_e]};
+const na = {html[na_s:na_e]};
+console.log('V:', Object.keys(v).length);
+console.log('NA:', Object.keys(na).length);
+console.log('충돌:', Object.keys(v).filter(k =&gt; k in na).length);
+"""
+result = subprocess.run(['node', '/tmp/check.js'], capture_output=True, text=True)</code></pre>
+
+<h2>A.3 INDICATOR_MANUAL 8필드 보유 검증</h2>
+
+<pre><code>node_script = f"""
+const im = {html[im_s:im_e]};
+const stdFields = ['definition', 'include', 'exclude', 'cutoff', 
+                   'evidence', 'gri', 'decisionTree', 'updated'];
+
+let stdOK = 0;
+for (const k of Object.keys(im)) {{
+    const m = im[k];
+    if (stdFields.every(f =&gt; m[f])) stdOK++;
+}}
+console.log('표준 8필드 100%:', stdOK + '/50');
+"""</code></pre>
+
+<h2>A.4 HTML 외부 구조 5종 검증</h2>
+
+<pre><code>checks = {
+    '&lt;!DOCTYPE': 1,
+    '&lt;html': 1,
+    '&lt;body': 1,
+    '&lt;script': html.count('&lt;/script&gt;'),
+}
+for tag, expected in checks.items():
+    got = html.count(tag)
+    flag = '✓' if got == expected else '⚠'
+    print(f"  {flag} {tag}: {got}")
+
+assert html.count('&lt;!DOCTYPE') == 1
+assert html.count('&lt;body') == 1 and html.count('&lt;/body&gt;') == 1
+assert html.count('&lt;script') == html.count('&lt;/script&gt;')
+assert len(html) &gt; 1_000_000</code></pre>
+
+<h2>A.5 RAW 정정 표준 패턴</h2>
+
+<pre><code>raw_s, raw_e = find_obj_bounds(html, 'RAW')
+RAW = json.loads(html[raw_s:raw_e])
+
+# 라벨로 직접 검색 (idx 가정 금지)
+target_label = '환경 R&D·기술 투자'
+ind = next((i for i in RAW['indicators'] if i['label'] == target_label), None)
+
+# 정정
+ind['data']['구미'] = [None, None, None]
+
+# 직렬화 + 교체
+new_raw_str = json.dumps(RAW, ensure_ascii=False, separators=(',', ':'))
+html = html[:raw_s] + new_raw_str + html[raw_e:]</code></pre>
+
+<h2>A.6 V·NA 객체 추가/삭제 (Node.js)</h2>
+
+<pre><code>node_script = f"""
+const v = {html[v_s:v_e]};
+const na = {html[na_s:na_e]};
+const naBasis = {{
+    ko: {{ confirmed: '...', basis: [...] }},
+    en: {{...}},
+    zh: {{...}}
+}};
+
+// 1. V 삭제
+delete v['구미:환경 R&D·기술 투자'];
+
+// 2. NA 등록
+na['구미:환경 R&D·기술 투자'] = naBasis;
+
+require('fs').writeFileSync('/tmp/v_new.json', JSON.stringify(v));
+require('fs').writeFileSync('/tmp/na_new.json', JSON.stringify(na));
+"""</code></pre>
+
+<h2>A.7 외부 심사원 엑셀 표지 버전 갱신</h2>
+
+<pre><code>import openpyxl, shutil
+
+shutil.copy('엑셀_v97.xlsx', '엑셀_v98.xlsx')
+wb = openpyxl.load_workbook('엑셀_v98.xlsx')
+ws = wb['표지·일람']
+for r in range(1, ws.max_row+1):
+    for c in range(1, ws.max_column+1):
+        v = ws.cell(r, c).value
+        if v and 'v97' in str(v):
+            ws.cell(r, c).value = str(v).replace('v97', 'v98')
+wb.save('엑셀_v98.xlsx')</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 B. 도구 사용 가이드 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-b" class="section-anchor">
+<h1>부록 B. 도구 사용 가이드</h1>
+
+<h2>B.1 bash_tool 안전 사용 패턴</h2>
+
+<ul>
+<li>모든 파이썬 작업은 <code>timeout</code> 추가 (30초 권고)</li>
+<li>Python 출력은 항상 <code>print()</code> + <code>sys.stdout.flush()</code></li>
+<li>JSON 파일로 데이터 전달 (직접 인자 전달 회피)</li>
+<li>Node.js 스크립트는 <code>/tmp/</code>에 임시 파일로 저장</li>
+</ul>
+
+<h2>B.2 memory_user_edits 도구 사용</h2>
+
+<table>
+<tr><th>명령</th><th>용도</th><th>예시</th></tr>
+<tr><td>view</td><td>현재 메모리 조회</td><td>memory_user_edits(command="view")</td></tr>
+<tr><td>add</td><td>신규 메모리 추가</td><td>memory_user_edits(command="add", control="...")</td></tr>
+<tr><td>replace</td><td>기존 메모리 정정</td><td>memory_user_edits(command="replace", line_number=10, replacement="...")</td></tr>
+<tr><td>remove</td><td>메모리 제거</td><td>memory_user_edits(command="remove", line_number=15)</td></tr>
+</table>
+
+<h2>B.3 Google Drive 도구 사용</h2>
+
+<ul>
+<li><code>create_file</code>: 신규 파일 업로드 (마크다운 100KB 한도)</li>
+<li><code>copy_file</code>: 기존 파일 복사 (동일 폴더 또는 다른 폴더)</li>
+<li><code>read_file_content</code>: 파일 자연어 읽기</li>
+<li><code>download_file_content</code>: base64 다운로드</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 C. 6객체 구조 명세 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-c" class="section-anchor">
+<h1>부록 C. 6객체 구조 명세</h1>
+
+<h2>C.1 RAW</h2>
+
+<pre><code>const RAW = {
+  "indicators": [
+    {
+      "label": "지표명",
+      "unit": "단위",
+      "tier": "SUBSIDIARY|HQ_MANAGED",
+      "data": {
+        "사업장명": [FY2023값, FY2024값, FY2025값]
+      }
+    },
+    ...
+  ]
+};</code></pre>
+
+<h2>C.2 VERIFIED</h2>
+
+<pre><code>const VERIFIED = {
+  "사업장명:지표명": {
+    "ko": {
+      "confirmed": "확정값 요약",
+      "basis": ["근거1", "근거2", "..."],
+      "meta": { "registered": "YYYY-MM-DD", "version": "vNN" }
+    },
+    "en": { ... },
+    "zh": { ... }
+  }
+};</code></pre>
+
+<h2>C.3 NOT_APPLICABLE</h2>
+
+<pre><code>const NOT_APPLICABLE = {
+  "사업장명:지표명": {
+    "ko": {
+      "confirmed": "구조적 N/A — 사유",
+      "basis": ["사유1", "사유2", "..."]
+    },
+    "en": { ... },
+    "zh": { ... }
+  }
+};</code></pre>
+
+<h2>C.4 INDICATOR_MANUAL</h2>
+
+<pre><code>let INDICATOR_MANUAL = {
+  "지표명": {
+    "definition": { ko: "...", en: "...", zh: "..." },
+    "include": { ko: [...], en: [...], zh: [...] },
+    "exclude": { ko: [...], en: [...], zh: [...] },
+    "cutoff": { ko: "...", en: "...", zh: "..." },
+    "evidence": { ko: [...], en: [...], zh: [...] },
+    "gri": { ko: "...", en: "...", zh: "..." },
+    "decisionTree": { ko: "...", en: "...", zh: "..." },
+    "updated": "YYYY-MM-DD",
+    // 선택 필드
+    "standardMapping": { ... },
+    "notes": { ko: "...", en: "...", zh: "..." }
+  }
+};</code></pre>
+
+<h2>C.5 ROW_MAP</h2>
+
+<pre><code>const ROW_MAP = {
+  "지표명": "행NN"
+  // 50개 매핑
+};</code></pre>
+
+<h2>C.6 LANG</h2>
+
+<pre><code>const LANG = {
+  ko: { ui_label_1: "...", ui_label_2: "..." },
+  en: { ... },
+  zh: { ... }
+};</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 D. 사업장 담당자 연락처 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-d" class="section-anchor">
+<h1>부록 D. 사업장 담당자 연락처 + 회신 패턴</h1>
+
+<h2>D.1 본사 연락처</h2>
+
+<table>
+<tr><th>역할</th><th>이름</th><th>비고</th></tr>
+<tr><td>해외 법인 커뮤니케이션 창구 (환경)</td><td>안여경 프로</td><td>해외 사업장 환경 데이터 회신 책임</td></tr>
+</table>
+
+<h2>D.2 해외 법인 연락처</h2>
+
+<table>
+<tr><th>사업장</th><th>담당자</th><th>이메일</th><th>비고</th></tr>
+<tr><td>취저우스판</td><td>권명규 (계전부 계전과)</td><td>qz41160031@hyosung.com.cn</td><td>조선족, 중국어 우선</td></tr>
+</table>
+
+<h2>D.3 메일 작성 정책 (메모리 #17)</h2>
+
+<table>
+<tr><th>대상</th><th>언어 구성</th></tr>
+<tr><td>단일 중국 법인</td><td>한국어 + 중문</td></tr>
+<tr><td>전 스판덱스 9개</td><td>한국어 + 중문 + 영어</td></tr>
+<tr><td>브라질스판</td><td>한국어 + 포르투갈어</td></tr>
+<tr><td>동남아·인도·튀르키예</td><td>한국어 + 영어</td></tr>
+</table>
+
+<div class="box-policy">
+<h4>메일 작성 원칙</h4>
+<ul>
+<li>두 개 이상 언어 메일 작성 시 항상 message_compose_v1 단일 호출 + variants 배열로 탭 구분</li>
+<li>한국어 + 현지어 작성 시 두 메일 내용 100% 동일 (1:1 번역)</li>
+<li>한국어 메일 위상: 현지 한국 주재원 + 본사 팀원 참고용</li>
+<li>중국 노동절 휴일 (5/1-5/5) 고려</li>
+</ul>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 E. 외부 검증사 답변 30선 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-e" class="section-anchor">
+<h1>부록 E. 외부 검증사 답변 표준 시나리오 30선</h1>
+
+<p>외부 검증사가 자주 묻는 30개 질문 + 표준 답변입니다.</p>
+
+<h2>E.1 보고경계·산출 (10건)</h2>
+
+<table>
+<tr><th>#</th><th>질문</th><th>답변</th></tr>
+<tr><td>1</td><td>보고경계 기준은?</td><td>재무/자산소유 통제 기준 (운영통제 아님)</td></tr>
+<tr><td>2</td><td>15개 사업장 선정 기준?</td><td>효성티앤씨 자산 보유 또는 지분 통제 사업장</td></tr>
+<tr><td>3</td><td>1160 plant 제외 사유?</td><td>HS첨단소재 자산, 효성티앤씨 재무 통합 외부</td></tr>
+<tr><td>4</td><td>동나이 6 plant 통합 사유?</td><td>v73 자산소유 확인 후 통합</td></tr>
+<tr><td>5</td><td>닝샤 PTMG 3741 통합 사유?</td><td>v71 동일 사업장 내 운영 통합</td></tr>
+<tr><td>6</td><td>본사 일괄 산출 11건 산출 절차?</td><td>SAP·재고수불부·매칭 엔진 자체 산출</td></tr>
+<tr><td>7</td><td>한국 사업장 매출 산출?</td><td>본사 섬유 사업부 5개 합 동일값 (사업장 회계 분리 부재 정책)</td></tr>
+<tr><td>8</td><td>친환경 분류 기준?</td><td>리젠 (리사이클·바이오) + 리젠테크 (원착사 친환경)</td></tr>
+<tr><td>9</td><td>유해화학물질 매핑 기준?</td><td>UN GHS 8차 140종 CAS + 매칭 엔진 v2 (별칭 371건)</td></tr>
+<tr><td>10</td><td>환경비용 세전·세후 처리?</td><td>모든 보고값 세전 (不含税) 기준 (지침 §1.3)</td></tr>
+</table>
+
+<h2>E.2 데이터 일관성 (10건)</h2>
+
+<table>
+<tr><th>#</th><th>질문</th><th>답변</th></tr>
+<tr><td>11</td><td>RAW 값 출처는?</td><td>정부 공식 문서 우선 (SEMS·연보·CMA 등)</td></tr>
+<tr><td>12</td><td>SEMS 신뢰성 검증?</td><td>지침 §1.12.1 SEMS 신뢰성 예외 처리 (汇总 보정)</td></tr>
+<tr><td>13</td><td>닝샤 행76 SEMS 보정 사례?</td><td>FY25 SEMS 819,971 vs 汇总 332,420 m³ → 汇总 적용</td></tr>
+<tr><td>14</td><td>닝샤 행75 269,116% 폭증?</td><td>C11 신증설로 인한 신규 순환 시스템 도입</td></tr>
+<tr><td>15</td><td>취저우 VOCs 322배 급감?</td><td>FY25 운영시간 데이터 미수령으로 보류</td></tr>
+<tr><td>16</td><td>동나이 1261 V자 패턴?</td><td>FY24 일시 폭증 → FY25 정상화 (생산 변동)</td></tr>
+<tr><td>17</td><td>울산 1204 점진 감소?</td><td>나일론 사업부 이관·생산 중단</td></tr>
+<tr><td>18</td><td>구미 1215 vendor 전환?</td><td>PET 사업부 vendor 변경 (FY24·FY25 데이터 패턴 변동)</td></tr>
+<tr><td>19</td><td>광동·주해 회신값 차이?</td><td>측정 방식 차이 (자체 검증 후 정합 적용)</td></tr>
+<tr><td>20</td><td>다국어 ko/en/zh 일관성?</td><td>1:1 번역 100% 일관성 확보</td></tr>
+</table>
+
+<h2>E.3 NA 등록 (10건)</h2>
+
+<table>
+<tr><th>#</th><th>질문</th><th>답변</th></tr>
+<tr><td>21</td><td>NA 등록 사유 표준?</td><td>N/A 표준 사유 7종 (시설 부재·사업 유형 불일치 등)</td></tr>
+<tr><td>22</td><td>행99 환경 R&D NA 일괄 사유?</td><td>효성기술원 단독 집행, 사업장 차원 부재</td></tr>
+<tr><td>23</td><td>행97 환경 부담금 NA 일괄?</td><td>FY26부터 집계 시작 (본사 정책)</td></tr>
+<tr><td>24</td><td>가흥무역 환경 47건 NA?</td><td>무역법인 사업 유형 불일치</td></tr>
+<tr><td>25</td><td>취저우네오캠 47건 NA?</td><td>본사 보고경계 결정 — 온실가스만 측정</td></tr>
+<tr><td>26</td><td>동나이 행104 NA?</td><td>현지 측정 의무 부재</td></tr>
+<tr><td>27</td><td>취저우스판 행74 NA?</td><td>지하수 취수 시설 부재</td></tr>
+<tr><td>28</td><td>0 vs null vs N/A 구분?</td><td>0=실적 없음, null=미입력, N/A=구조적 부재</td></tr>
+<tr><td>29</td><td>NA 등록 후 RAW 정합성?</td><td>RAW null 또는 0 + NA 등록 동시 검증</td></tr>
+<tr><td>30</td><td>외부 검증 NA 사유 추적성?</td><td>INDICATOR_MANUAL notes 필드 + V/NA basis 명시</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 F. Troubleshooting -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="troubleshooting" class="section-anchor">
+<h1>부록 F. Troubleshooting</h1>
+
+<p>자주 발생하는 오류 + 해결 방법입니다.</p>
+
+<h2>F.1 객체 추출 오류</h2>
+
+<table>
+<tr><th>증상</th><th>원인</th><th>해결</th></tr>
+<tr><td>JSON.parse 실패</td><td>객체 경계 오인식 (정규식 한계)</td><td>bracket-depth 정규식 사용 (부록 A.1)</td></tr>
+<tr><td>Object.keys 카운트 부정확</td><td>regex로 키 카운트 시 minified JSON 과다계수</td><td>Node.js 객체 평가 사용</td></tr>
+<tr><td>const vs let 매칭 실패</td><td>변수 선언 키워드 다름</td><td><code>(?:const|let)</code> 패턴 적용</td></tr>
+</table>
+
+<h2>F.2 V/NA 등록 오류</h2>
+
+<table>
+<tr><th>증상</th><th>원인</th><th>해결</th></tr>
+<tr><td>V·NA 동일 키 충돌</td><td>V 등록 후 NA 변경 시 V 미삭제</td><td>NA 등록 전 V 삭제 의무</td></tr>
+<tr><td>다국어 누락</td><td>ko만 작성, en·zh 누락</td><td>3개 언어 동시 작성 검증</td></tr>
+<tr><td>basis 배열 비어있음</td><td>빈 배열 등록</td><td>최소 2-3개 항목 작성</td></tr>
+</table>
+
+<h2>F.3 RAW 정정 오류</h2>
+
+<table>
+<tr><th>증상</th><th>원인</th><th>해결</th></tr>
+<tr><td>idx 오인식</td><td>본사 행번호 → idx 단순 +56 가정</td><td>라벨로 직접 검색 (점프 매핑 주의)</td></tr>
+<tr><td>data 객체 누락</td><td>indicators 배열만 수정</td><td>data 객체도 동시 갱신</td></tr>
+<tr><td>JSON 직렬화 후 한글 깨짐</td><td>ensure_ascii=True (기본값)</td><td>ensure_ascii=False 명시</td></tr>
+</table>
+
+<h2>F.4 외부 심사원 엑셀 오류</h2>
+
+<table>
+<tr><th>증상</th><th>원인</th><th>해결</th></tr>
+<tr><td>표지 버전 미갱신</td><td>v(N-1) 복사 후 표지 미수정</td><td>R6C2 셀 자동 갱신 스크립트</td></tr>
+<tr><td>11개 시트 정합성 실패</td><td>대시보드만 갱신, 엑셀 미갱신</td><td>대시보드 ↔ 엑셀 동시 갱신 의무</td></tr>
+<tr><td>시트명 불일치</td><td>본사 행번호 ≠ idx (점프)</td><td>시트명 매핑 표 (메모리 #20) 직접 확인</td></tr>
+</table>
+
+<h2>F.5 검색·표시 오류</h2>
+
+<table>
+<tr><th>증상</th><th>원인</th><th>해결</th></tr>
+<tr><td>모달 8필드 표시 안 됨</td><td>JS 파싱 오류 (잘못된 객체 형식)</td><td>Node.js 객체 평가 + 충돌 점검</td></tr>
+<tr><td>다국어 전환 안 됨</td><td>LANG 객체 키 누락</td><td>LANG 객체 ko/en/zh 동시 갱신</td></tr>
+<tr><td>YoY 이상치 표시 안 됨</td><td>RAW 데이터 형식 불일치</td><td>3개년 배열 [v1, v2, v3] 정합 확인</td></tr>
+</table>
+
+<h2>F.6 백업·산출 오류</h2>
+
+<table>
+<tr><th>증상</th><th>원인</th><th>해결</th></tr>
+<tr><td>Google Drive 자동 백업 실패</td><td>파일 크기 한도 초과</td><td>마크다운 100KB / 바이너리 70KB 한도, 초과 시 사용자 수동 업로드</td></tr>
+<tr><td>outputs 폴더 권한 오류</td><td>read-only 폴더 시도</td><td>/mnt/user-data/outputs/ 직접 사용</td></tr>
+<tr><td>GitHub Pages 배포 안 됨</td><td>커밋 후 1-2분 소요</td><td>대기 후 재확인</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 G. 용어 사전 (한·영·중) -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-g" class="section-anchor">
+<h1>부록 G. 용어 사전 (한·영·중)</h1>
+
+<table>
+<tr><th>한국어</th><th>English</th><th>中文</th></tr>
+<tr><td>지속가능경영보고서</td><td>Sustainability Report</td><td>可持续发展报告</td></tr>
+<tr><td>환경 정량 데이터</td><td>Environmental Quantitative Data</td><td>环境定量数据</td></tr>
+<tr><td>본사 일괄 산출</td><td>HQ Batch Calculation</td><td>本部统一核算</td></tr>
+<tr><td>외부 검증사</td><td>External Assurance Provider</td><td>外部审验机构</td></tr>
+<tr><td>구조적 N/A</td><td>Structural N/A</td><td>结构性N/A</td></tr>
+<tr><td>지주사</td><td>Holding Company</td><td>控股公司</td></tr>
+<tr><td>효성기술원</td><td>Hyosung R&DB Labs</td><td>晓星技术院</td></tr>
+<tr><td>보고경계</td><td>Reporting Boundary</td><td>报告边界</td></tr>
+<tr><td>재무/자산소유 통제</td><td>Financial/Equity Ownership Control</td><td>财务/资产所有控制</td></tr>
+<tr><td>운영 통제</td><td>Operational Control</td><td>运营控制</td></tr>
+<tr><td>친환경 제품</td><td>Eco-Friendly Products</td><td>环保产品</td></tr>
+<tr><td>리젠</td><td>Regen</td><td>Regen</td></tr>
+<tr><td>리젠테크</td><td>Regen Tech</td><td>Regen Tech</td></tr>
+<tr><td>지속가능한 솔루션</td><td>Sustainable Solutions</td><td>可持续解决方案</td></tr>
+<tr><td>일반 폐기물</td><td>General Waste</td><td>一般废物</td></tr>
+<tr><td>지정 폐기물</td><td>Designated (Hazardous) Waste</td><td>指定（危险）废物</td></tr>
+<tr><td>위탁처리</td><td>External Outsourcing</td><td>委托处理</td></tr>
+<tr><td>자가처리</td><td>Self-Treatment</td><td>自行处理</td></tr>
+<tr><td>재활용</td><td>Recycling</td><td>回收</td></tr>
+<tr><td>소각</td><td>Incineration</td><td>焚烧</td></tr>
+<tr><td>매립</td><td>Landfill</td><td>填埋</td></tr>
+<tr><td>대기 배출</td><td>Air Emissions</td><td>大气排放</td></tr>
+<tr><td>측정 보고서</td><td>Measurement Report</td><td>测定报告</td></tr>
+<tr><td>유량 (배출)</td><td>Flow Rate</td><td>流量</td></tr>
+<tr><td>운영시간</td><td>Operating Hours</td><td>运行时间</td></tr>
+<tr><td>산소 보정</td><td>Oxygen Correction</td><td>氧气校正</td></tr>
+<tr><td>상수도</td><td>Municipal Water</td><td>市政自来水</td></tr>
+<tr><td>공업용수</td><td>Industrial Water</td><td>工业用水</td></tr>
+<tr><td>지하수</td><td>Groundwater</td><td>地下水</td></tr>
+<tr><td>하수 재이용수</td><td>Reclaimed Water</td><td>中水</td></tr>
+<tr><td>폐수 배출량</td><td>Wastewater Discharge</td><td>废水排放量</td></tr>
+<tr><td>환경 부담금</td><td>Environmental Charges</td><td>环境费用</td></tr>
+<tr><td>환경 시설투자</td><td>Environmental Facility Investment</td><td>环境设施投资</td></tr>
+<tr><td>환경 R&D 비용</td><td>Environmental R&D Cost</td><td>环境R&D费用</td></tr>
+<tr><td>법규 위반</td><td>Regulatory Violation</td><td>法规违反</td></tr>
+<tr><td>벌금</td><td>Fine</td><td>罚款</td></tr>
+<tr><td>정부 공식 문서</td><td>Government Official Document</td><td>政府公文</td></tr>
+<tr><td>생태환경통계 연보</td><td>Ecological Environment Statistics Yearbook</td><td>生态环境统计年报</td></tr>
+<tr><td>배출 허가증</td><td>Emission Permit</td><td>排污许可证</td></tr>
+<tr><td>온실가스</td><td>Greenhouse Gas</td><td>温室气体</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 H. 참고 자료 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-h" class="section-anchor">
+<h1>부록 H. 참고 자료</h1>
+
+<h2>H.1 GRI Standards</h2>
+
+<ul>
+<li>GRI Universal Standards (2021)</li>
+<li>GRI 301: Materials (2016)</li>
+<li>GRI 303: Water and Effluents (2018)</li>
+<li>GRI 305: Emissions (2016)</li>
+<li>GRI 306: Waste (2020)</li>
+<li>GRI 2-27: Compliance with laws and regulations (2021)</li>
+</ul>
+
+<h2>H.2 SBTi (Science Based Targets initiative)</h2>
+
+<ul>
+<li>Net-Zero Standard (2024)</li>
+<li>Science Based Targets for Financial Institutions</li>
+</ul>
+
+<h2>H.3 KCGS (한국 ESG 평가)</h2>
+
+<ul>
+<li>KCGS 2025 환경 평가 기준</li>
+<li>한국 ESG 평가 모범 규준</li>
+</ul>
+
+<h2>H.4 정부 보고 시스템</h2>
+
+<ul>
+<li>한국 환경부 PRTR (화학물질 배출·이동량 조사)</li>
+<li>한국 환경부 폐수배출업소 조사표</li>
+<li>중국 SEMS (在线监测系统)</li>
+<li>중국 排污许可证</li>
+<li>중국 생태환경통계 연보</li>
+</ul>
+
+<h2>H.5 GHS (Globally Harmonized System)</h2>
+
+<ul>
+<li>UN GHS 8차 개정판 (2019)</li>
+<li>140종 CAS 마스터 리스트</li>
+<li>한국 화학물질 분류·표시 기준</li>
+</ul>
+
+<h2>H.6 SAP 시스템</h2>
+
+<ul>
+<li>VC (Valuation Class): 3000(원재료)·3010(부재료)·4000(포장재)·5000(제외)</li>
+<li>SAP G/L 계정: 53119900 (환경 법규 위반 벌금)</li>
+<li>재고수불부 Raw 시트: 법인·평가클래스·KG 필터</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 부록 I. 본 매뉴얼 변경 이력 -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<section id="appx-i" class="section-anchor">
+<h1>부록 I. 본 매뉴얼 변경 이력</h1>
+
+<table>
+<tr><th>버전</th><th>일자</th><th>주요 변경</th></tr>
+<tr><td>v1</td><td>2026-05-03</td><td>초기 발행 (12장 + 9개 부록, 약 200페이지)</td></tr>
+</table>
+
+<h2>I.1 v1 발행 내역 (2026-05-03)</h2>
+
+<ul>
+<li>대시보드 v98 기준 작성</li>
+<li>Part 1 (입문) 1~3장 완성</li>
+<li>Part 2 (운영) 4~6장 완성</li>
+<li>Part 3 (검증) 7~9장 완성</li>
+<li>Part 4 (관리) 10~12장 완성</li>
+<li>부록 A~I 완성</li>
+<li>HTML 단일 페이지 (사이드바 + 검색 + 인쇄)</li>
+<li>대시보드 헬프 아이콘 통합 예정 (옵션 B 신규 탭)</li>
+</ul>
+
+<h2>I.2 차후 갱신 계획</h2>
+
+<ul>
+<li>대시보드 v99 발행 시 헬프 아이콘 통합</li>
+<li>외부 검증 의견 수령 후 답변 패키지 30선 보강</li>
+<li>FY26 전환 시 §12 차년도 운영 갱신</li>
+<li>네트웍스와이 폐기물 데이터 일괄 교체 후 §5.8 갱신</li>
+</ul>
+
+<div class="box-success">
+<h4>본 매뉴얼 종료</h4>
+<p>본 매뉴얼은 효성티앤씨 ESG경영팀 환경 정량 데이터 검수 대시보드 운영을 위한 종합 가이드입니다. 신규 담당자는 Part 1부터 순차 학습 후 자력 운영 가능합니다. 차후 보강·갱신 시 부록 I 변경 이력에 추가 기록.</p>
+</div>
+</section>
+
+</main>
+
+<script>
+// 사이드바 활성 항목 자동 갱신
+const tocLinks = document.querySelectorAll('.toc-list a');
+const sections = [];
+tocLinks.forEach(link => {
+  const href = link.getAttribute('href');
+  if (href && href.startsWith('#')) {
+    const el = document.getElementById(href.slice(1));
+    if (el) sections.push({ link, el });
+  }
+});
+
+window.addEventListener('scroll', () => {
+  const scrollPos = window.scrollY + 100;
+  let activeIdx = -1;
+  for (let i = 0; i < sections.length; i++) {
+    if (sections[i].el.offsetTop <= scrollPos) activeIdx = i;
+  }
+  tocLinks.forEach(l => l.classList.remove('active'));
+  if (activeIdx >= 0) sections[activeIdx].link.classList.add('active');
+});
+
+// 검색 기능
+const searchInput = document.getElementById('search-input');
+let lastHighlights = [];
+searchInput.addEventListener('input', (e) => {
+  const term = e.target.value.trim();
+  // 기존 하이라이트 제거
+  lastHighlights.forEach(node => {
+    const parent = node.parentNode;
+    parent.replaceChild(document.createTextNode(node.textContent), node);
+    parent.normalize();
+  });
+  lastHighlights = [];
+  if (term.length < 2) return;
+  
+  const main = document.getElementById('main-content');
+  const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+  const matches = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') continue;
+    const idx = node.textContent.toLowerCase().indexOf(term.toLowerCase());
+    if (idx >= 0) matches.push({ node, idx });
+  }
+  
+  matches.slice(0, 50).forEach(({ node, idx }) => {
+    const text = node.textContent;
+    const before = text.slice(0, idx);
+    const match = text.slice(idx, idx + term.length);
+    const after = text.slice(idx + term.length);
+    const span = document.createElement('span');
+    span.className = 'highlight';
+    span.textContent = match;
+    const parent = node.parentNode;
+    parent.insertBefore(document.createTextNode(before), node);
+    parent.insertBefore(span, node);
+    parent.insertBefore(document.createTextNode(after), node);
+    parent.removeChild(node);
+    lastHighlights.push(span);
+  });
+  
+  // 첫 매칭 항목으로 스크롤
+  if (lastHighlights.length > 0) {
+    lastHighlights[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+
+// 사이드바 접기/펼치기
+document.querySelectorAll('.toc-collapse').forEach(el => {
+  el.addEventListener('click', () => el.classList.toggle('collapsed'));
+});
+
+// Ctrl+F 검색 박스 포커스
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    e.preventDefault();
+    searchInput.focus();
+  }
+});
+</script>
+</body>
+</html>
