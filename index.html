@@ -3392,9 +3392,9 @@ const RAW = {
           71498385
         ],
         "동나이": [
-          307363712.5,
-          367578408,
-          555378430
+          776343420.5,
+          944926074,
+          1546552218
         ],
         "브라질스판": [
           10341.5,
@@ -17846,37 +17846,82 @@ const VERIFIED = {
   },
   "동나이:환경 모니터링·인증 비용": {
     "ko": {
-      "confirmed": "[기존 행98 환경배출물질 측정비용]: FY2025 555,378,430 VND (세전)",
+      "confirmed": "[기존 행98 환경배출물질 측정비용]: FY2023~2025 307,363,712.5 / 367,578,408 / 555,378,430 VND (세전) | [기존 행99 환경 인증비용]: FY2023~2025 468,979,708 / 577,347,666 / 991,173,788 VND (7개 인증 항목 한국은행 매매기준율 연평균 환율 cross-rate 환산 합계, 세전) | 통합 보고값: FY2023~2025 776,343,420.5 / 944,926,074 / 1,546,552,218 VND",
       "basis": [
         "[기존 행98 환경배출물질 측정비용]:",
-        "  - 산출 출처: 동나이 법인 회신 본사 제공 템플릿 (2026-04-08)",
-        "  - 엑셀 시트 1-1. Environmental_Raw 행98, 컬럼 AF",
+        "  - 산출 출처: 동나이 법인 회신 본사 제공 템플릿 (2026-04-08), 엑셀 시트 1-1. Environmental_Raw 행98, 컬럼 AF",
         "  - 세전(공급가액 기준) 적용",
-        "  - YoY: FY2024 367,578,408 → FY2025 555,378,430 (+51.1%, 30% 초과 변동 - 측정 빈도 증가 또는 항목 추가 가능성, 별도 사유 확인 권장)"
+        "[기존 행99 환경 인증비용]: 7개 인증 항목 사업부별 증빙 직접 검증 후 합산",
+        "  ① GRS (TY+NY 공동, Control Union 발행, VND): FY23 78,724,800 / FY24 73,680,000 / FY25 71,962,500",
+        "  ② OEKO-TEX (TY 단독, Hohenstein 발행, EUR): FY23 8,737.65 / FY24 8,025.40 / FY25 8,912.30",
+        "  ③ OEKO-TEX (Spandex+NY, Shirley 발행, GBP): FY23 미확보(견적서 비용 페이지 본래 누락, 보수적 제외) / FY24 6,188 / FY25 7,330",
+        "  ④ REACH (NY 단독, Shirley 발행): FY23 943 GBP / FY24 1,544.47 USD / FY25 1,517.40 USD (FY25는 발행일 2026-03-09이나 발생주의 적용)",
+        "  ⑤ ISO 14001 (NY 단독 50% 안분, URS Vietnam 발행, VND 직접 청구): FY23 137,782,000 / FY24 46,689,000 / FY25 56,169,000 (ISO 9001+14001 통합 인증서 종수 균등 안분, ISO 9001 부분은 환경 무관으로 제외)",
+        "  ⑥ ISC 컨설팅 (Team ESG, ISC Vietnam 발행, VND): FY23·FY24 0 / FY25 258,320,000 (계약명 ECOVADIS-ISO14K, 1차+2차 결제 발생주의 적용)",
+        "  ⑦ EcoVadis Premium (Team ESG, EcoVadis SAS 발행, USD): FY23·FY24 0 / FY25 2,499 (Detail 시트 EUR 표기는 USD 통화 정정)",
+        "[제외 항목]:",
+        "  - PTMG ISO 9001 (URS Vietnam): 환경 무관 인증, §1.1 GRI 환경 인증 분류 기준상 제외",
+        "  - Tire Cord ISO 14001 (URS Vietnam): HSDV(MST 3600890952) 발행으로 효성티앤씨 동나이 법인(MST 3603277021)과 별개 법인, §1.5.2 자산소유 통제 보고경계 기준 제외",
+        "  - ISO 45001 (NY, FY24 126,250,000 VND): 안전보건 영역으로 환경 무관 제외",
+        "[환율 적용]: 한국은행 매매기준율 연평균 (KRW 기준 cross-rate)",
+        "  - USD/VND: FY23 23,754.16 / FY24 25,204.05 / FY25 25,840.02",
+        "  - EUR/VND: FY23 25,707.21 / FY24 27,256.00 / FY25 28,863.96",
+        "  - GBP/VND: FY23 29,535.80 / FY24 32,209.35 / FY25 33,246.13",
+        "[증빙]: 동나이 법인 ESG경영팀 회신 사업부별 인증 인보이스/품의서 11건 + ISC 계약서 + EcoVadis 인보이스 (2026-05-07 검토 완료)"
       ],
-      "meta": "[기존 행98 환경배출물질 측정비용]: 2026-04-29 V 신규 등록 (YoY 30% 초과 변동 사유 미확인 상태로 등록, 외부 검증 단계 보완 필요) || v59 환경 비용 5행 재구조화로 행97+행98+행99 통합. 분류 [OPEX(경상비용)]."
+      "meta": "2026-05-07 v112 환경 인증비 7개 항목 신규 통합 등록 (기존 환경 측정비만 반영 상태에서 환경 인증비 신규 추가). PTMG ISO 9001·Tire Cord(HSDV)·ISO 45001 제외 기준 §1.1·§1.5.2 적용. ISO 14001 NY는 9001+14001 통합 인증서 50% 안분. OEKO-TEX (Spandex+NY) FY23 견적 비용 페이지 본래 누락으로 보수적 제외. 환율은 한국은행 ECOS 매매기준율 연평균 KRW 기준 cross-rate 적용 || v59 환경 비용 5행 재구조화로 행97+행98+행99 통합. 분류 [OPEX(경상비용)]."
     },
     "en": {
-      "confirmed": "[Former Row 98 Environmental Emission Measurement Cost]: FY2025 555,378,430 VND (pre-tax)",
+      "confirmed": "[Former Row 98 Environmental Emission Measurement Cost]: FY2023-2025 307,363,712.5 / 367,578,408 / 555,378,430 VND (pre-tax) | [Former Row 99 Environmental Certification Cost]: FY2023-2025 468,979,708 / 577,347,666 / 991,173,788 VND (7 certification items, BOK average annual exchange rate cross-rate conversion, pre-tax) | Integrated reporting value: FY2023-2025 776,343,420.5 / 944,926,074 / 1,546,552,218 VND",
       "basis": [
         "[Former Row 98 Environmental Emission Measurement Cost]:",
-        "  - Source: Dong Nai subsidiary response to HQ-provided template (2026-04-08)",
-        "  - Excel sheet 1-1. Environmental_Raw row 98, column AF",
+        "  - Source: Dong Nai subsidiary response to HQ-provided template (2026-04-08), Excel sheet 1-1. Environmental_Raw row 98, column AF",
         "  - Pre-tax (supply value basis) applied",
-        "  - YoY: FY2024 367,578,408 → FY2025 555,378,430 (+51.1%, exceeds 30% variation - possible measurement frequency increase or item addition, separate cause verification recommended)"
+        "[Former Row 99 Environmental Certification Cost]: 7 certification items verified by division and aggregated",
+        "  (1) GRS (TY+NY joint, issued by Control Union, VND): FY23 78,724,800 / FY24 73,680,000 / FY25 71,962,500",
+        "  (2) OEKO-TEX (TY only, issued by Hohenstein, EUR): FY23 8,737.65 / FY24 8,025.40 / FY25 8,912.30",
+        "  (3) OEKO-TEX (Spandex+NY, issued by Shirley, GBP): FY23 unobtained (quotation cost page originally missing, conservatively excluded) / FY24 6,188 / FY25 7,330",
+        "  (4) REACH (NY only, issued by Shirley): FY23 943 GBP / FY24 1,544.47 USD / FY25 1,517.40 USD (FY25 issuance date 2026-03-09 but accrual basis applied)",
+        "  (5) ISO 14001 (NY only 50% allocation, issued by URS Vietnam, VND direct billing): FY23 137,782,000 / FY24 46,689,000 / FY25 56,169,000 (ISO 9001+14001 integrated certificate equal allocation by certification count; ISO 9001 portion excluded as non-environmental)",
+        "  (6) ISC Consulting (Team ESG, issued by ISC Vietnam, VND): FY23-FY24 0 / FY25 258,320,000 (Contract title ECOVADIS-ISO14K, 1st+2nd payment accrual basis)",
+        "  (7) EcoVadis Premium (Team ESG, issued by EcoVadis SAS, USD): FY23-FY24 0 / FY25 2,499 (Detail sheet EUR notation corrected to USD currency)",
+        "[Excluded items]:",
+        "  - PTMG ISO 9001 (URS Vietnam): non-environmental certification, excluded per Section 1.1 GRI environmental certification classification",
+        "  - Tire Cord ISO 14001 (URS Vietnam): issued by HSDV (MST 3600890952), separate legal entity from Hyosung TNC Dong Nai (MST 3603277021); excluded per Section 1.5.2 asset-ownership control reporting boundary",
+        "  - ISO 45001 (NY, FY24 126,250,000 VND): safety/health domain, excluded as non-environmental",
+        "[Exchange rate applied]: BOK average annual rate (KRW basis cross-rate)",
+        "  - USD/VND: FY23 23,754.16 / FY24 25,204.05 / FY25 25,840.02",
+        "  - EUR/VND: FY23 25,707.21 / FY24 27,256.00 / FY25 28,863.96",
+        "  - GBP/VND: FY23 29,535.80 / FY24 32,209.35 / FY25 33,246.13",
+        "[Evidence]: Dong Nai ESG Management Team response - 11 division-specific certification invoices/approval forms + ISC contract + EcoVadis invoice (review completed 2026-05-07)"
       ],
-      "meta": "[Former Row 98 Environmental Emission Measurement Cost]: 2026-04-29 V new registration (registered without confirmed cause for >30% YoY variation, supplementation needed at external assurance stage) || Restructured into 5-row format in v59. Merged from Row 97+Row 98+Row 99. Type: OPEX."
+      "meta": "2026-05-07 v112 Environmental certification cost 7 items newly integrated and registered (added on top of existing measurement-cost-only state). Exclusion criteria for PTMG ISO 9001, Tire Cord (HSDV), and ISO 45001 applied per Section 1.1 and Section 1.5.2. NY ISO 14001 derived from 9001+14001 integrated certificate 50% allocation. OEKO-TEX (Spandex+NY) FY23 conservatively excluded due to original cost page omission in quotation. Exchange rate from BOK ECOS average annual KRW basis cross-rate || Restructured into 5-row format in v59. Merged from Row 97+Row 98+Row 99. Type: OPEX."
     },
     "zh": {
-      "confirmed": "[原行98 环境排放物质测量费用]: FY2025 555,378,430 VND (税前)",
+      "confirmed": "[原行98 环境排放物质测量费用]: FY2023-2025 307,363,712.5 / 367,578,408 / 555,378,430 VND (税前) | [原行99 环境认证费用]: FY2023-2025 468,979,708 / 577,347,666 / 991,173,788 VND (7个认证项目按韩国银行年平均买卖基准汇率cross-rate换算合计, 税前) | 整合报告值: FY2023-2025 776,343,420.5 / 944,926,074 / 1,546,552,218 VND",
       "basis": [
         "[原行98 环境排放物质测量费用]:",
-        "  - 核算来源: 同奈法人回复本部提供模板 (2026-04-08)",
-        "  - Excel工作表 1-1. Environmental_Raw 第98行, AF栏",
+        "  - 核算来源: 同奈法人回复本部提供模板 (2026-04-08), Excel工作表 1-1. Environmental_Raw 第98行 AF栏",
         "  - 税前(供应金额基准)适用",
-        "  - 同比: FY2024 367,578,408 → FY2025 555,378,430 (+51.1%, 超过30%变动 - 测量频率增加或项目追加可能, 建议另行确认事由)"
+        "[原行99 环境认证费用]: 按事业部7个认证项目逐一核验后合算",
+        "  ① GRS (TY+NY共同, Control Union发行, VND): FY23 78,724,800 / FY24 73,680,000 / FY25 71,962,500",
+        "  ② OEKO-TEX (TY单独, Hohenstein发行, EUR): FY23 8,737.65 / FY24 8,025.40 / FY25 8,912.30",
+        "  ③ OEKO-TEX (Spandex+NY, Shirley发行, GBP): FY23未取得(报价单费用页原本缺失, 保守排除) / FY24 6,188 / FY25 7,330",
+        "  ④ REACH (NY单独, Shirley发行): FY23 943 GBP / FY24 1,544.47 USD / FY25 1,517.40 USD (FY25发行日2026-03-09但适用权责发生制)",
+        "  ⑤ ISO 14001 (NY单独50%分摊, URS Vietnam发行, VND直接计价): FY23 137,782,000 / FY24 46,689,000 / FY25 56,169,000 (ISO 9001+14001整合证书按认证种数均等分摊, ISO 9001部分作为非环境项目排除)",
+        "  ⑥ ISC咨询 (Team ESG, ISC Vietnam发行, VND): FY23·FY24 0 / FY25 258,320,000 (合同名ECOVADIS-ISO14K, 第1+2次付款适用权责发生制)",
+        "  ⑦ EcoVadis Premium (Team ESG, EcoVadis SAS发行, USD): FY23·FY24 0 / FY25 2,499 (Detail工作表EUR标记修正为USD)",
+        "[排除项目]:",
+        "  - PTMG ISO 9001 (URS Vietnam): 与环境无关认证, 按§1.1 GRI环境认证分类基准排除",
+        "  - Tire Cord ISO 14001 (URS Vietnam): 由HSDV(MST 3600890952)发行, 与晓星T&C同奈法人(MST 3603277021)为不同法人, 按§1.5.2资产所有权控制报告边界排除",
+        "  - ISO 45001 (NY, FY24 126,250,000 VND): 安全卫生领域, 与环境无关排除",
+        "[汇率适用]: 韩国银行买卖基准率年平均 (KRW基准cross-rate)",
+        "  - USD/VND: FY23 23,754.16 / FY24 25,204.05 / FY25 25,840.02",
+        "  - EUR/VND: FY23 25,707.21 / FY24 27,256.00 / FY25 28,863.96",
+        "  - GBP/VND: FY23 29,535.80 / FY24 32,209.35 / FY25 33,246.13",
+        "[凭证]: 同奈法人ESG经营团队回复 - 各事业部认证发票/申请单11件 + ISC合同 + EcoVadis发票 (2026-05-07核验完毕)"
       ],
-      "meta": "[原行98 环境排放物质测量费用]: 2026-04-29 V 新登记 (在未确认事由的情况下登记>30%同比变动, 外部验证阶段需补充) || v59版本环境费用5行重构。整合自第97行+第98行+第99行。分类: OPEX(经常费用)."
+      "meta": "2026-05-07 v112 环境认证费用7个项目新增整合登记 (在原有环境测量费仅反映状态上新增环境认证费)。PTMG ISO 9001·Tire Cord(HSDV)·ISO 45001排除基准适用§1.1·§1.5.2。NY ISO 14001源自9001+14001整合证书50%分摊。OEKO-TEX (Spandex+NY) FY23报价单费用页原本缺失保守排除。汇率适用韩国银行ECOS买卖基准率年平均KRW基准cross-rate || v59版本环境费用5行重构。整合自第97行+第98行+第99行。分类: OPEX(经常费用)."
     }
   },
   "브라질스판:환경 모니터링·인증 비용": {
@@ -28399,7 +28444,7 @@ const Dashboard = function Dashboard() {
           <div style={{minWidth:0,flex:"1 1 auto"}}>
             <div style={{fontSize:11,fontWeight:600,letterSpacing:2,color:"#94a3b8",marginBottom:4}}>{tui("subtitle")}</div>
             <div style={{fontSize:22,fontWeight:800,letterSpacing:-0.5}}>{tui("title")}</div>
-            <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")} · v111 (2026-05-07) · <a href="manual.html" target="_blank" rel="noopener noreferrer" style={{color:"#60a5fa",textDecoration:"none",fontWeight:600}}>📖 매뉴얼 ↗</a></div>
+            <div style={{fontSize:12,color:"#94a3b8",marginTop:4}}>FY2023 – FY2025 · {tui("desc")} · {SUBS.length}{tui("subs_count")} · {RAW.indicators.length}{tui("inds_count")} · v112 (2026-05-07) · <a href="manual.html" target="_blank" rel="noopener noreferrer" style={{color:"#60a5fa",textDecoration:"none",fontWeight:600}}>📖 매뉴얼 ↗</a></div>
           </div>
           <div style={{display:"flex",gap:2,borderRadius:6,overflow:"visible",border:"1px solid #475569",flexShrink:0}}>
             {["ko","en","zh"].map(l=>(
