@@ -2521,20 +2521,37 @@ html = html[:raw_s] + new_raw_str + html[raw_e:]
 
 <p>RAW.subs에 신규 사업장 추가 시 LANG.sub에 ko/en/zh 3개 언어 매핑을 동시 등록해야 합니다. 누락 시 EN/ZH 모드에서 사업장명이 한국어로 표시되는 정합성 오류가 발생합니다.</p>
 
-<h3>등록 절차 9단계</h3>
+<h3>등록 절차 11단계 (v125 핫픽스 보강)</h3>
 
 <table>
 <tr><th>단계</th><th>작업</th></tr>
 <tr><td>1</td><td>사업장 유형 판정 (제조 vs 사무용 빌딩)</td></tr>
 <tr><td>2</td><td>RAW.subs 배열에 사업장명 추가</td></tr>
-<tr><td>3</td><td>RAW.indicators[].data 50개 indicator에 사업장 키 추가 (값 [null, null, null])</td></tr>
-<tr><td>4</td><td>CURRENCY_MAP에 통화 코드 등록 (한국 KRW, 중국 CNY 등)</td></tr>
-<tr><td>5</td><td><b>LANG.sub에 ko/en/zh 3개 언어 매핑 등록 (필수)</b></td></tr>
-<tr><td>6</td><td>사무용 빌딩 시 §5.9 정책 적용 (37행 NA 일괄 등록)</td></tr>
-<tr><td>7</td><td>유지 13행 자료 수집 (사무용) 또는 50행 자료 수집 (제조)</td></tr>
-<tr><td>8</td><td>5객체 정합성 검증 (Node.js 파싱)</td></tr>
-<tr><td>9</td><td>화면 EN/ZH 모드 직접 검증 (사업장명 한자 표시 확인)</td></tr>
+<tr><td>3</td><td><b>RAW.domestic 또는 RAW.overseas 배열에 사업장명 추가 (필수, v125 핫픽스 추가)</b></td></tr>
+<tr><td>4</td><td>RAW.indicators[].data 50개 indicator에 사업장 키 추가 (값 [null, null, null])</td></tr>
+<tr><td>5</td><td>CURRENCY_MAP에 통화 코드 등록 (한국 KRW, 중국 CNY 등)</td></tr>
+<tr><td>6</td><td><b>LANG.sub에 ko/en/zh 3개 언어 매핑 등록 (필수)</b></td></tr>
+<tr><td>7</td><td>사무용 빌딩 시 §5.9 정책 적용 (37행 NA 일괄 등록)</td></tr>
+<tr><td>8</td><td>유지 13행 자료 수집 (사무용) 또는 50행 자료 수집 (제조)</td></tr>
+<tr><td>9</td><td>5객체 정합성 검증 (Node.js 파싱)</td></tr>
+<tr><td>10</td><td><b>무결성 검증: subs vs domestic+overseas 일관성 확인 (v125 핫픽스 추가)</b></td></tr>
+<tr><td>11</td><td>화면 EN/ZH 모드 직접 검증 (사업장명 한자 표시 확인) + 화면 사업장 표시 직접 확인 (domestic/overseas 분류 정상 작동 검증)</td></tr>
 </table>
+
+<div class="box-warning">
+<h4>v125 핫픽스 사례 — RAW.domestic 누락 재발 방지</h4>
+<p>v124 공덕 본사 등록 작업 시 RAW.subs와 50 indicator data에는 공덕을 추가했으나, <b>RAW.domestic 배열 갱신을 누락</b>하여 화면에서 공덕이 표시되지 않는 정합성 오류가 발생했습니다. v125 핫픽스로 RAW.domestic에 공덕 추가 후 재발행.</p>
+<p>대시보드 화면 표시 로직은 <code>RAW.domestic</code> 또는 <code>RAW.overseas</code> 기반으로 사업장을 분류·렌더링하므로, RAW.subs 추가만으로는 충분하지 않습니다. 무결성 검증 코드 권고:</p>
+<pre>
+// 5객체 검증 시 무결성 자동 확인
+const subsSet = new Set(RAW.subs);
+const domOverSet = new Set([...RAW.domestic, ...RAW.overseas]);
+const inSubsNotInDomOver = [...subsSet].filter(s => !domOverSet.has(s));
+const inDomOverNotInSubs = [...domOverSet].filter(s => !subsSet.has(s));
+console.assert(inSubsNotInDomOver.length === 0, 'subs에 있으나 domestic·overseas 미포함:', inSubsNotInDomOver);
+console.assert(inDomOverNotInSubs.length === 0, 'domestic·overseas에 있으나 subs 미포함:', inDomOverNotInSubs);
+</pre>
+</div>
 
 <h3>LANG.sub 매핑 표준 형식</h3>
 
