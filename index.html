@@ -4395,7 +4395,7 @@ const RAW = {
         "용연": [
           null,
           null,
-          108749433
+          107858962
         ],
         "공덕": [
           null,
@@ -23341,34 +23341,37 @@ const VERIFIED = {
   },
   "용연:환경 모니터링·인증 비용": {
     "ko": {
-      "confirmed": "FY25 108,749,433 KRW (환경배출물질 측정비 104,396,000 + ISO 인증비 4,353,433)",
+      "confirmed": "FY25 107,858,962 KRW (환경배출물질 측정비 104,396,000 + ISO 환경(E) 인증비(세전) 3,462,962)",
       "basis": [
-        "효성네오캠 환경안전팀 ver1 r3 (2026-05-08)",
+        "효성네오캠 환경안전팀 ver1 r3 (2026-05-08) + 「2025년 갱신심사 비용 상세내역」 (2026-05-12 효성네오캠 회신, 세전 기준)",
         "환경배출물질 측정비: 대기·수질 자가측정 수수료 (1·2공장 P17 셀 합산)",
-        "ISO 인증비: 25년 ISO 갱신심사 품의서 (전사 합계 13,060,300원, 환경 부분 안분)",
-        "v119에서 ISO 인증비 누락 정정"
+        "ISO 환경(E) 인증비(세전): 심사비용 3,045,000 + 부대비용 417,958 = 3,462,961.83 KRW (정수 반올림 3,462,962, 부가세 별도, MD 비율 안분 — 전체 12 MD 중 E 3.5 MD)",
+        "산식 정정: 인증 성격별 정확 분류 (행96 환경 모니터링·인증 비용 정의 정합) — Q(품질) 3,957,670·S(안전) 4,452,379는 행96 대상 외 (품질·안전은 환경 모니터링·인증과 별개 카테고리)",
+        "v127 정정 2차: 직전 v127 산식(Q+E+S 통합 11,873,000) → 환경(E) 단독 3,462,962 (인증 성격별 분리, 메모리 #1 본사 일괄 산출 정책 + 환경비용 §1.3 세전 기준 정합)"
       ],
-      "meta": "v120 정정 (효성네오캠 ver1 r3 채택, 2026-05-08)"
+      "meta": "v127 정정 2차 (CHANGES_POST_V126 #51, ISO 환경(E) 단독 분리, 2026-05-12)"
     },
     "en": {
-      "confirmed": "FY25 108,749,433 KRW (Environmental measurement 104,396,000 + ISO certification 4,353,433)",
+      "confirmed": "FY25 107,858,962 KRW (Environmental measurement 104,396,000 + ISO Environment (E) certification pre-tax 3,462,962)",
       "basis": [
-        "Hyosung Neochem ver1 r3 (2026-05-08)",
+        "Hyosung Neochem Environmental Safety Team ver1 r3 (2026-05-08) + 2025 Renewal Audit Cost Breakdown (2026-05-12 Hyosung Neochem reply, pre-tax basis)",
         "Environmental measurement: air·water self-monitoring fees (Plant 1·2 P17 cell sum)",
-        "ISO certification: 2025 ISO renewal audit approval (total 13,060,300 KRW, environmental portion allocated)",
-        "Corrected ISO certification omission in v119"
+        "ISO Environment (E) certification (pre-tax): Audit cost 3,045,000 + Incidentals 417,958 = 3,462,961.83 KRW (rounded to 3,462,962, VAT excluded, allocated by MD ratio — 3.5 of total 12 MDs)",
+        "Formula correction: Accurate classification by certification type (consistent with Row 96 Environmental Monitoring·Certification cost definition) — Q(Quality) 3,957,670 and S(Safety) 4,452,379 are outside Row 96 scope (Quality·Safety are separate categories)",
+        "v127 2nd correction: Previous v127 formula (Q+E+S integrated 11,873,000) → Environment (E) only 3,462,962 (classified by certification type, consistent with Memory #1 HQ batch calculation policy + Environmental cost §1.3 pre-tax basis)"
       ],
-      "meta": "v120 correction (Hyosung Neochem ver1 r3 adopted, 2026-05-08)"
+      "meta": "v127 2nd correction (CHANGES_POST_V126 #51, ISO Environment (E) separation, 2026-05-12)"
     },
     "zh": {
-      "confirmed": "FY25 108,749,433 KRW (环境排放物质测定费 104,396,000 + ISO认证费 4,353,433)",
+      "confirmed": "FY25 107,858,962 KRW (环境排放物质测定费 104,396,000 + ISO环境(E)认证费(税前) 3,462,962)",
       "basis": [
-        "晓星NEOCHEM ver1 r3 (2026-05-08)",
+        "晓星NEOCHEM环境安全部门 ver1 r3 (2026-05-08) + 「2025年更新审查费用明细」 (2026-05-12晓星NEOCHEM回复, 税前基准)",
         "环境排放物质测定费: 大气·水质自行测定手续费(1·2工厂P17单元合算)",
-        "ISO认证费: 25年ISO更新审查决裁文件(全公司合计13,060,300韩元, 环境部分分摊)",
-        "纠正v119中ISO认证费遗漏"
+        "ISO环境(E)认证费(税前): 审查费 3,045,000 + 附加费 417,958 = 3,462,961.83 KRW (取整 3,462,962, 增值税另计, 按MD比例分摊 — 全部12 MD中E占3.5 MD)",
+        "算式纠正: 按认证性质准确分类 (与行96环境监测·认证费用定义一致) — Q(质量) 3,957,670·S(安全) 4,452,379属行96范围外 (质量·安全与环境监测·认证为独立类别)",
+        "v127纠正二次: 直前v127算式(Q+E+S统合11,873,000) → 环境(E)单独 3,462,962 (按认证性质分离, 与内存#1总部统一核算政策 + 环境费用§1.3税前基准一致)"
       ],
-      "meta": "v120纠正 (晓星NEOCHEM ver1 r3采用, 2026-05-08)"
+      "meta": "v127纠正二次 (CHANGES_POST_V126 #51, ISO环境(E)单独分离, 2026-05-12)"
     }
   },
   "용연:환경 부담금·세금": {
@@ -35815,7 +35818,8 @@ const CHANGES_POST_V126 = {
   "광동스판:공업용수": {date:"2026-05-12", prev:"광동 자체 송부 자료 검증", new:"광동 법인 보고 기준 (1차 증빙 미수령)", reason:"v127 basis 정정 (외부 검증 오해 방지)"},
   "광동스판:용수 재활용": {date:"2026-05-12", prev:"광동 자체 송부 자료 RAW 정정 + 납부 영수증 기준", new:"광동 법인 보고 기준 (1차 증빙 미수령) + 영수증 표현 제거", reason:"v127 basis 정정 (실제 영수증 미검토 사실 반영)"},
   "광동스판:수질오염물질 배출량 > COD": {date:"2026-05-12", prev:"광동 자체 송부 자료 검증", new:"광동 법인 보고 기준 (1차 증빙 미수령)", reason:"v127 basis 정정 (외부 검증 오해 방지)"},
-  "광동스판:수질오염물질 배출량 > T-P": {date:"2026-05-12", prev:"광동 자체 송부 자료 검증", new:"광동 법인 보고 기준 (1차 증빙 미수령)", reason:"v127 basis 정정 (외부 검증 오해 방지)"}
+  "광동스판:수질오염물질 배출량 > T-P": {date:"2026-05-12", prev:"광동 자체 송부 자료 검증", new:"광동 법인 보고 기준 (1차 증빙 미수령)", reason:"v127 basis 정정 (외부 검증 오해 방지)"},
+  "용연:환경 모니터링·인증 비용": {date:"2026-05-12", prev:108749433, new:107858962, reason:"ISO 인증비 산식 2단계 정정. 1차: 종전 세후 1/3 안분 4353433 (환경 부분만, 기준 부정확) → 세전 전액 11873000 (Q+E+S 통합, 일시 적용). 2차(최종): Q+E+S 통합 11873000 → 환경(E) 단독 3462962 (인증 성격별 정확 분류 — 행96 환경 모니터링·인증 비용 정의 정합, Q 품질·S 안전은 행96 대상 외). 출처: 「2025년 갱신심사 비용 상세내역」 (효성네오캠 회신 2026-05-12, MD 비율 안분 — 전체 12 MD 중 E 3.5 MD). 환경비용 §1.3 세전 기준 적용."}
 };
 
 function getChange(sub, label) {
