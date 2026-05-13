@@ -2388,6 +2388,78 @@ VND 환산값 = (외화 금액 / KRW × 100) ÷ (100 VND / KRW)
 
 </section>
 
+<section class="section-anchor">
+<h2>5.15 대시보드 헤더 링크 표준 (v127 신규)</h2>
+
+<p><strong>적용 범위</strong>: 모든 5종 동시 발행 시 대시보드 헤더 메타 정보 줄의 외부 링크 영역</p>
+
+<p><strong>정책 결정 일자</strong>: 2026-05-12 (v127 변경 사항 링크 누락 사례 발생 후 영구 등록)</p>
+
+<h3>5.15.1 정책 개요</h3>
+<p>대시보드 (index.html) 헤더 메타 정보 줄에 <strong>manual.html + changelog.html 두 외부 링크가 모두 존재해야 함</strong>. 5종 동시 발행 (메모리 #17 정책) 시 두 링크 모두 존재 여부를 발행 전 점검 의무.</p>
+
+<h3>5.15.2 표준 패턴</h3>
+
+<table>
+<tr><th>항목</th><th>매뉴얼 링크</th><th>변경 사항 링크</th></tr>
+<tr><td><strong>경로</strong></td><td><code>manual.html</code></td><td><code>changelog.html</code></td></tr>
+<tr><td><strong>표시 텍스트</strong></td><td><code>📖 매뉴얼 ↗</code></td><td><code>📋 변경 사항 ↗</code> (띄어쓰기 필수)</td></tr>
+<tr><td><strong>색상 (color)</strong></td><td><code>#60a5fa</code> (파란, Tailwind blue-400)</td><td><code>#fbbf24</code> (노란/amber, Tailwind amber-400)</td></tr>
+<tr><td><strong>장식</strong></td><td>textDecoration: none, fontWeight: 600</td><td>textDecoration: none, fontWeight: 600</td></tr>
+<tr><td><strong>target</strong></td><td>_blank</td><td>_blank</td></tr>
+<tr><td><strong>rel</strong></td><td>noopener noreferrer</td><td>noopener noreferrer</td></tr>
+</table>
+
+<h4>JSX 표준 코드</h4>
+<pre>
+v127 (2026-05-12) · 
+&lt;a href="manual.html" target="_blank" rel="noopener noreferrer" 
+   style={{color:"#60a5fa",textDecoration:"none",fontWeight:600}}&gt;📖 매뉴얼 ↗&lt;/a&gt; · 
+&lt;a href="changelog.html" target="_blank" rel="noopener noreferrer" 
+   style={{color:"#fbbf24",textDecoration:"none",fontWeight:600}}&gt;📋 변경 사항 ↗&lt;/a&gt;
+</pre>
+
+<h3>5.15.3 색상 구분 사유</h3>
+<p>매뉴얼과 변경 사항 링크를 동일 색상으로 표시할 경우 사용자가 두 링크를 시각적으로 구분하기 어려움. 매뉴얼은 안정된 영구 문서 (파란색 = 정보·신뢰)이며 변경 사항은 최신 갱신 내역 (노란색 = 주목·강조)을 의미하므로 색상 분리 필수.</p>
+
+<h3>5.15.4 5종 발행 시 점검 체크리스트 의무</h3>
+
+<p>5종 동시 발행 (대시보드·엑셀·인계·매뉴얼·changelog) 시 다음 항목을 발행 전 반드시 확인:</p>
+
+<table>
+<tr><th>점검 항목</th><th>패턴</th><th>예상 카운트</th></tr>
+<tr><td>매뉴얼 링크 존재</td><td><code>manual.html</code></td><td>1건</td></tr>
+<tr><td>변경 사항 링크 존재</td><td><code>changelog.html</code></td><td>1건</td></tr>
+<tr><td>매뉴얼 표시 텍스트</td><td><code>📖 매뉴얼</code></td><td>1건</td></tr>
+<tr><td>변경 사항 표시 텍스트 (띄어쓰기)</td><td><code>📋 변경 사항</code></td><td>1건</td></tr>
+<tr><td>매뉴얼 색상</td><td><code>#60a5fa</code> 인접</td><td>≥1건 (헤더 외 UI 사용 가능)</td></tr>
+<tr><td>변경 사항 색상</td><td><code>#fbbf24</code> 인접</td><td>≥1건 (헤더 외 UI 사용 가능)</td></tr>
+<tr><td>잘못된 텍스트 패턴</td><td><code>📋 변경사항</code> (붙여쓰기)</td><td><strong>0건 (있으면 정정)</strong></td></tr>
+</table>
+
+<h3>5.15.5 v127 누락 사례 (영구 기록)</h3>
+
+<p>2026-05-12 환경책임보험 분류 점검 작업 중 다음 누락 사례 발생:</p>
+
+<ul>
+<li><strong>1차 누락</strong>: 작업 시작 직전 백업 (dashboard_backup_pre_row9697.html) 시점부터 changelog.html 링크가 이미 누락된 상태. 이전 세션에서 발생한 누락이 본 작업까지 이어짐.</li>
+<li><strong>2차 오류</strong>: 사용자 지적으로 누락 발견 후 복원 작업 시 색상 (#60a5fa 파란색)과 텍스트 (변경사항 붙여쓰기)를 잘못 적용. SSOT 원칙 (지침 §5.1) + 잔여 과제 명시 전 진행 상태 확인 의무 (메모리 #17)을 따르지 않은 결과.</li>
+<li><strong>3차 정정</strong>: 사용자 추가 지적으로 conversation_search로 이전 표준 패턴 확인 후 정확한 색상 (#fbbf24 노란/amber)과 텍스트 (변경 사항 띄어쓰기)로 정정. 정합성 검증 ALL PASS.</li>
+</ul>
+
+<h3>5.15.6 GitHub Pages 파일명 매핑</h3>
+
+<p>대시보드 헤더 링크 경로는 GitHub Pages 파일명 매핑 정책 (메모리 #17·#18)과 정합:</p>
+
+<table>
+<tr><th>로컬 파일</th><th>GitHub Pages 파일명</th><th>대시보드 헤더 링크</th></tr>
+<tr><td>효성티앤씨_ESG_환경_검수_대시보드_*.html</td><td><code>index.html</code></td><td>—</td></tr>
+<tr><td>효성티앤씨_ESG_대시보드_매뉴얼_*.html</td><td><code>manual.html</code></td><td>매뉴얼 링크</td></tr>
+<tr><td>효성티앤씨_ESG_대시보드_*_변경사항_통합리스트.html</td><td><code>changelog.html</code></td><td>변경 사항 링크</td></tr>
+</table>
+
+</section>
+
 <!-- ═══════════════════════════════════════════════ -->
 <!-- 6장. RAW·V·NA 등록 표준 절차 -->
 <!-- ═══════════════════════════════════════════════ -->
