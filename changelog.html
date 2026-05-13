@@ -56,7 +56,7 @@
     <li><strong>VERIFIED:</strong> 553 → <strong>585</strong> (+32)</li>
     <li><strong>NOT_APPLICABLE:</strong> 363 → <strong>390</strong> (+27)</li>
     <li><strong>HQ_MANAGED:</strong> 11 → <strong>12</strong> (+1)</li>
-    <li><strong>CHANGES_POST_V126:</strong> <strong>53건 누적</strong> (RAW 정정 43 + V basis 정정 7 + 환경비용 분류 정합 3, 2026-05-13)</li>
+    <li><strong>CHANGES_POST_V126:</strong> <strong>54건 누적</strong> (RAW 정정 44 + V basis 정정 7 + 환경비용 분류 정합 3, 2026-05-13)</li>
   </ul>
 </div>
 
@@ -111,12 +111,13 @@
     <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">null</span></td><td><span class="num-new">72.17</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 시작) 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
   </tbody>
 </table>
-<h3>닝샤스판 (2건)</h3>
+<h3>닝샤스판 (3건)</h3>
 <table>
   <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
   <tbody>
     <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">12320.39</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
     <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">0</span></td><td><span class="num-new">82.47</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 0 → null 정정 (환산 미실시). 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+    <tr><td><span class="tag-raw">정정</span></td><td>수자원 관리 > 용수 재활용 (행75)</td><td><span class="num-old">[24592, 48342, 130140000]</span></td><td><span class="num-new">[20120.73, 39552.55, 54100.64]</span></td><td>v127 정정 (2026-05-13): 법인 회신 「高盐水排水每月清单(고염수 배수 월별 명세)」 Q열 中水回用水量 합계로 3개년 일괄 정정. 종전 RAW는 ① FY23·FY24가 엑셀 P열(排水量 합계) 잘못 추출 + ② FY25가 정부 보고서 「2025年取用水现状报告」 폐쇄형 순환 냉각수 누계 계상 방식(13,014만 m³)으로 등록되어 라벨 정의(재이용수량)와 불일치. 법인 안내: 냉각탑 Blowdown 폐수를 RO(역삼투압) 멤브레인으로 처리하여 일부 냉각탑 보충수로 재활용한 양. V basis 3개 언어 통째 재작성.</td></tr>
   </tbody>
 </table>
 <h3>동나이 (2건)</h3>
@@ -255,7 +256,7 @@
   <ul>
     <li>출처: 광동 환경안전팀 자체 작성 「广东环安_数据备注信息」 자료 (2026-04-21 검수)</li>
     <li>해당 자료에는 11개 행 환경 데이터 변동 사유만 포함되어 있으며, 1차 증빙 (영수증·계량기 검침·SAP 전표·정부 공식 문서)은 미수령 상태</li>
-    <li>닝샤스판 행75 (정부 공식 「2025年取用水现状报告」 검증)와 검증 수준 차이 명시 필요 — 외부 검증 단계 오해 방지 위해 basis 첫 줄 정정</li>
+    <li>닝샤스판 행75 (2026-05-13 정정 전 정부 공식 「2025年取用水现状报告」 기반 검증값)와 검증 수준 차이 명시 필요 — 외부 검증 단계 오해 방지 위해 basis 첫 줄 정정. <br/>※ 닝샤스판 행75는 2026-05-13 정정으로 정부 공식 보고서 누계 계상 방식에서 법인 자체 「高盐水排水每月清单」 Q열 中水回用水量 합계로 변경됨</li>
     <li>지침 §1.13 + 매뉴얼 §5.13 V 등록 basis 표기 정책 신규 등록 (적용 4조건 + 표준 표현 ko/en/zh + 금지 표현 5종 + 1차 증빙 후속 수령 시 갱신 절차)</li>
     <li>1차 증빙 후속 수령 시 갱신 절차: CHANGES_POST_V126 등록 + basis 첫 줄 변경 + ko/en/zh 동시 갱신 + 위험도 A 파싱 검증 의무</li>
   </ul>
