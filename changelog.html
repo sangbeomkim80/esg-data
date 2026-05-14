@@ -2,292 +2,188 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>효성티앤씨 ESG 환경 대시보드 v127 변경 사항 통합 리스트</title>
-
+<title>효성티앤씨 ESG 환경 검수 — 변경사항 통합 리스트</title>
 <style>
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; 
-         max-width: 1400px; margin: 30px auto; padding: 0 30px; color: #1f2937; line-height: 1.6; }
-  h1 { color: #111827; border-bottom: 3px solid #2563eb; padding-bottom: 12px; }
-  h2 { color: #1f2937; margin-top: 40px; border-left: 5px solid #2563eb; padding-left: 12px; }
-  h3 { color: #374151; margin-top: 24px; background: #f3f4f6; padding: 8px 12px; border-radius: 4px; }
-  .meta { background: #eff6ff; padding: 16px 20px; border-radius: 8px; margin-bottom: 24px; 
-          border-left: 4px solid #3b82f6; }
-  .meta div { margin: 4px 0; }
-  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-  th, td { border: 1px solid #d1d5db; padding: 8px 10px; text-align: left; vertical-align: top; }
-  th { background: #374151; color: white; font-weight: 600; }
-  tr:nth-child(even) { background: #f9fafb; }
-  .tag-raw { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; }
-  .tag-v { background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; }
-  .tag-na { background: #e5e7eb; color: #374151; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; }
-  .tag-policy { background: #fce7f3; color: #9f1239; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; }
-  .tag-basis { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; }
-  .num-old { color: #b91c1c; text-decoration: line-through; }
-  .num-new { color: #047857; font-weight: 600; }
-  .summary { background: #fef3c7; padding: 16px 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b; }
-  .summary strong { color: #92400e; }
-  ul { margin: 6px 0; padding-left: 24px; }
-  li { margin: 3px 0; }
-  .source { background: #f0f9ff; padding: 12px 16px; border-radius: 6px; margin: 10px 0; border-left: 4px solid #0ea5e9; }
-  .source strong { color: #075985; }
-  .footer { background: #f3f4f6; padding: 12px 16px; border-radius: 6px; margin-top: 40px; 
-            font-size: 12px; color: #6b7280; text-align: center; }
-  code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #be123c; }
-  .auto-gen { background: #d1fae5; color: #065f46; padding: 4px 12px; border-radius: 12px; 
-              font-size: 11px; font-weight: 600; display: inline-block; margin-left: 12px; }
+  body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; max-width: 1400px; margin: 30px auto; padding: 20px; background: #f8fafc; color: #1e293b; }
+  h1 { color: #1F3864; border-bottom: 3px solid #2E75B6; padding-bottom: 10px; }
+  h2 { color: #2E75B6; margin-top: 30px; border-left: 4px solid #2E75B6; padding-left: 12px; }
+  h3 { color: #44546A; margin-top: 25px; }
+  .meta { background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 20px 0; }
+  .meta div { margin: 5px 0; }
+  .meta strong { color: #1F3864; display: inline-block; min-width: 180px; }
+  table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  th { background: #2E75B6; color: white; padding: 10px 8px; text-align: left; font-size: 13px; font-weight: 600; }
+  td { padding: 10px 8px; border-bottom: 1px solid #e2e8f0; font-size: 12px; vertical-align: top; }
+  tr:hover { background: #f8fafc; }
+  .v128 td { background: #fff7e6; }
+  .v127 td { background: #f0f9ff; }
+  .row-num { text-align: center; font-weight: bold; color: #2E75B6; width: 50px; }
+  .sub { font-weight: 600; color: #1F3864; width: 110px; }
+  .label { width: 300px; }
+  .prev, .new { width: 130px; font-family: 'Consolas', monospace; font-size: 11px; }
+  .reason { font-size: 12px; line-height: 1.5; }
+  .summary { display: flex; gap: 15px; margin: 20px 0; }
+  .summary-card { flex: 1; padding: 15px; border-radius: 8px; text-align: center; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .summary-card .value { font-size: 28px; font-weight: bold; color: #2E75B6; }
+  .summary-card .label { color: #64748b; font-size: 13px; margin-top: 5px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+  .badge-v128 { background: #f97316; color: white; }
+  .badge-v127 { background: #0ea5e9; color: white; }
+  .source { background: #fef3c7; padding: 12px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #f59e0b; }
+  .source strong { color: #92400e; }
 </style>
-
 </head>
 <body>
 
-<h1>효성티앤씨 ESG 환경 검수 대시보드 v127 변경 사항 통합 리스트<span class="auto-gen">자동 생성</span></h1>
+<h1>효성티앤씨 ESG 환경 검수 — 변경사항 통합 리스트</h1>
 
 <div class="meta">
-  <div><strong>버전:</strong> v127 (2026-05-12)</div>
-  <div><strong>직전 버전:</strong> v126</div>
-  <div><strong>대시보드 SSOT:</strong> <code>효성티앤씨_ESG_환경_검수_대시보드_2026-05-12_v127.html</code></div>
-  <div><strong>생성 도구:</strong> <code>generate_changelog.py v1.0</code> (자동 생성)</div>
+  <div><strong>발행일</strong> 2026-05-14</div>
+  <div><strong>대상 버전</strong> v128 발행 시점 통합본</div>
+  <div><strong>작성</strong> ESG경영팀</div>
+  <div><strong>용도</strong> v126 이후 모든 변경사항 영구 보존 (외부 검증 응대용)</div>
+  <div><strong>대시보드 표시 정책</strong> 현 대시보드는 CHANGES_POST_V127 (v128 변경사항 37건)만 표시. 본 changelog.html은 전체 이력 누적 보존.</div>
 </div>
 
 <div class="summary">
-  <strong>📊 변경 카운트 요약 (v126 → v127)</strong>
-  <ul>
-    <li><strong>VERIFIED:</strong> 553 → <strong>585</strong> (+32)</li>
-    <li><strong>NOT_APPLICABLE:</strong> 363 → <strong>390</strong> (+27)</li>
-    <li><strong>HQ_MANAGED:</strong> 11 → <strong>12</strong> (+1)</li>
-    <li><strong>CHANGES_POST_V126:</strong> <strong>54건 누적</strong> (RAW 정정 44 + V basis 정정 7 + 환경비용 분류 정합 3, 2026-05-13)</li>
-  </ul>
-</div>
-
-<h2>📑 목차</h2>
-<ul>
-  <li><a href="#sec-policy">1. 정책 변경 (3건)</a></li>
-  <li><a href="#sec-raw">2. RAW 정정 (CHANGES_POST_V126 중 RAW, 43건)</a></li>
-  <li><a href="#sec-basis">3. V basis 정정 (7건) <span class="tag-policy">신규</span></a></li>
-  <li><a href="#sec-source">4. 변경 사항 출처 및 근거</a></li>
-</ul>
-
-<h2 id="sec-policy">1. 정책 변경 (3건)</h2>
-<table>
-  <thead><tr><th width="5%">유형</th><th width="40%">정책</th><th width="55%">변경 내용</th></tr></thead>
-  <tbody>
-<tr><td><span class="tag-policy">정책</span></td><td>HQ_MANAGED 정책 §1.5.1 확장</td><td>11건 → <strong>12건</strong> (행85·86·87·88·89·90·91·92·<strong>93·94</strong>·103·112). 행94 본사 일괄 분류 신규 (종전 SUBSIDIARY → HQ_MANAGED). 근거: 배상수 PM 글로벌 포장재 측정 통합 파일이 본사 일괄 자료원</td></tr>
-<tr><td><span class="tag-policy">정책</span></td><td>친환경 제품 정의 §1.6 확장</td><td>임계치 80% 채택 (C4F7N·F2 GWP 감축 기여 분류). 학계·업계 보고서 + 고객사 Scope 1 감축 + GWP 80% 감축 3조건</td></tr>
-<tr><td><span class="tag-policy">신규</span></td><td>V 등록 basis 표기 정책 §1.13 신규</td><td>법인 자체 사유 설명 자료 단독 채택 시 basis 첫 줄에 1차 증빙 미수령 사실 명시 의무화. 4조건 만족 시 적용 (법인 자체 사유설명 단독 + 1차 증빙 미수령 + 정부 공식문서 미대조 + RAW/V 등록). 매뉴얼 §5.13 동시 등록. 적용: 광동스판 7건 (행57·60·62·72·75·81·84). 외부 검증 단계 오해 방지 효과</td></tr>
-  </tbody>
-</table>
-
-<h2 id="sec-raw">2. RAW 정정 (CHANGES_POST_V126 중 RAW, 43건)</h2>
-<h3>가흥스판 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">1295.36</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">null</span></td><td><span class="num-new">37.81</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록. FY23·24 기존 RAW null 정정 (환산 미실시, FY25부터 산정) 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>가흥화공 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">2432.4</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">0</span></td><td><span class="num-new">0</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 회수 없음). 종전 NA→V 전환. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>광동스판 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">2869.75</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">3044494</span></td><td><span class="num-new">918.57</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. **단위 오기 정정** — kg(918,567)를 ton으로 잘못 입력한 3,044,494 ton 값을 정정. FY23·24도 환산 미실시로 null 정정. 본사 일괄 산출 신규 등록. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>구미 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">2011.83</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">null</span></td><td><span class="num-new">72.17</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 시작) 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>닝샤스판 (3건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">12320.39</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">0</span></td><td><span class="num-new">82.47</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 0 → null 정정 (환산 미실시). 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>수자원 관리 > 용수 재활용 (행75)</td><td><span class="num-old">[24592, 48342, 130140000]</span></td><td><span class="num-new">[20120.73, 39552.55, 54100.64]</span></td><td>v127 정정 (2026-05-13): 법인 회신 「高盐水排水每月清单(고염수 배수 월별 명세)」 Q열 中水回用水量 합계로 3개년 일괄 정정. 종전 RAW는 ① FY23·FY24가 엑셀 P열(排水量 합계) 잘못 추출 + ② FY25가 정부 보고서 「2025年取用水现状报告」 폐쇄형 순환 냉각수 누계 계상 방식(13,014만 m³)으로 등록되어 라벨 정의(재이용수량)와 불일치. 법인 안내: 냉각탑 Blowdown 폐수를 RO(역삼투압) 멤브레인으로 처리하여 일부 냉각탑 보충수로 재활용한 양. V basis 3개 언어 통째 재작성.</td></tr>
-  </tbody>
-</table>
-<h3>동나이 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">11708.83</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">null</span></td><td><span class="num-new">148.36</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 RAW null 정정. 1161 + 통합본 4건 합산. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>브라질스판 (5건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>일반대기오염물질 > 총탄화수소(THC)</td><td><span class="num-old">0</span></td><td><span class="num-new">null</span></td><td>v127 정정 (4/16 메일 4주 회신 미도착, 측정 답변 부재로 null 등록)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>유해대기오염물질(HAPs) > 염화수소(HCl)</td><td><span class="num-old">0</span></td><td><span class="num-new">null</span></td><td>v127 정정 (4/16 메일 4주 회신 미도착, 측정 답변 부재로 null 등록)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>수질오염물질 배출량 > TOC</td><td><span class="num-old">0</span></td><td><span class="num-new">null</span></td><td>v127 정정 (4/16 메일 4주 회신 미도착, 측정 답변 부재로 null 등록)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">2794.83</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">238.76</span></td><td><span class="num-new">242.03</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 정정). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>옥산 (8건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>판매 > 친환경 제품 판매 실적</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (옥산=NF3만, GWP 미감축)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>구매 > 친환경 제품 구매 실적</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (옥산 VC 3000=HF+NH3, 친환경 자재 부재)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>구매 > 총 제품 구매 실적</td><td><span class="num-old">null</span></td><td><span class="num-new">5864913</span></td><td>v127 신규 등록 (재고수불부 VC 3000 구매입고, 천원)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>재생 가능한 원료 사용량 (①)</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (BIO 자재 부재)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>재활용된 원료 사용량</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (RECYCLED·REGEN 자재 부재)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>재생 불가능한 원료 사용량(②)</td><td><span class="num-old">null</span></td><td><span class="num-new">2671.65</span></td><td>v127 신규 등록 (재고수불부 VC 3000, BIO·재활용 자재 부재)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>유해화학물질 사용량</td><td><span class="num-old">null</span></td><td><span class="num-new">2671.65</span></td><td>v127 신규 등록 (HF+NH3, GHS 8차 매칭)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>환경 관련 법규 위반에 따른 벌금</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (FY25 위반 무발생)</td></tr>
-  </tbody>
-</table>
-<h3>용연 (10건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>판매 > 친환경 제품 판매 실적</td><td><span class="num-old">null</span></td><td><span class="num-new">4878895</span></td><td>v127 신규 등록 (Plant 3512 C4F7N+F2, 매뉴얼 §1.6 임계치 80% 적용, 천원)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>구매 > 친환경 제품 구매 실적</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (Plant 3512 C4F7N_Yuji 외주 206.42 kg 미금액 처리)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>구매 > 총 제품 구매 실적</td><td><span class="num-old">null</span></td><td><span class="num-new">11208335</span></td><td>v127 신규 등록 (재고수불부 3 plant 합산, 천원)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>재생 가능한 원료 사용량 (①)</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (BIO 자재 부재)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>재활용된 원료 사용량</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (RECYCLED·REGEN 자재 부재)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>재생 불가능한 원료 사용량(②)</td><td><span class="num-old">null</span></td><td><span class="num-new">4975.19</span></td><td>v127 신규 등록 (재고수불부 VC 3000 3 plant 합산)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>유해화학물질 사용량</td><td><span class="num-old">null</span></td><td><span class="num-new">4975.19</span></td><td>v127 신규 등록 (HF+NH3, GHS 8차 매칭, 3 plant 합산)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>환경 관련 법규 위반에 따른 벌금</td><td><span class="num-old">null</span></td><td><span class="num-new">0</span></td><td>v127 신규 등록 (FY25 위반 무발생)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>화학물질 배출량</td><td><span class="num-old">11.78</span></td><td><span class="num-new">23.3014</span></td><td>v127 RAW 정정 — v113 등록값 11.78 ton 산정 오류 정정. 5종 사용량(ton) 합계를 kg로 오인식 후 ÷1000 처리한 의미 없는 값. 회신·매뉴얼 정합 산정값 23.3014 ton (HF+NH3 대기 배출만, kg/yr÷1000)으로 정정. 출처: 효성네오캠 용연 환경안전팀 이종민 회신 + 화학물질 배출량조사표 PDF (2026-05-11)</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>환경 모니터링·인증 비용</td><td><span class="num-old">108749433</span></td><td><span class="num-new">107858962</span></td><td>ISO 인증비 산식 2단계 정정. 1차: 종전 세후 1/3 안분 4353433 (환경 부분만, 기준 부정확) → 세전 전액 11873000 (Q+E+S 통합, 일시 적용). 2차(최종): Q+E+S 통합 11873000 → 환경(E) 단독 3462962 (인증 성격별 정확 분류 — 행96 환경 모니터링·인증 비용 정의 정합, Q 품질·S 안전은 행96 대상 외). 출처: 「2025년 갱신심사 비용 상세내역」 (효성네오캠 회신 2026-05-12, MD 비율 안분 — 전체 12 MD 중 E 3.5 MD). 환경비용 §1.3 세전 기준 적용.</td></tr>
-  </tbody>
-</table>
-<h3>인도스판 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">3614.34</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">37.95</span></td><td><span class="num-new">36.54</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 정정). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>주해스판 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">1530.02</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">0</span></td><td><span class="num-new">0</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 회수 없음). FY23·24 기존 0 → null 정정 (환산 미실시). 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>취저우스판 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">7500.02</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">null</span></td><td><span class="num-new">1061.19</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-<h3>튀르키예스판 (2건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="35%">지표</th><th width="15%">종전</th><th width="15%">정정</th><th width="35%">사유</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 총 출하량</td><td><span class="num-old">null</span></td><td><span class="num-new">4645.21</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
-    <tr><td><span class="tag-raw">정정</span></td><td>포장재 > 포장재 회수량</td><td><span class="num-old">434.55</span></td><td><span class="num-new">445.92</span></td><td>v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 정정). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
-  </tbody>
-</table>
-
-<h2 id="sec-basis">3. V basis 정정 (7건, 신규)</h2>
-<h3>광동스판 (7건)</h3>
-<table>
-  <thead><tr><th>유형</th><th width="40%">지표</th><th width="55%">basis 정정 내용</th></tr></thead>
-  <tbody>
-    <tr><td><span class="tag-basis">basis</span></td><td>일반 폐기물 배출량 > 위탁처리 > 소각</td><td><span class="num-old">광동 자체 송부 자료 검증</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령)</span><br><small style="color:#6b7280;">v127 basis 정정 (외부 검증 오해 방지)</small></td></tr>
-    <tr><td><span class="tag-basis">basis</span></td><td>지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td><span class="num-old">광동 자체 송부 자료 검증</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령)</span><br><small style="color:#6b7280;">v127 basis 정정 (외부 검증 오해 방지)</small></td></tr>
-    <tr><td><span class="tag-basis">basis</span></td><td>지정 폐기물 배출량 > 위탁처리 > 매립</td><td><span class="num-old">광동 자체 송부 자료 검증</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령)</span><br><small style="color:#6b7280;">v127 basis 정정 (외부 검증 오해 방지)</small></td></tr>
-    <tr><td><span class="tag-basis">basis</span></td><td>공업용수</td><td><span class="num-old">광동 자체 송부 자료 검증</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령)</span><br><small style="color:#6b7280;">v127 basis 정정 (외부 검증 오해 방지)</small></td></tr>
-    <tr><td><span class="tag-basis">basis</span></td><td>용수 재활용</td><td><span class="num-old">광동 자체 송부 자료 RAW 정정 + 납부 영수증 기준</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령) + 영수증 표현 제거</span><br><small style="color:#6b7280;">v127 basis 정정 (실제 영수증 미검토 사실 반영)</small></td></tr>
-    <tr><td><span class="tag-basis">basis</span></td><td>수질오염물질 배출량 > COD</td><td><span class="num-old">광동 자체 송부 자료 검증</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령)</span><br><small style="color:#6b7280;">v127 basis 정정 (외부 검증 오해 방지)</small></td></tr>
-    <tr><td><span class="tag-basis">basis</span></td><td>수질오염물질 배출량 > T-P</td><td><span class="num-old">광동 자체 송부 자료 검증</span> → <span class="num-new">광동 법인 보고 기준 (1차 증빙 미수령)</span><br><small style="color:#6b7280;">v127 basis 정정 (외부 검증 오해 방지)</small></td></tr>
-  </tbody>
-</table>
-
-<h2 id="sec-source">4. 변경 사항 출처 및 근거</h2>
-<div class="source">
-  <strong>본사 일괄 산출 정책 §1.5.1 적용 (옥산·용연 17건 V + 4건 NA, 포장재 22건 V + 7건 NA)</strong>
-  <ul>
-    <li>효성네오캠 SAP 재고수불부 VC 3000·8000 분석</li>
-    <li>R103 매칭 엔진 v2 (GHS 8차 140종 CAS 매칭)</li>
-    <li>R090 매칭 엔진 v4 (RECYCLED/REGEN 키워드 매칭)</li>
-    <li>SAP G/L 53119900 환경 벌금 전표 추출</li>
-    <li>매뉴얼 §1.6 친환경 제품 정의 (재활용·바이오 + GWP 80% 감축 기여)</li>
-    <li>ESG경영팀 배상수 PM 작성 「글로벌 포장재 중량 측정 통합 포장재 회수」 파일 (포장재 행93·94)</li>
-  </ul>
-</div>
-<div class="source">
-  <strong>효성네오캠 환경안전팀 회신 (2026-05-11) — 추가 NA 16건 등록 + 행104 정정</strong>
-  <ul>
-    <li>이종민 (용연): 2026-05-11 15:13 — 대기 4행 시설 부재 + 해양방류 부재 + 행104 산출 자료</li>
-    <li>배지훈 (옥산): 2026-05-11 16:36 — 대기 5행 + 수자원 3행 + 폐수 2행 + COD 대체</li>
-  </ul>
-</div>
-<div class="source">
-  <strong>브라질스판 회신 미도착 (2026-04-16 발송) — RAW null 정정 3건</strong>
-  <ul>
-    <li>4/16 메일 4주 회신 미도착, 측정 답변 부재로 0 → null 정정</li>
-  </ul>
-</div>
-<div class="source">
-  <strong>광동스판 행94 FY25 단위 오기 정정 (포장재 작업 부산물 발견)</strong>
-  <ul>
-    <li>종전 RAW: 3,044,494 ton (회사 전체 생산 규모를 크게 초과하는 비현실적 수치)</li>
-    <li>정정 RAW: 918.57 ton (자료 918,567 kg ÷ 1,000)</li>
-    <li>오류 규모: <strong>318,156배</strong> (kg을 ton으로 입력하여 1,000배 + 환산 누락 분)</li>
-    <li>외부 검증 단계 즉시 지적 사유로 사전 정정</li>
-  </ul>
-</div>
-<div class="source">
-  <strong>광동스판 7건 V basis 정정 + §1.13 정책 신규 등록 (2026-05-12 v127)</strong>
-  <ul>
-    <li>출처: 광동 환경안전팀 자체 작성 「广东环安_数据备注信息」 자료 (2026-04-21 검수)</li>
-    <li>해당 자료에는 11개 행 환경 데이터 변동 사유만 포함되어 있으며, 1차 증빙 (영수증·계량기 검침·SAP 전표·정부 공식 문서)은 미수령 상태</li>
-    <li>닝샤스판 행75 (2026-05-13 정정 전 정부 공식 「2025年取用水现状报告」 기반 검증값)와 검증 수준 차이 명시 필요 — 외부 검증 단계 오해 방지 위해 basis 첫 줄 정정. <br/>※ 닝샤스판 행75는 2026-05-13 정정으로 정부 공식 보고서 누계 계상 방식에서 법인 자체 「高盐水排水每月清单」 Q열 中水回用水量 합계로 변경됨</li>
-    <li>지침 §1.13 + 매뉴얼 §5.13 V 등록 basis 표기 정책 신규 등록 (적용 4조건 + 표준 표현 ko/en/zh + 금지 표현 5종 + 1차 증빙 후속 수령 시 갱신 절차)</li>
-    <li>1차 증빙 후속 수령 시 갱신 절차: CHANGES_POST_V126 등록 + basis 첫 줄 변경 + ko/en/zh 동시 갱신 + 위험도 A 파싱 검증 의무</li>
-  </ul>
-</div>
-
-
-<div class="source">
-  <strong>v127 정정 (환경비용 분류 §1.10 정합, 2026-05-13)</strong>
-  <ul>
-    <li><strong>용연 행96 (환경 모니터링·인증 비용):</strong> 107,858,962 KRW → <strong>134,311,433 KRW</strong> (+25,562,000)</li>
-    <li>변경 사유: 환경책임보험 25,562,000 KRW (1공장 11,598천원 + 2공장 13,964천원)를 §1.10 환경비용 분류 정책에 따라 행97 → 행96으로 이관</li>
-    <li>최종 RAW 산식: 환경배출물질 측정비 104,396,000 + ISO 환경(E) 인증비(세전) 3,462,962 + 환경책임보험 25,562,000 = 134,311,433 KRW</li>
-    <li>출처: 효성네오캠 환경안전팀 ver1 r3 (2026-05-08) + 「2025년 갱신심사 비용 상세내역」 (2026-05-12 효성네오캠 회신)</li>
-  </ul>
+  <div class="summary-card">
+    <div class="value">54</div>
+    <div class="label">v127 변경사항</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">37</div>
+    <div class="label">v128 변경사항</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">91</div>
+    <div class="label">전체 누적 변경</div>
+  </div>
 </div>
 
 <div class="source">
-  <strong>v127 정정 (용연·옥산 행97 환경 부담금·세금 V→NA 이관, 2026-05-13)</strong>
+  <strong>출처 자료 (v128 시점)</strong>
   <ul>
-    <li><strong>용연 행97:</strong> RAW 25,562,000 KRW → <strong>null</strong> (환경책임보험 행96 이관) + V 삭제 + NA 신규 등록</li>
-    <li><strong>옥산 행97:</strong> RAW 0 → <strong>null</strong> (§1.10 정합) + V 삭제 + NA 신규 등록</li>
-    <li>변경 사유: §1.10 정책에 따라 행97은 정부 부담금·세금만 한정 (환경책임보험 제외). 효성티앤씨 본사 정책으로 FY26부터 집계 시작</li>
-    <li>외부 검증 답변 기준: "효성티앤씨 본사 정책으로 FY26부터 집계 시작" (행97 환경 부담금·세금)</li>
-    <li>타 18개 사업장 정합 패턴 — 행97 V 0건 + NA 20건 (전 사업장 NA 등록 완료)</li>
+    <li>① 네트웍스y 송부 자료 (2차본, 2026-05-14 수령): _효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx</li>
+    <li>② 네트웍스y 송부 자료 (1차본, 폐기): __2023_2025__효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_최종본.xlsx</li>
+    <li>③ ESG경영팀 안여경 프로 메일 송부 (스크린샷 자료 첨부, 2026-05-14 수령)</li>
+    <li>④ 매뉴얼 §1.2 데이터 상태 판정 기준 정합화 (본사 정책 결정)</li>
   </ul>
 </div>
 
-<div class="footer">
-  <div><strong>본 문서는 대시보드 v127의 변경 사항 통합 리스트입니다.</strong></div>
-  <div>대시보드 SSOT: <code>효성티앤씨_ESG_환경_검수_대시보드_2026-05-12_v127.html</code></div>
-  <div>생성일자: 2026-05-13 00:33 (v127 환경비용 분류 정합 정정 반영) | 작성: ESG경영팀</div>
+<h2>2026-05-14 <span class="badge badge-v128">v128 37건</span> (총 37건)</h2>
+<table>
+<tr><th class="row-num">행</th><th class="sub">사업장</th><th class="label">지표</th><th class="prev">변경 전</th><th class="new">변경 후</th><th class="reason">사유</th></tr>
+<tr class="v128"><td class="row-num">56</td><td class="sub">광동스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 재활용(①)</td><td class="prev">123 (FY25)</td><td class="new">123.210</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 +0.210 미세.</td></tr>
+<tr class="v128"><td class="row-num">56</td><td class="sub">동나이</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 재활용(①)</td><td class="prev">919.410 (FY25)</td><td class="new">9202.160</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 동나이 보고경계 6 plant 정합 (1161+1261+1262+2261+2163+3761). 동나이 나일론(1262) FY25 폐기물 데이터 동나이에 합산 등록. 메모리 v128 정책 정합. 폐수는 HS효성 베트남 법인 포함 가능성 회신 대기로 보류 (행76 FY25 390,225 ton 유지). 행56 +8,282.750.</td></tr>
+<tr class="v128"><td class="row-num">56</td><td class="sub">취저우스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 재활용(①)</td><td class="prev">null (FY25)</td><td class="new">4097.670</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 신규 등록 (종전 잔존 보류 해소).</td></tr>
+<tr class="v128"><td class="row-num">56</td><td class="sub">튀르키예스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 재활용(①)</td><td class="prev">658.050 (FY25)</td><td class="new">948.840</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 → 일반 이전). 행56 +290.790, 행60 -290.786 (합계 +0.004 반올림). 행63 -0.002 미세.</td></tr>
+<tr class="v128"><td class="row-num">57</td><td class="sub">광동스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">198 (FY25)</td><td class="new">197.900</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 -0.100 미세.</td></tr>
+<tr class="v128"><td class="row-num">57</td><td class="sub">동나이</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">558.090 (FY25)</td><td class="new">637.820</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 동나이 보고경계 6 plant 정합 (1161+1261+1262+2261+2163+3761). 동나이 나일론(1262) FY25 폐기물 데이터 동나이에 합산 등록. 메모리 v128 정책 정합. 폐수는 HS효성 베트남 법인 포함 가능성 회신 대기로 보류 (행76 FY25 390,225 ton 유지). 행57 +79.730.</td></tr>
+<tr class="v128"><td class="row-num">57</td><td class="sub">브라질스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">66.490 (FY25)</td><td class="new">0</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 소각 → 지정 기타 이전, 일반 폐기물 일부 정정). 행57 -66.490, 행58 -42.690, 행60 +0.295, 행61 -552.610, 행63 +619.099.</td></tr>
+<tr class="v128"><td class="row-num">58</td><td class="sub">브라질스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 매립</td><td class="prev">637.930 (FY25)</td><td class="new">595.240</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 소각 → 지정 기타 이전, 일반 폐기물 일부 정정). 행57 -66.490, 행58 -42.690, 행60 +0.295, 행61 -552.610, 행63 +619.099.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">가흥스판</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">가흥화공</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">광동스판</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">닝샤스판</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">브라질스판</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">주해스판</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">59</td><td class="sub">튀르키예스판</td><td class="label">지정 폐기물 배출량 > 자가처리(재활용)(②)</td><td class="prev">0/0/0 (V 0)</td><td class="new">null/null/null (NA)</td><td class="reason">매뉴얼 §1.2 정합화. 지정 폐기물 자가처리(재활용) 시설 미보유. 위탁 처리 100% 구조. 종전 V 0(2026-04-27) 등록은 시설 보유 전제로 매뉴얼 §1.2 정합 위반. RAW 모든 연도 null + V → NA 변환. 참고: 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령)에도 자가처리 컬럼 부재 확인.</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">가흥스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">49 / 80 (FY23·FY24)</td><td class="new">49.201 / 83.783</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY23 49→49.201 Ton (+0.201). FY24 80→83.783 Ton (+3.783).</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">광동스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">72 (FY25)</td><td class="new">72.470</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 +0.470 미세.</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">닝샤스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">2646.341 (FY25)</td><td class="new">2646.344</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 +0.003 미세 (닝샤 자체 산출 자료와 정합).</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">동나이</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">null (FY25)</td><td class="new">103.710</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 동나이 보고경계 6 plant 정합 (1161+1261+1262+2261+2163+3761). 동나이 나일론(1262) FY25 폐기물 데이터 동나이에 합산 등록. 메모리 v128 정책 정합. 폐수는 HS효성 베트남 법인 포함 가능성 회신 대기로 보류 (행76 FY25 390,225 ton 유지). 행60 신규 등록.</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">브라질스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">18 (FY25)</td><td class="new">18.295</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 소각 → 지정 기타 이전, 일반 폐기물 일부 정정). 행57 -66.490, 행58 -42.690, 행60 +0.295, 행61 -552.610, 행63 +619.099.</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">인도스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">0 (FY25)</td><td class="new">790.140</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령, 종전 1차본 <b>「__2023_2025__효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_최종본.xlsx」</b> 폐기) 적용. 시멘트 전처리 과정 = 재활용 분류 재조정 (자료 비고란 명시: "처리 방법 중 '시멘트 전처리 과정' 항목은 모두 재활용으로 반영함"). 행60 0→790.140 + 행61 833.180→846.980 (+13.800) + 행62 803.950→0. 분류 재구성 검증: 합계 -0.010 (반올림 오차).</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">주해스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">198 / 212 (FY23·FY24)</td><td class="new">6.22 / 88.4</td><td class="reason">ESG경영팀 안여경 프로 메일 송부 (스크린샷 자료 첨부, 2026-05-14 수령) 적용. FY23 -191.780. FY24 -123.600. 네트웍스y 측 분류 재조정 (1차본·2차본 FY23·FY24 시트에 주해스판 데이터 미입력으로 메일을 출처로 적용).</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">취저우스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">137.28 / 97.38 / 94.866 (FY23·24·25)</td><td class="new">91.26 / 103.38 / 94.870</td><td class="reason">ESG경영팀 안여경 프로 메일 송부 (스크린샷 자료 첨부, 2026-05-14 수령) + 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY23 -46.020 / FY24 +6.000 / FY25 +0.004. 행60↔행61 분류 재구성 (합계 보존).</td></tr>
+<tr class="v128"><td class="row-num">60</td><td class="sub">튀르키예스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">3105.630 (FY25)</td><td class="new">2814.844</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 → 일반 이전). 행56 +290.790, 행60 -290.786 (합계 +0.004 반올림). 행63 -0.002 미세.</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">가흥스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">531 / 496 / 417.930 (FY23·24·25)</td><td class="new">557.359 / 548.496 / 417.933</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY23 +26.359, FY24 +52.496, FY25 +0.003 미세.</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">광동스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">1183.800 (FY25)</td><td class="new">1183.845</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 +0.045 미세.</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">동나이</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">4698.280 (FY25)</td><td class="new">3034.369</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 동나이 보고경계 6 plant 정합 (1161+1261+1262+2261+2163+3761). 동나이 나일론(1262) FY25 폐기물 데이터 동나이에 합산 등록. 메모리 v128 정책 정합. 폐수는 HS효성 베트남 법인 포함 가능성 회신 대기로 보류 (행76 FY25 390,225 ton 유지). 행61 -1,663.911.</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">브라질스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">552.650 (FY25)</td><td class="new">0.040</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 소각 → 지정 기타 이전, 일반 폐기물 일부 정정). 행57 -66.490, 행58 -42.690, 행60 +0.295, 행61 -552.610, 행63 +619.099.</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">인도스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">833.180 (FY25)</td><td class="new">846.980</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령, 종전 1차본 <b>「__2023_2025__효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_최종본.xlsx」</b> 폐기) 적용. 시멘트 전처리 과정 = 재활용 분류 재조정 (자료 비고란 명시: "처리 방법 중 '시멘트 전처리 과정' 항목은 모두 재활용으로 반영함"). 행60 0→790.140 + 행61 833.180→846.980 (+13.800) + 행62 803.950→0. 분류 재구성 검증: 합계 -0.010 (반올림 오차).</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">주해스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">785.900 (FY25)</td><td class="new">888.775</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 +102.875.</td></tr>
+<tr class="v128"><td class="row-num">61</td><td class="sub">취저우스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">2049.264 / 2130.843 / 1885.054 (FY23·24·25)</td><td class="new">2095.284 / 2124.843 / 1846.960</td><td class="reason">ESG경영팀 안여경 프로 메일 송부 (스크린샷 자료 첨부, 2026-05-14 수령) + 네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY23 +46.020 / FY24 -6.000 (분류 이전 흡수) / FY25 -38.094.</td></tr>
+<tr class="v128"><td class="row-num">62</td><td class="sub">동나이</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 매립</td><td class="prev">49.290 (FY25)</td><td class="new">2097.995</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 동나이 보고경계 6 plant 정합 (1161+1261+1262+2261+2163+3761). 동나이 나일론(1262) FY25 폐기물 데이터 동나이에 합산 등록. 메모리 v128 정책 정합. 폐수는 HS효성 베트남 법인 포함 가능성 회신 대기로 보류 (행76 FY25 390,225 ton 유지). 행62 +2,048.705.</td></tr>
+<tr class="v128"><td class="row-num">62</td><td class="sub">인도스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 매립</td><td class="prev">803.950 (FY25)</td><td class="new">0</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령, 종전 1차본 <b>「__2023_2025__효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_최종본.xlsx」</b> 폐기) 적용. 시멘트 전처리 과정 = 재활용 분류 재조정 (자료 비고란 명시: "처리 방법 중 '시멘트 전처리 과정' 항목은 모두 재활용으로 반영함"). 행60 0→790.140 + 행61 833.180→846.980 (+13.800) + 행62 803.950→0. 분류 재구성 검증: 합계 -0.010 (반올림 오차).</td></tr>
+<tr class="v128"><td class="row-num">63</td><td class="sub">동나이</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 기타</td><td class="prev">46.810 (FY25)</td><td class="new">0</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 동나이 보고경계 6 plant 정합 (1161+1261+1262+2261+2163+3761). 동나이 나일론(1262) FY25 폐기물 데이터 동나이에 합산 등록. 메모리 v128 정책 정합. 폐수는 HS효성 베트남 법인 포함 가능성 회신 대기로 보류 (행76 FY25 390,225 ton 유지). 행63 -46.810.</td></tr>
+<tr class="v128"><td class="row-num">63</td><td class="sub">브라질스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 기타</td><td class="prev">0 (FY25)</td><td class="new">619.099</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 분류 재구성 (지정 소각 → 지정 기타 이전, 일반 폐기물 일부 정정). 행57 -66.490, 행58 -42.690, 행60 +0.295, 행61 -552.610, 행63 +619.099.</td></tr>
+<tr class="v128"><td class="row-num">63</td><td class="sub">튀르키예스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 기타</td><td class="prev">0.020 (FY25)</td><td class="new">0.018</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. 미세 정정.</td></tr>
+<tr class="v128"><td class="row-num">76</td><td class="sub">가흥무역</td><td class="label">최종 방류지별 폐수 배출량 > 하수처리</td><td class="prev">null (FY25)</td><td class="new">1190.247</td><td class="reason">네트웍스y 송부 자료 <b>「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」</b> (2026-05-14 수령) 적용. FY25 신규 등록. 무역법인 사무실 발생 비오염 수처리 폐수, 하수처리장 방류 처리. 가흥화공·광동스판·주해스판 등 다수 사업장 행76 등록 패턴 정합.</td></tr>
+</table>
+
+<h2>2026-05-13 <span class="badge badge-v127">v127 4건</span> (총 4건)</h2>
+<table>
+<tr><th class="row-num">행</th><th class="sub">사업장</th><th class="label">지표</th><th class="prev">변경 전</th><th class="new">변경 후</th><th class="reason">사유</th></tr>
+<tr class="v127"><td class="row-num">75</td><td class="sub">닝샤스판</td><td class="label">용수 재활용</td><td class="prev">130140000</td><td class="new">54100.64</td><td class="reason">법인 회신 <b>「高盐水排水每月清单(고염수 배수 월별 명세)」</b> Q열 中水回用水量 합계로 3개년 일괄 정정 (FY2023 24592→20120.73, FY2024 48342→39552.55, FY2025 130140000→54100.64). 종전 RAW는 ① FY23·FY24가 엑셀 P열(排水量 합계) 잘못 추출 + ② FY25가 정부 보고서 <b>「2025年取用水现状报告」</b> 폐쇄형 순환 냉각수 누계 계상 방식(13,014만 m³)으로 등록되어 라벨 정의(재이용수량)와 불일치. 법인 안내: 냉각탑 Blowdown 폐수를 RO(역삼투압) 멤브레인으로 처리하여 일부 냉각탑 보충수로 재활용한 양.</td></tr>
+<tr class="v127"><td class="row-num">97</td><td class="sub">옥산</td><td class="label">환경 부담금·세금</td><td class="prev">0</td><td class="new">None</td><td class="reason">v127 정합 정정: RAW 0 → null + V→NA 이관 (§1.10 정합성 점검 결과, 타 18개 사업장 정합 패턴 — 효성티앤씨 본사 정책으로 FY26부터 집계 시작).</td></tr>
+<tr class="v127"><td class="row-num">97</td><td class="sub">용연</td><td class="label">환경 부담금·세금</td><td class="prev">25562000</td><td class="new">None</td><td class="reason">v127 정정: 환경책임보험 25,562,000 KRW를 §1.10 환경비용 분류 정책에 따라 행96으로 이관 후 행97 RAW = null. V→NA 이관 (행97은 정부 부담금·세금만 한정, 효성티앤씨 본사 정책으로 FY26부터 집계 시작).</td></tr>
+<tr class="v127"><td class="row-num"></td><td class="sub">용연</td><td class="label">환경 모니터링·인증 비용 (3차)</td><td class="prev">107858962</td><td class="new">134311433</td><td class="reason">v127 정정 3차: 환경책임보험 25,562,000 KRW 행97→행96 이관 (§1.10 환경비용 분류 정합 — 환경책임보험은 행96 환경 모니터링·인증 비용 카테고리 분류). 최종 RAW = 측정비 104,396,000 + ISO 환경(E) 인증비 3,462,962 + 환경책임보험 25,562,000 = 134,311,433 KRW.</td></tr>
+</table>
+
+<h2>2026-05-12 <span class="badge badge-v127">v127 50건</span> (총 50건)</h2>
+<table>
+<tr><th class="row-num">행</th><th class="sub">사업장</th><th class="label">지표</th><th class="prev">변경 전</th><th class="new">변경 후</th><th class="reason">사유</th></tr>
+<tr class="v127"><td class="row-num">57</td><td class="sub">광동스판</td><td class="label">일반 폐기물 배출량 > 위탁처리 > 소각</td><td class="prev">광동 자체 송부 자료 검증</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령)</td><td class="reason">v127 basis 정정 (외부 검증 오해 방지)</td></tr>
+<tr class="v127"><td class="row-num">60</td><td class="sub">광동스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 재활용(③)</td><td class="prev">광동 자체 송부 자료 검증</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령)</td><td class="reason">v127 basis 정정 (외부 검증 오해 방지)</td></tr>
+<tr class="v127"><td class="row-num">62</td><td class="sub">광동스판</td><td class="label">지정 폐기물 배출량 > 위탁처리 > 매립</td><td class="prev">광동 자체 송부 자료 검증</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령)</td><td class="reason">v127 basis 정정 (외부 검증 오해 방지)</td></tr>
+<tr class="v127"><td class="row-num">67</td><td class="sub">브라질스판</td><td class="label">일반대기오염물질 > 총탄화수소(THC)</td><td class="prev">0</td><td class="new">None</td><td class="reason">v127 정정 (4/16 메일 4주 회신 미도착, 측정 답변 부재로 null 등록)</td></tr>
+<tr class="v127"><td class="row-num">69</td><td class="sub">브라질스판</td><td class="label">유해대기오염물질(HAPs) > 염화수소(HCl)</td><td class="prev">0</td><td class="new">None</td><td class="reason">v127 정정 (4/16 메일 4주 회신 미도착, 측정 답변 부재로 null 등록)</td></tr>
+<tr class="v127"><td class="row-num">72</td><td class="sub">광동스판</td><td class="label">공업용수</td><td class="prev">광동 자체 송부 자료 검증</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령)</td><td class="reason">v127 basis 정정 (외부 검증 오해 방지)</td></tr>
+<tr class="v127"><td class="row-num">75</td><td class="sub">광동스판</td><td class="label">용수 재활용</td><td class="prev">광동 자체 송부 자료 RAW 정정 + 납부 영수증 기준</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령) + 영수증 표현 제거</td><td class="reason">v127 basis 정정 (실제 영수증 미검토 사실 반영)</td></tr>
+<tr class="v127"><td class="row-num">80</td><td class="sub">브라질스판</td><td class="label">수질오염물질 배출량 > TOC</td><td class="prev">0</td><td class="new">None</td><td class="reason">v127 정정 (4/16 메일 4주 회신 미도착, 측정 답변 부재로 null 등록)</td></tr>
+<tr class="v127"><td class="row-num">81</td><td class="sub">광동스판</td><td class="label">수질오염물질 배출량 > COD</td><td class="prev">광동 자체 송부 자료 검증</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령)</td><td class="reason">v127 basis 정정 (외부 검증 오해 방지)</td></tr>
+<tr class="v127"><td class="row-num">84</td><td class="sub">광동스판</td><td class="label">수질오염물질 배출량 > T-P</td><td class="prev">광동 자체 송부 자료 검증</td><td class="new">광동 법인 보고 기준 (1차 증빙 미수령)</td><td class="reason">v127 basis 정정 (외부 검증 오해 방지)</td></tr>
+<tr class="v127"><td class="row-num">85</td><td class="sub">옥산</td><td class="label">판매 > 친환경 제품 판매 실적</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (옥산=NF3만, GWP 미감축)</td></tr>
+<tr class="v127"><td class="row-num">85</td><td class="sub">용연</td><td class="label">판매 > 친환경 제품 판매 실적</td><td class="prev">None</td><td class="new">4878895</td><td class="reason">v127 신규 등록 (Plant 3512 C4F7N+F2, 매뉴얼 §1.6 임계치 80% 적용, 천원)</td></tr>
+<tr class="v127"><td class="row-num">87</td><td class="sub">옥산</td><td class="label">구매 > 친환경 제품 구매 실적</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (옥산 VC 3000=HF+NH3, 친환경 자재 부재)</td></tr>
+<tr class="v127"><td class="row-num">87</td><td class="sub">용연</td><td class="label">구매 > 친환경 제품 구매 실적</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (Plant 3512 C4F7N_Yuji 외주 206.42 kg 미금액 처리)</td></tr>
+<tr class="v127"><td class="row-num">88</td><td class="sub">옥산</td><td class="label">구매 > 총 제품 구매 실적</td><td class="prev">None</td><td class="new">5864913</td><td class="reason">v127 신규 등록 (재고수불부 VC 3000 구매입고, 천원)</td></tr>
+<tr class="v127"><td class="row-num">88</td><td class="sub">용연</td><td class="label">구매 > 총 제품 구매 실적</td><td class="prev">None</td><td class="new">11208335</td><td class="reason">v127 신규 등록 (재고수불부 3 plant 합산, 천원)</td></tr>
+<tr class="v127"><td class="row-num">89</td><td class="sub">옥산</td><td class="label">재생 가능한 원료 사용량 (①)</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (BIO 자재 부재)</td></tr>
+<tr class="v127"><td class="row-num">89</td><td class="sub">용연</td><td class="label">재생 가능한 원료 사용량 (①)</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (BIO 자재 부재)</td></tr>
+<tr class="v127"><td class="row-num">90</td><td class="sub">옥산</td><td class="label">재활용된 원료 사용량</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (RECYCLED·REGEN 자재 부재)</td></tr>
+<tr class="v127"><td class="row-num">90</td><td class="sub">용연</td><td class="label">재활용된 원료 사용량</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (RECYCLED·REGEN 자재 부재)</td></tr>
+<tr class="v127"><td class="row-num">92</td><td class="sub">옥산</td><td class="label">재생 불가능한 원료 사용량(②)</td><td class="prev">None</td><td class="new">2671.65</td><td class="reason">v127 신규 등록 (재고수불부 VC 3000, BIO·재활용 자재 부재)</td></tr>
+<tr class="v127"><td class="row-num">92</td><td class="sub">용연</td><td class="label">재생 불가능한 원료 사용량(②)</td><td class="prev">None</td><td class="new">4975.19</td><td class="reason">v127 신규 등록 (재고수불부 VC 3000 3 plant 합산)</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">가흥스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">1295.36</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">가흥화공</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">2432.4</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">광동스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">2869.75</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">구미</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">2011.83</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">닝샤스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">12320.39</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">동나이</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">11708.83</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">브라질스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">2794.83</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">인도스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">3614.34</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">주해스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">1530.02</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">취저우스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">7500.02</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">93</td><td class="sub">튀르키예스판</td><td class="label">포장재 > 포장재 총 출하량</td><td class="prev">None</td><td class="new">4645.21</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM 글로벌 포장재 측정 통합 파일 SR_정량보고_동나이통합 시트 D열 kg→ton 환산. FY23·FY24는 환산 미실시로 null 유지.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">가흥스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">None</td><td class="new">37.81</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록. FY23·24 기존 RAW null 정정 (환산 미실시, FY25부터 산정) 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">가흥화공</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">0</td><td class="new">0</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 회수 없음). 종전 NA→V 전환. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">광동스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">3044494</td><td class="new">918.57</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. **단위 오기 정정** — kg(918,567)를 ton으로 잘못 입력한 3,044,494 ton 값을 정정. FY23·24도 환산 미실시로 null 정정. 본사 일괄 산출 신규 등록. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">구미</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">None</td><td class="new">72.17</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 시작) 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">닝샤스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">0</td><td class="new">82.47</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 0 → null 정정 (환산 미실시). 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">동나이</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">None</td><td class="new">148.36</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 RAW null 정정. 1161 + 통합본 4건 합산. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">브라질스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">238.76</td><td class="new">242.03</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 정정). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">인도스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">37.95</td><td class="new">36.54</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 정정). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">주해스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">0</td><td class="new">0</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 회수 없음). FY23·24 기존 0 → null 정정 (환산 미실시). 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">취저우스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">None</td><td class="new">1061.19</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">94</td><td class="sub">튀르키예스판</td><td class="label">포장재 > 포장재 회수량</td><td class="prev">434.55</td><td class="new">445.92</td><td class="reason">v127 본사 일괄 산출 신규 등록 — 배상수 PM SR_정량보고_동나이통합 시트 E열. 본사 일괄 산출 신규 등록 (FY25 정정). FY23·24 기존 RAW null 정정. 출처: ESG경영팀 배상수 PM 작성 글로벌 포장재 측정 통합 파일.</td></tr>
+<tr class="v127"><td class="row-num">96</td><td class="sub">용연</td><td class="label">환경 모니터링·인증 비용</td><td class="prev">108749433</td><td class="new">107858962</td><td class="reason">ISO 인증비 산식 2단계 정정. 1차: 종전 세후 1/3 안분 4353433 (환경 부분만, 기준 부정확) → 세전 전액 11873000 (Q+E+S 통합, 일시 적용). 2차(최종): Q+E+S 통합 11873000 → 환경(E) 단독 3462962 (인증 성격별 정확 분류 — 행96 환경 모니터링·인증 비용 정의 정합, Q 품질·S 안전은 행96 대상 외). 출처: <b>「2025년 갱신심사 비용 상세내역」</b> (효성네오캠 회신 2026-05-12, MD 비율 안분 — 전체 12 MD 중 E 3.5 MD). 환경비용 §1.3 세전 기준 적용.</td></tr>
+<tr class="v127"><td class="row-num">100</td><td class="sub">옥산</td><td class="label">유해화학물질 사용량</td><td class="prev">None</td><td class="new">2671.65</td><td class="reason">v127 신규 등록 (HF+NH3, GHS 8차 매칭)</td></tr>
+<tr class="v127"><td class="row-num">100</td><td class="sub">용연</td><td class="label">유해화학물질 사용량</td><td class="prev">None</td><td class="new">4975.19</td><td class="reason">v127 신규 등록 (HF+NH3, GHS 8차 매칭, 3 plant 합산)</td></tr>
+<tr class="v127"><td class="row-num">101</td><td class="sub">용연</td><td class="label">화학물질 배출량</td><td class="prev">11.78</td><td class="new">23.3014</td><td class="reason">v127 RAW 정정 — v113 등록값 11.78 ton 산정 오류 정정. 5종 사용량(ton) 합계를 kg로 오인식 후 ÷1000 처리한 의미 없는 값. 회신·매뉴얼 정합 산정값 23.3014 ton (HF+NH3 대기 배출만, kg/yr÷1000)으로 정정. 출처: 효성네오캠 용연 환경안전팀 이종민 회신 + 화학물질 배출량조사표 PDF (2026-05-11)</td></tr>
+<tr class="v127"><td class="row-num">105</td><td class="sub">옥산</td><td class="label">환경 관련 법규 위반에 따른 벌금</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (FY25 위반 무발생)</td></tr>
+<tr class="v127"><td class="row-num">105</td><td class="sub">용연</td><td class="label">환경 관련 법규 위반에 따른 벌금</td><td class="prev">None</td><td class="new">0</td><td class="reason">v127 신규 등록 (FY25 위반 무발생)</td></tr>
+</table>
+
+
+<div class="meta" style="margin-top: 40px;">
+  <h3>변경사항 누적 정책 (매뉴얼 §5.7.5 신설 예정)</h3>
+  <p>본 통합 리스트는 v126 이후 모든 버전의 변경사항을 누적 보존합니다.</p>
+  <ul>
+    <li><strong>대시보드</strong> (index.html): 현재 버전 변경사항만 표시 (예: v128 대시보드는 CHANGES_POST_V127 객체에 37건)</li>
+    <li><strong>변경사항 통합리스트</strong> (changelog.html): 모든 버전 변경사항 누적 영구 보존 (외부 검증 응대용)</li>
+  </ul>
 </div>
 
 </body>
