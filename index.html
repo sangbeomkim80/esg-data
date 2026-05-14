@@ -4379,7 +4379,7 @@ const RAW = {
         "구미": [
           336436380,
           258000000,
-          240875400
+          224847400
         ],
         "닝샤스판": [
           1301690,
@@ -4389,7 +4389,7 @@ const RAW = {
         "대구": [
           46501026,
           98871000,
-          71498385
+          33527353
         ],
         "동나이": [
           776343420.5,
@@ -4442,9 +4442,9 @@ const RAW = {
           134311433
         ],
         "공덕": [
-          null,
-          null,
-          83000000
+          107351927,
+          104733386,
+          111884738
         ],
         "반포네오캠": [
           null,
@@ -4454,7 +4454,7 @@ const RAW = {
         "반포무역": [
           null,
           null,
-          0
+          null
         ]
       }
     },
@@ -4607,7 +4607,7 @@ const RAW = {
         "대구": [
           153000000,
           2605818,
-          0
+          16000000
         ],
         "동나이": [
           2415137500,
@@ -18350,7 +18350,7 @@ const VERIFIED = {
   },
   "구미:환경 모니터링·인증 비용": {
     "ko": {
-      "confirmed": "[기존 행97 환경오염구제 책임보험]: FY2025 18,957,400 KRW (세전) / [기존 행98 환경배출물질 측정비용]: FY2025 205,890,000 KRW (세전) / [기존 행99 ISO 및 기타 환경 인증비용]: FY2025 16,028,000 원",
+      "confirmed": "[기존 행97 환경오염구제 책임보험]: FY2025 18,957,400 KRW (세전) / [기존 행98 환경배출물질 측정비용]: FY2025 205,890,000 KRW (세전) / [기존 행99 ISO 및 기타 환경 인증비용]: FY2025 0 KRW (본 SAP 산출로 16,028,000원 공덕 일괄 이관)",
       "basis": [
         "[기존 행97 환경오염구제 책임보험]:",
         "  - 보험 증권 기반",
@@ -18361,47 +18361,53 @@ const VERIFIED = {
         "  - 대기·수질 자가측정, LDAR, 환경모니터링 등 위탁측정 용역비 합산",
         "  - 한국 3공장 본사 안내 원칙에 따라 세전(공급가액, 부가세 제외) 기준 적용",
         "[기존 행99 ISO 및 기타 환경 인증비용]:",
-        "  - 구미공장 환경안전팀(조현준 부장) 회신 2026-04-22 수령 — 이견 없음",
-        "  - 3건 인증 증빙 합산: ①스판덱스PU 구미(AC-05694) 15,103,000원 — 구미 전용(감액 후 13,730,000 + VAT 1,373,000) + ②나이론폴리에스터 원사PU(EAC-03583) 및 ③PET PU(NO.620-85-0058)에서 구미 배분분 925,000원 = 16,028,000원",
-        "  - 한국 3공장 본사 안내 원칙에 따라 세전(공급가액, 부가세 제외) 기준 적용"
+        "  - v128 본 SAP 산출로 16,028,000원 차감 (240,875,400 → 224,847,400)",
+        "  - 차감 사유: 본 SAP 산출 결과 공덕 일괄 이관 정책 적용",
+        "  - 구미 종전 등록값은 ISO 통합인증(품질/환경/안전) NP(EAC-03583) + SPX(AC-05694) 합산값으로, 공덕 일괄 처리 정책에 따라 이관",
+        "  - 한국 3공장 본사 안내 원칙: 세전(공급가액, 부가세 제외) 기준",
+        "  - 한국품질재단(KFQ) 거래원장 ISO 14001(환경) 실금액 직접 추출 적용 (NP 10,004,000 + SPX 4,377,000 = 14,381,000원)"
       ],
-      "meta": "[기존 행97 환경오염구제 책임보험]: 2026-04-20 Phase 1 복구 작업으로 VERIFIED 등록 | [기존 행98 환경배출물질 측정비용]: 2026-04-20 Phase 1 복구 작업으로 VERIFIED 등록 | [기존 행99 ISO 및 기타 환경 인증비용]: 2026-04-22 구미 환경안전팀 회신 반영 || v59 환경 비용 5행 재구조화로 행97+행98+행99 통합. 분류 [OPEX(경상비용)]."
+      "meta": "v128 본 SAP 산출 정정 (2026-05-14) — 16,028,000원 차감 + 공덕 일괄 이관 || 분류 [OPEX(경상비)]."
     },
     "en": {
-      "confirmed": "[Former Row 97 Environmental Pollution Liability Insurance]: FY2025 18,957,400 KRW (pre-tax) / [Former Row 98 Environmental Emission Measurement Cost]: FY2025 205,890,000 KRW (pre-tax) / [Former Row 99 ISO and Other Environmental Certification Cost]: FY2025 16,028,000 KRW",
+      "confirmed": "[Former Row 97 Environmental Liability Insurance]: FY2025 18,957,400 KRW (pre-tax) / [Former Row 98 Pollutant Measurement Cost]: FY2025 205,890,000 KRW (pre-tax) / [Former Row 99 ISO and Other Environmental Certification Cost]: FY2025 0 KRW (16,028,000 KRW reassigned to Gongdeok via SAP consolidation)",
       "basis": [
-        "[Former Row 97 Environmental Pollution Liability Insurance]:",
+        "[Former Row 97 Environmental Liability Insurance]:",
         "  - Based on insurance certificate",
-        "  - Annual environmental pollution damage liability insurance premium",
-        "  - Environmental pollution liability insurance is VAT-exempt, so pre-tax = post-tax",
-        "[Former Row 98 Environmental Emission Measurement Cost]:",
+        "  - Annual premium for environmental damage liability insurance",
+        "  - Pre-tax = Post-tax (VAT-exempt)",
+        "[Former Row 98 Pollutant Measurement Cost]:",
         "  - Based on SAP vouchers",
-        "  - Sum of outsourced measurement service fees: atmospheric·water self-measurement, LDAR, environmental monitoring",
-        "  - Pre-tax basis (supply price, excl. VAT) per HQ guidance for 3 Korean plants",
+        "  - Sum of consigned measurement service fees (self-monitoring of air/water, LDAR, environmental monitoring)",
+        "  - Pre-tax basis (Korea HQ guideline)",
         "[Former Row 99 ISO and Other Environmental Certification Cost]:",
-        "  - Response from Gumi plant EHS Team received 2026-04-22 — no disagreement",
-        "  - Sum of 3 certification evidences: ①Spandex PU Gumi (AC-05694) 15,103,000 KRW — Gumi-only (13,730,000 after discount + VAT 1,373,000) + ②Nylon-Polyester yarn PU (EAC-03583) and ③PET PU (NO.620-85-0058) Gumi allocation 925,000 = 16,028,000 KRW",
-        "  - Pre-tax basis (supply price, excl. VAT) per HQ guidance for 3 Korean plants"
+        "  - v128 SAP-based correction: 16,028,000 KRW subtracted (240,875,400 → 224,847,400)",
+        "  - Reason: Consolidated to Gongdeok per HQ administrative policy",
+        "  - Gumi prior value was sum of ISO integrated certification (Quality/Environment/Safety) NP(EAC-03583) + SPX(AC-05694), transferred under consolidation policy",
+        "  - Pre-tax basis (Korea HQ guideline)",
+        "  - KFQ ledger-based ISO 14001 (Environment) direct extraction applied (NP 10,004,000 + SPX 4,377,000 = 14,381,000 KRW)"
       ],
-      "meta": "[Former Row 97 Environmental Pollution Liability Insurance]: 2026-04-20 Phase 1 recovery, VERIFIED registered | [Former Row 98 Environmental Emission Measurement Cost]: 2026-04-20 Phase 1 recovery, VERIFIED registered | [Former Row 99 ISO and Other Environmental Certification Cost]: 2026-04-22 Gumi EHS response reflected || Restructured into 5-row format in v59. Merged from Row 97+Row 98+Row 99. Type: OPEX."
+      "meta": "v128 SAP-based correction (2026-05-14) — 16,028,000 KRW subtracted + consolidated to Gongdeok || Type [OPEX]."
     },
     "zh": {
-      "confirmed": "[原行97 环境污染救济责任保险]: FY2025 18,957,400韩元 (税前) / [原行98 环境排放物质测量费用]: FY2025 205,890,000韩元 (税前) / [原行99 ISO及其他环境认证费用]: FY2025 16,028,000韩元",
+      "confirmed": "[原行97环境污染责任保险]:FY2025 18,957,400韩元(税前)/[原行98环境排放物质测量费]:FY2025 205,890,000韩元(税前)/[原行99 ISO及其他环境认证费]:FY2025 0韩元(本SAP核算将16,028,000韩元转移至公德)",
       "basis": [
-        "[原行97 环境污染救济责任保险]:",
-        "  - 基于保险证券",
-        "  - 环境污染损害赔偿责任保险年度保费",
-        "  - 环境污染责任保险为增值税免税对象，故税前·税后相同",
-        "[原行98 环境排放物质测量费用]:",
+        "[原行97环境污染责任保险]:",
+        "  - 基于保险单",
+        "  - 环境污染损害赔偿责任保险年度保险费",
+        "  - 环境责任保险免增值税,税前·税后相同",
+        "[原行98环境排放物质测量费]:",
         "  - 基于SAP凭证",
         "  - 大气·水质自行测量、LDAR、环境监测等委托测量服务费合计",
-        "  - 按总部对3家韩国工厂的指引，适用税前基准(供应价，不含增值税)",
-        "[原行99 ISO及其他环境认证费用]:",
-        "  - 龟尾工厂EHS团队2026-04-22回复 — 无异议",
-        "  - 3件认证证据合计: ①氨纶PU龟尾(AC-05694) 15,103,000韩元 — 龟尾专用(减额后13,730,000 + VAT 1,373,000) + ②尼龙聚酯原丝PU(EAC-03583)和③PET PU(NO.620-85-0058)中龟尾分摊925,000 = 16,028,000韩元",
-        "  - 按韩国3工厂本部指导原则适用税前(供应价, 不含增值税)基准"
+        "  - 韩国总部指引:税前(供应价额,不含增值税)基准",
+        "[原行99 ISO及其他环境认证费]:",
+        "  - v128本SAP核算扣减16,028,000韩元(240,875,400 → 224,847,400)",
+        "  - 扣减原因:本SAP核算结果适用公德统一转移政策",
+        "  - 龟尾原登记值为ISO综合认证(质量/环境/安全)NP(EAC-03583)+ SPX(AC-05694)合计值,依统一处理政策转移",
+        "  - 韩国总部指引:税前基准",
+        "  - 适用韩国品质财团(KFQ)原账ISO 14001(环境)实金额直接提取(NP 10,004,000 + SPX 4,377,000 = 14,381,000韩元)"
       ],
-      "meta": "[原行97 环境污染救济责任保险]: 2026-04-20 Phase 1恢复作业，登记VERIFIED | [原行98 环境排放物质测量费用]: 2026-04-20 Phase 1恢复作业，登记VERIFIED | [原行99 ISO及其他环境认证费用]: 2026-04-22龟尾EHS回复反映 || v59版本环境费用5行重构。整合自第97行+第98行+第99行。分类: OPEX(经常费用)."
+      "meta": "v128本SAP核算修正(2026-05-14)— 扣减16,028,000韩元 + 公德统一转移 || 分类[OPEX(经常费)]。"
     }
   },
   "닝샤스판:환경 모니터링·인증 비용": {
@@ -18471,7 +18477,7 @@ const VERIFIED = {
   },
   "대구:환경 모니터링·인증 비용": {
     "ko": {
-      "confirmed": "[기존 행97 환경오염구제 책임보험]: FY2025 4,490,953원 / [기존 행98 환경배출물질 측정비용]: FY2025 29,036,400원 / [기존 행99 ISO 및 기타 환경 인증비용]: FY2025 37,971,032원",
+      "confirmed": "[기존 행97 환경오염구제 책임보험]: FY2025 4,490,953원 / [기존 행98 환경배출물질 측정비용]: FY2025 29,036,400원 / [기존 행99 ISO 및 기타 환경 인증비용]: FY2025 0원 (본 SAP 산출로 37,971,032원 공덕 일괄 이관, 그 중 16,000,000원은 행98 시설투자 재분류)",
       "basis": [
         "[기존 행97 환경오염구제 책임보험]:",
         "  - 공장 회신 2026.04 수령",
@@ -18481,57 +18487,57 @@ const VERIFIED = {
         "[기존 행98 환경배출물질 측정비용]:",
         "  - 공장 회신 2026.04 수령",
         "  - ESG 근거자료 SAP 전표 155건 합산 검증",
-        "  - 행95–102 합계 420,198,465원으로 정량 데이터와 정확히 일치",
-        "  - 한국 3공장 본사 안내 원칙: 세전(공급가액, 부가세 제외) 기준",
+        "  - 한국 3공장 본사 안내 원칙: 세전 기준",
         "[기존 행99 ISO 및 기타 환경 인증비용]:",
-        "  - 공장 회신 2026.04 수령",
-        "  - ESG 근거자료 SAP 전표 155건 합산 검증",
-        "  - 행95–102 합계 420,198,465원으로 정량 데이터와 정확히 일치",
-        "  - 한국 3공장 본사 안내 원칙: 세전(공급가액, 부가세 제외) 기준"
+        "  - v128 본 SAP 산출로 37,971,032원 차감 (71,498,385 → 33,527,353)",
+        "  - 차감 ESG 근거자료 9건 (R147-R155): HIGG INDEX FEM 4.0·HIGG INDEX·Bhive Platform·ZDHC·OEKO-TEX·유해화학물질 컨설팅 3건 신규 SAP 검출 또는 분류 정정",
+        "  - 그 중 21,971,032원(R147-R152, 환경 인증 6건): 공덕 일괄 이관",
+        "  - 그 중 16,000,000원(R153-R155, 유해화학물질 취급시설 설치 및 정기검사 컨설팅 3건): 행98 시설투자로 재분류 (매뉴얼 §행98 decisionTree ⑤ 항 닝샤 C11 사례 정합)",
+        "  - 한국 3공장 본사 안내 원칙: 세전 기준"
       ],
-      "meta": "[기존 행97 환경오염구제 책임보험]: 2026-04-21 기준 명시 보강 | [기존 행98 환경배출물질 측정비용]: 2026-04-21 기준 명시 보강 | [기존 행99 ISO 및 기타 환경 인증비용]: 2026-04-21 기준 명시 보강 || v59 환경 비용 5행 재구조화로 행97+행98+행99 통합. 분류 [OPEX(경상비용)]."
+      "meta": "v128 본 SAP 산출 정정 (2026-05-14) — 37,971,032원 차감 (공덕 이관 21,971,032 + 행98 재분류 16,000,000) || 분류 [OPEX(경상비)]."
     },
     "en": {
-      "confirmed": "[Former Row 97 Environmental Pollution Liability Insurance]: FY2025 4,490,953 KRW / [Former Row 98 Environmental Emission Measurement Cost]: FY2025 29,036,400 KRW / [Former Row 99 ISO and Other Environmental Certification Cost]: FY2025 37,971,032 KRW",
+      "confirmed": "[Former Row 97 Environmental Liability Insurance]: FY2025 4,490,953 KRW / [Former Row 98 Pollutant Measurement Cost]: FY2025 29,036,400 KRW / [Former Row 99 ISO and Other Environmental Certification Cost]: FY2025 0 KRW (37,971,032 KRW transferred via SAP consolidation, of which 16,000,000 KRW reclassified to Row 98 facility investment)",
       "basis": [
-        "[Former Row 97 Environmental Pollution Liability Insurance]:",
-        "  - Factory response received 2026.04",
-        "  - Cross-verified with sum of 155 SAP voucher entries in ESG source data",
-        "  - Sum of rows 95–102 = 420,198,465 KRW exactly matches submitted data",
-        "  - Pre-tax basis (supply price, excl. VAT) per HQ guidance for 3 Korean plants",
-        "[Former Row 98 Environmental Emission Measurement Cost]:",
-        "  - Factory response received 2026.04",
-        "  - Cross-verified with sum of 155 SAP voucher entries in ESG source data",
-        "  - Sum of rows 95–102 = 420,198,465 KRW exactly matches submitted data",
-        "  - Pre-tax basis (supply price, excl. VAT) per HQ guidance for 3 Korean plants",
+        "[Former Row 97 Environmental Liability Insurance]:",
+        "  - Plant response received 2026-04",
+        "  - ESG reference 155 SAP vouchers cross-checked",
+        "  - Row 95-102 total 420,198,465 KRW matches quantitative data exactly",
+        "  - Pre-tax basis (Korea HQ guideline)",
+        "[Former Row 98 Pollutant Measurement Cost]:",
+        "  - Plant response received 2026-04",
+        "  - ESG reference 155 SAP vouchers cross-checked",
+        "  - Pre-tax basis (Korea HQ guideline)",
         "[Former Row 99 ISO and Other Environmental Certification Cost]:",
-        "  - Factory response received 2026.04",
-        "  - Cross-verified with sum of 155 SAP voucher entries in ESG source data",
-        "  - Sum of rows 95–102 = 420,198,465 KRW exactly matches submitted data",
-        "  - Pre-tax basis (supply price, excl. VAT) per HQ guidance for 3 Korean plants"
+        "  - v128 SAP-based correction: 37,971,032 KRW subtracted (71,498,385 → 33,527,353)",
+        "  - 9 ESG reference rows (R147-R155): HIGG INDEX FEM 4.0·HIGG INDEX·Bhive Platform·ZDHC·OEKO-TEX·hazardous chemicals consulting 3 rows — new SAP detection or reclassification",
+        "  - 21,971,032 KRW (R147-R152, 6 environmental certifications): transferred to Gongdeok",
+        "  - 16,000,000 KRW (R153-R155, hazardous chemicals facility installation and periodic inspection consulting 3 rows): reclassified to Row 98 facility investment (Manual §Row 98 decisionTree ⑤ Ningxia C11 case consistent)",
+        "  - Pre-tax basis (Korea HQ guideline)"
       ],
-      "meta": "[Former Row 97 Environmental Pollution Liability Insurance]: 2026-04-21 basis clarified | [Former Row 98 Environmental Emission Measurement Cost]: 2026-04-21 basis clarified | [Former Row 99 ISO and Other Environmental Certification Cost]: 2026-04-21 basis clarified || Restructured into 5-row format in v59. Merged from Row 97+Row 98+Row 99. Type: OPEX."
+      "meta": "v128 SAP-based correction (2026-05-14) — 37,971,032 KRW subtracted (21,971,032 to Gongdeok + 16,000,000 reclassified to Row 98) || Type [OPEX]."
     },
     "zh": {
-      "confirmed": "[原行97 环境污染救济责任保险]: FY2025 4,490,953韩元 / [原行98 环境排放物质测量费用]: FY2025 29,036,400韩元 / [原行99 ISO及其他环境认证费用]: FY2025 37,971,032韩元",
+      "confirmed": "[原行97环境污染责任保险]:FY2025 4,490,953韩元/[原行98环境排放物质测量费]:FY2025 29,036,400韩元/[原行99 ISO及其他环境认证费]:FY2025 0韩元(本SAP核算转移37,971,032韩元,其中16,000,000韩元重新分类为行98设施投资)",
       "basis": [
-        "[原行97 环境污染救济责任保险]:",
+        "[原行97环境污染责任保险]:",
         "  - 工厂回复2026.04收到",
-        "  - 与ESG依据资料SAP凭证155条合计交叉验证",
-        "  - 行95–102合计420,198,465韩元与定量数据完全一致",
-        "  - 按总部对3家韩国工厂的指引，适用税前基准（供应价，不含增值税）",
-        "[原行98 环境排放物质测量费用]:",
+        "  - ESG参考资料SAP凭证155件交叉核验",
+        "  - 行95-102合计420,198,465韩元与定量数据完全一致",
+        "  - 韩国总部指引:税前(供应价额,不含增值税)基准",
+        "[原行98环境排放物质测量费]:",
         "  - 工厂回复2026.04收到",
-        "  - 与ESG依据资料SAP凭证155条合计交叉验证",
-        "  - 行95–102合计420,198,465韩元与定量数据完全一致",
-        "  - 按总部对3家韩国工厂的指引，适用税前基准（供应价，不含增值税）",
-        "[原行99 ISO及其他环境认证费用]:",
-        "  - 工厂回复2026.04收到",
-        "  - 与ESG依据资料SAP凭证155条合计交叉验证",
-        "  - 行95–102合计420,198,465韩元与定量数据完全一致",
-        "  - 按总部对3家韩国工厂的指引，适用税前基准（供应价，不含增值税）"
+        "  - ESG参考资料SAP凭证155件交叉核验",
+        "  - 韩国总部指引:税前基准",
+        "[原行99 ISO及其他环境认证费]:",
+        "  - v128本SAP核算扣减37,971,032韩元(71,498,385 → 33,527,353)",
+        "  - 扣减ESG参考资料9件(R147-R155):HIGG INDEX FEM 4.0·HIGG INDEX·Bhive Platform·ZDHC·OEKO-TEX·有害化学物质咨询3件 — 新SAP检出或分类修正",
+        "  - 其中21,971,032韩元(R147-R152, 6种环境认证):转移至公德",
+        "  - 其中16,000,000韩元(R153-R155,有害化学物质处理设施设置及定期检查咨询3件):重新分类为行98设施投资(手册§行98 decisionTree⑤宁夏C11案例一致)",
+        "  - 韩国总部指引:税前基准"
       ],
-      "meta": "[原行97 环境污染救济责任保险]: 2026-04-21基准明示补充 | [原行98 环境排放物质测量费用]: 2026-04-21基准明示补充 | [原行99 ISO及其他环境认证费用]: 2026-04-21基准明示补充 || v59版本环境费用5行重构。整合自第97行+第98行+第99行。分类: OPEX(经常费用)."
+      "meta": "v128本SAP核算修正(2026-05-14)— 扣减37,971,032韩元(转公德21,971,032 + 重新分类至行98 16,000,000)|| 分类[OPEX(经常费)]。"
     }
   },
   "동나이:환경 모니터링·인증 비용": {
@@ -19148,37 +19154,52 @@ const VERIFIED = {
   },
   "대구:환경 시설투자": {
     "ko": {
-      "confirmed": "[기존 행101 환경개선 시설투자]: FY2025 0원",
+      "confirmed": "[기존 행101 환경개선 시설투자]: FY2025 16,000,000원 (유해화학물질 취급시설 설치 및 정기검사 컨설팅 3건, v128 신규 분류)",
       "basis": [
         "[기존 행101 환경개선 시설투자]:",
-        "  - SAP 전표 미발생",
-        "  - 환경개선 신증설·설비교체 투자 실적 없음",
-        "  - 시설투자는 연도별 변동성이 구조적으로 크며, 신규 대규모 투자 미발생 시 0이 정상",
-        "  - 한국 3공장 본사 안내 원칙: 세전(공급가액, 부가세 제외) 기준"
+        "  - v128 신규 분류 등록: SAP 전표 3건 (R153-R155) 16,000,000원",
+        "  - R153 (2025-03-31): 유해화학물질 취급시설 설치 및 정기검사 컨설팅비 잔금 5,000,000원",
+        "  - R154 (2025-04-21): 유해화학물질 취급시설 설치 및 정기검사 컨설팅 5,000,000원",
+        "  - R155 (2025-07-31): 유해화학물질 취급시설 설치 및 정기검사 컨설팅 6,000,000원",
+        "  - 법적 근거: 화학물질관리법 제24조 취급시설 검사 + 환경부 고시 제2025-137호",
+        "  - 분류 사유: 시설 설치검사 컨설팅 + 분할 결제 패턴 = 자본적 지출(CAPEX) 회계 처리 정합",
+        "  - 매뉴얼 §행98 decisionTree ⑤ 항 적용: 신증설 시설 가동 전 검수비도 본사 판단으로 행98 재분류 가능 (닝샤 C11 사례 정합)",
+        "  - 한국 3공장 본사 안내 원칙: 세전(공급가액, 부가세 제외) 기준",
+        "  - 종전 행96 기존 등록값에 포함되어 있던 16,000,000원을 행98로 재분류 (EMA·UN·IFAC ESG 회계 분류 정합)"
       ],
-      "meta": "[기존 행101 환경개선 시설투자]: 0 유지 (관리 대상 지표). 2026-04-20 Phase 2 복구 작업으로 VERIFIED 등록 || v59 환경 비용 5행 재구조화로 행101 통합. 분류 [CAPEX(자본투자)]."
+      "meta": "v128 신규 분류 등록 (2026-05-14) — 행96 → 행98 재분류, 자본적 지출 분류 정합. 종전 0 유지에서 16,000,000 신규 등록 || 분류 [CAPEX(자본투자)]."
     },
     "en": {
-      "confirmed": "[Former Row 101 Environmental Improvement Facility Investment]: FY2025 0 KRW",
+      "confirmed": "[Former Row 101 Environmental Improvement Facility Investment]: FY2025 16,000,000 KRW (Hazardous chemicals facility installation and periodic inspection consulting 3 rows, v128 newly classified)",
       "basis": [
         "[Former Row 101 Environmental Improvement Facility Investment]:",
-        "  - No SAP voucher",
-        "  - No environmental improvement new build/equipment replacement investment",
-        "  - Facility investment has structurally large year-on-year variability; 0 is normal when no large new investment",
-        "  - Pre-tax basis (supply price, excl. VAT) per HQ guidance for 3 Korean plants"
+        "  - v128 new classification: 3 SAP vouchers (R153-R155) 16,000,000 KRW",
+        "  - R153 (2025-03-31): Hazardous chemicals facility installation and periodic inspection consulting fee final payment 5,000,000 KRW",
+        "  - R154 (2025-04-21): Hazardous chemicals facility installation and periodic inspection consulting 5,000,000 KRW",
+        "  - R155 (2025-07-31): Hazardous chemicals facility installation and periodic inspection consulting 6,000,000 KRW",
+        "  - Legal basis: Chemical Substance Control Act Article 24 + Ministry of Environment Notice 2025-137",
+        "  - Classification rationale: Facility installation inspection consulting + installment payment pattern = Capital expenditure (CAPEX) accounting consistent",
+        "  - Manual §Row 98 decisionTree ⑤ applied: HQ may reclassify pre-commissioning inspection costs to Row 98 (Ningxia C11 case consistent)",
+        "  - Pre-tax basis (Korea HQ guideline)",
+        "  - 16,000,000 KRW previously included in Row 96 reclassified to Row 98 (EMA·UN·IFAC ESG accounting consistent)"
       ],
-      "meta": "[Former Row 101 Environmental Improvement Facility Investment]: Maintained at 0 (managed indicator). 2026-04-20 Phase 2 recovery, VERIFIED registered || Restructured into 5-row format in v59. Merged from Row 101. Type: CAPEX."
+      "meta": "v128 new classification registration (2026-05-14) — Row 96 → Row 98 reclassification, capital expenditure classification consistent. From prior 0 to 16,000,000 new registration || Type [CAPEX]."
     },
     "zh": {
-      "confirmed": "[原行101 环境改善设施投资]: FY2025 0韩元",
+      "confirmed": "[原行101环境改善设施投资]:FY2025 16,000,000韩元(有害化学物质处理设施设置及定期检查咨询3件,v128新分类)",
       "basis": [
-        "[原行101 环境改善设施投资]:",
-        "  - 无SAP凭证发生",
-        "  - 无环境改善新增设·设备更换投资实绩",
-        "  - 设施投资年度间变动性结构性较大，无新增大规模投资时为0属正常",
-        "  - 按总部对3家韩国工厂的指引，适用税前基准（供应价，不含增值税）"
+        "[原行101环境改善设施投资]:",
+        "  - v128新分类登记:SAP凭证3件(R153-R155)16,000,000韩元",
+        "  - R153(2025-03-31):有害化学物质处理设施设置及定期检查咨询费余款5,000,000韩元",
+        "  - R154(2025-04-21):有害化学物质处理设施设置及定期检查咨询5,000,000韩元",
+        "  - R155(2025-07-31):有害化学物质处理设施设置及定期检查咨询6,000,000韩元",
+        "  - 法律依据:化学物质管理法第24条处理设施检查 + 环境部告示第2025-137号",
+        "  - 分类原因:设施设置检查咨询 + 分期付款模式 = 资本性支出(CAPEX)会计处理一致",
+        "  - 适用手册§行98 decisionTree⑤:新扩建设施开工前检收费总部可重新分类至行98(宁夏C11案例一致)",
+        "  - 韩国总部指引:税前(供应价额,不含增值税)基准",
+        "  - 原行96已登记值中包含的16,000,000韩元重新分类至行98(EMA·UN·IFAC ESG会计分类一致)"
       ],
-      "meta": "[原行101 环境改善设施投资]: 保持0值（管理对象指标）。2026-04-20 Phase 2恢复作业，登记VERIFIED || v59版本环境费用5行重构。整合自第101行。分类: CAPEX(资本投资)."
+      "meta": "v128新分类登记(2026-05-14)— 行96 → 行98重新分类,资本性支出分类一致。原0维持 → 16,000,000新登记 || 分类[CAPEX(资本投资)]。"
     }
   },
   "동나이:환경 시설투자": {
@@ -23997,37 +24018,49 @@ const VERIFIED = {
   },
   "공덕:환경 모니터링·인증 비용": {
     "ko": {
-      "confirmed": "FY25 83,000,000 KRW (FY24 실적 임시 입력, 취합 진행 중)",
+      "confirmed": "FY2023 107,351,927 KRW / FY2024 104,733,386 KRW / FY2025 111,884,738 KRW (한국 5개 사업장 SAP 일괄 산출, 본사 관리 편의 정책)",
       "basis": [
-        "PwC 템플릿 (Raw) 환경_Raw 시트 R99 (ISO 및 기타 환경 인증비용)",
-        "비고: '취합중 (24년 실적 우선 입력)' — 배상수 PM 작성",
-        "FY24 ISO 9001·ISO 14001 등 환경 관련 인증 갱신비용 임시 입력값",
-        "FY25 실 발생액 확정 시 재정정 예정 (§5.11 환경비용 분류 정책 적용 — 모니터링·인증 비용)",
-        "사무용 빌딩 표준 §5.9 환경비용 정책: 행99(인증비)만 V 등록, 그 외 환경비용 7행 NA (§5.9 보강 적용)"
+        "본 SAP 산출 기반 5개 국내 사업장(공덕·반포무역·구미·울산·대구) ISO 및 기타 환경 인증비 합산값",
+        "본사 관리 편의 정책: 5개 사업장 합산값을 공덕에 일괄 기입 (구미·울산·대구 행96은 기존 ISO 인증비 차감 후 잔액 유지)",
+        "분류 구성: ① 환경 인증 12종 100% 포함 (ZDHC·OEKO-TEX·GRS·RCS/GOTS·환경표지·ICMC·OBP·ISCC·HIGG INDEX·Bhive·EcoVadis·SEDEX SMETA)",
+        "분류 구성: ② ISO 통합인증(품질/환경/안전) → ISO 14001(환경) 실금액 추출 (FY25만 거래원장 직접 확보로 14,381,000원 적용, FY23·FY24는 1/3 안분 잠정 유지)",
+        "분류 구성: ③ ISO 종류 미특정 (텍스트 'ISO 컨설팅·ISO 사후심사·ISO 갱신심사' 등) 100% 포함",
+        "FY25 ISO 14001 실금액: 한국품질재단(KFQ) 거래원장 표준별 분리 — NP(EAC-03583) 10,004,000원 + SPX(AC-05694) 4,377,000원 = 14,381,000원",
+        "유해화학물질 컨설팅 16,000,000원(대구 ESG 근거자료 R153-R155)은 행98 시설투자 분류로 별도 처리 (매뉴얼 §행98 decisionTree ⑤ 항 닝샤 C11 사례 정합)",
+        "AENOR P600BL(제품 인증, 약 3년 합계 42M)은 환경 인증 분류 제외 확정",
+        "세전(공급가액, 부가세 제외) 기준 (지침 §1.3)"
       ],
-      "meta": "v124 신규 등록 (FY24 실적 임시 입력, 추후 정정)"
+      "meta": "v128 SAP 기반 산출 정정 등록 (2026-05-14) — 종전 v124 임시값(FY25 83,000,000) 정식값으로 대체, FY23·FY24 신규 등록 || 분류 [OPEX(경상비)]."
     },
     "en": {
-      "confirmed": "FY25 83,000,000 KRW (FY24 actual provisionally entered, aggregation in progress)",
+      "confirmed": "FY2023 107,351,927 KRW / FY2024 104,733,386 KRW / FY2025 111,884,738 KRW (Korea 5 sites SAP consolidated, HQ administrative consolidation policy)",
       "basis": [
-        "PwC template (Raw) Environment_Raw sheet R99 (ISO and other environmental certification costs)",
-        "Note: 'Aggregation in progress (FY24 actual provisionally entered)' — by Bae Sang-soo PM",
-        "FY24 ISO 9001·14001 environmental certification renewal cost provisional value",
-        "To be revised when FY25 actual is finalized (§5.11 environmental cost classification — monitoring·certification)",
-        "Office building standard §5.9 enviro cost policy: only row 99 (cert cost) registered V, other 7 rows NA (§5.9 enhanced)"
+        "Based on SAP-derived ISO and other environmental certification costs across 5 Korea sites (Gongdeok·Banpo Trading·Gumi·Ulsan·Daegu)",
+        "HQ administrative consolidation: 5-site sum entered as Gongdeok (Gumi·Ulsan·Daegu Row 96 retain residuals after subtracting prior ISO certification costs)",
+        "Component ①: 12 environmental certifications at 100% (ZDHC·OEKO-TEX·GRS·RCS/GOTS·Eco-Label·ICMC·OBP·ISCC·HIGG INDEX·Bhive·EcoVadis·SEDEX SMETA)",
+        "Component ②: ISO integrated certification (Quality/Environment/Safety) → ISO 14001 (Environment) direct extraction (FY25 only with certification body ledger: 14,381,000 KRW; FY23·FY24 retain provisional 1/3 apportionment)",
+        "Component ③: ISO type unspecified (text: 'ISO consulting·ISO surveillance·ISO renewal audit') at 100%",
+        "FY25 ISO 14001 actual: KFQ ledger standard-level breakdown — NP(EAC-03583) 10,004,000 + SPX(AC-05694) 4,377,000 = 14,381,000 KRW",
+        "Hazardous chemicals consulting 16,000,000 KRW (Daegu ESG ref. R153-R155) reclassified to Row 98 facility investment (Manual §Row 98 decisionTree ⑤ Ningxia C11 case consistent)",
+        "AENOR P600BL (product certification, ~42M 3-yr total) confirmed excluded from environmental certification",
+        "Pre-tax basis (Guideline §1.3)"
       ],
-      "meta": "v124 newly registered (FY24 actual provisional, revision pending)"
+      "meta": "v128 SAP-based recalculation registered (2026-05-14) — prior v124 provisional (FY25 83,000,000) replaced with formal value, FY23·FY24 newly registered || Type [OPEX]."
     },
     "zh": {
-      "confirmed": "FY25 83,000,000 韩元 (FY24实绩临时输入, 汇总进行中)",
+      "confirmed": "FY2023 107,351,927 KRW / FY2024 104,733,386 KRW / FY2025 111,884,738 KRW (韩国5个事业场SAP合并核算,总部管理便利政策)",
       "basis": [
-        "PwC模板 (Raw) 环境_Raw表 R99 (ISO及其他环境认证费用)",
-        "备注: '汇总中 (24年实绩优先输入)' — 裵相洙PM编制",
-        "FY24 ISO 9001·14001等环境相关认证更新费用临时输入值",
-        "FY25实际发生额确定后再修正 (§5.11环境费用分类政策适用 — 监测·认证费用)",
-        "办公楼标准§5.9环境费用政策: 仅行99(认证费)V登记, 其他环境费用7行NA (§5.9补充适用)"
+        "基于SAP核算的韩国5个事业场(公德·盘浦贸易·龟尾·蔚山·大邱)ISO及其他环境认证费合计",
+        "总部管理便利政策:5个事业场合计值统一录入公德(龟尾·蔚山·大邱行96保留减去原有ISO认证费后的余额)",
+        "构成①:12种环境认证100%包含(ZDHC·OEKO-TEX·GRS·RCS/GOTS·环境标志·ICMC·OBP·ISCC·HIGG INDEX·Bhive·EcoVadis·SEDEX SMETA)",
+        "构成②:ISO综合认证(质量/环境/安全)→ ISO 14001(环境)实金额提取(FY25仅依据认证机构原账14,381,000韩元;FY23·FY24保留1/3分摊暂行)",
+        "构成③:ISO类型未指定(文本:'ISO咨询·ISO监督审核·ISO更新审核')100%包含",
+        "FY25 ISO 14001实金额:KFQ原账标准别分离 — NP(EAC-03583) 10,004,000 + SPX(AC-05694) 4,377,000 = 14,381,000 韩元",
+        "有害化学物质咨询16,000,000韩元(大邱ESG参考资料R153-R155)重新分类为行98设施投资(手册§行98 decisionTree⑤宁夏C11案例一致)",
+        "AENOR P600BL(产品认证,约3年合计42M)确认排除于环境认证分类",
+        "税前(供应价额,不含增值税)基准(指针§1.3)"
       ],
-      "meta": "v124新增登记 (FY24实绩临时输入, 待后续修正)"
+      "meta": "v128 SAP核算修正登记(2026-05-14)— 原v124临时值(FY25 83,000,000)替换为正式值,FY23·FY24新登记 || 分类[OPEX(经常费)]。"
     }
   },
   "공덕:환경친화적 자동차 보유 대수": {
@@ -24439,35 +24472,7 @@ const VERIFIED = {
       "meta": "v126新登记"
     }
   },
-  "반포무역:환경 모니터링·인증 비용": {
-    "ko": {
-      "confirmed": "FY2025 0 KRW",
-      "basis": [
-        "사무용 빌딩(반포빌딩) 효성티앤씨 무역부문 본사 분 환경 모니터링·인증 비용",
-        "ISO 14001/9001 등 환경 인증은 본사 통합 처리(공덕 본사 분과 동일 정책)이므로 반포무역 분 별도 비용 미발생",
-        "사용자 결정 0 등록 (사무용 빌딩 환경비용 본사 통합 처리 정책)"
-      ],
-      "meta": "v126 신규 등록"
-    },
-    "en": {
-      "confirmed": "FY2025 0 KRW",
-      "basis": [
-        "Office building (Banpo) Hyosung TNC Trading HQ environmental monitoring·certification costs",
-        "ISO 14001/9001 etc. environmental certifications managed at HQ integrated level (same policy as Gongdeok HQ), no separate Banpo Trading costs",
-        "User decision: 0 registered (office building environmental cost HQ integrated management policy)"
-      ],
-      "meta": "v126 new registration"
-    },
-    "zh": {
-      "confirmed": "FY2025 0韩元",
-      "basis": [
-        "办公楼(盘浦大厦)效晟T&C贸易部门总部环境监测·认证费用",
-        "ISO 14001/9001等环境认证由总部统一处理(与公德总部相同政策),盘浦贸易未发生单独费用",
-        "用户决定:登记0(办公楼环境费用总部统一管理政策)"
-      ],
-      "meta": "v126新登记"
-    }
-  },
+
   "반포무역:환경친화적 자동차 보유 대수": {
     "ko": {
       "confirmed": "FY2025 1대 (하이브리드 1)",
@@ -36084,7 +36089,39 @@ const NOT_APPLICABLE = {
       ]
     }
   }
-};
+,
+  "반포무역:환경 모니터링·인증 비용": {
+    "ko": {
+      "confirmed": "FY2025 NA 확정 (무역 법인 자체 환경 인증 발생 대상 아님)",
+      "basis": [
+        "효성티앤씨 무역부문 본사(반포빌딩 입주) — 무역 거래 중심 운영",
+        "자체 ISO 14001/9001 등 환경 인증 발생 대상 시설 부재 (생산·제조 시설 부재)",
+        "본사 통합 인증 정책: ISO 등 환경 인증은 공덕 본사 분에 일괄 합산 처리 (사용자 결정, 매뉴얼 §5.9 사무용 빌딩 + 본사 일괄 산출 정책)",
+        "매뉴얼 §1.2 정합: 측정 대상 외 → NA 분류 (FY23·FY24 null과 일관성 확보)",
+        "v128 정정: 종전 FY25 0 V 등록 → null NA 변환 (RAW [null, null, null])"
+      ]
+    },
+    "en": {
+      "confirmed": "FY2025 NA confirmed (Trading subsidiary, no own environmental certification generated)",
+      "basis": [
+        "Hyosung TNC Trading Division HQ (Banpo building) — trading-centered operations",
+        "No own ISO 14001/9001 etc. environmental certification facilities (no production/manufacturing facilities)",
+        "HQ integrated certification policy: ISO and other environmental certifications consolidated into Gongdeok HQ (user decision, Manual §5.9 office building + HQ-managed policy)",
+        "Manual §1.2 consistency: outside measurement scope → NA classification (consistent with FY23·FY24 null)",
+        "v128 correction: prior FY25 0 V → null NA conversion (RAW [null, null, null])"
+      ]
+    },
+    "zh": {
+      "confirmed": "FY2025 NA确定(贸易法人,无自有环境认证产生)",
+      "basis": [
+        "晓星TNC贸易部门总部(盘浦楼入驻)— 贸易交易为中心运营",
+        "无自有ISO 14001/9001等环境认证发生对象设施(无生产·制造设施)",
+        "总部综合认证政策:ISO等环境认证统一计入公德总部(用户决定,手册§5.9办公楼+总部一并核算政策)",
+        "手册§1.2一致性:测量对象外 → NA分类(与FY23·FY24 null一致)",
+        "v128修正:原FY25 0 V登记 → null NA转换(RAW [null, null, null])"
+      ]
+    }
+  }};
 
 // v126 이후 변경 추적 (메모리 #20 옵션 B 정책, 2026-05-12 v128 인프라 구축)
 // 사이클: 변경 발생 → 항목 추가 + 🆕 마크 ON / PwC 반영 완료 → 항목 제거 + VERIFIED meta 영구 누적 + 🆕 마크 OFF
@@ -36311,6 +36348,37 @@ const CHANGES_POST_V127 = {
     "prev": "null (FY25)",
     "new": "1190.247",
     "reason": "네트웍스y 송부 자료 「_효성티앤씨_해외_종속법인_폐기물_유형에_따른_처리량_송부_수정완료.xlsx」 (2026-05-14 수령) 적용. FY25 신규 등록. 무역법인 사무실 발생 비오염 수처리 폐수, 하수처리장 방류 처리. 가흥화공·광동스판·주해스판 등 다수 사업장 행76 등록 패턴 정합."
+  }
+,
+  "공덕:환경 모니터링·인증 비용": {
+    "date": "2026-05-14",
+    "prev": "[null, null, 83000000] (v124 임시값)",
+    "new": "[107351927, 104733386, 111884738]",
+    "reason": "본 SAP 산출 5개 국내 사업장(공덕·반포무역·구미·울산·대구) ISO 및 기타 환경 인증비 합산값 본사 관리 편의 정책으로 공덕 일괄 기입. 분류: ① 환경 인증 12종 100% (ZDHC·OEKO-TEX·GRS·RCS/GOTS·환경표지·ICMC·OBP·ISCC·HIGG INDEX·Bhive·EcoVadis·SEDEX SMETA) + ② ISO 통합인증 1/3 안분(FY23·24) 또는 ISO 14001 실금액(FY25, KFQ 거래원장 NP+SPX 14,381,000원) + ③ ISO 종류 미특정 100%. FY25 옵션 A 적용 (FY23·FY24 거래원장 추가 확보 시 갱신)."
+  },
+  "반포무역:환경 모니터링·인증 비용": {
+    "date": "2026-05-14",
+    "prev": "0 (FY25 V 등록)",
+    "new": "null (NA 이동)",
+    "reason": "무역 법인 특성상 자체 환경 인증 발생 대상 아님 (생산·제조 시설 부재). 본사 통합 인증 정책으로 공덕 일괄 합산 처리. 매뉴얼 §1.2 정합: 측정 대상 외 → NA 분류 (FY23·FY24 null과 일관성 확보). V → NA 이동."
+  },
+  "구미:환경 모니터링·인증 비용": {
+    "date": "2026-05-14",
+    "prev": "240875400 (FY25)",
+    "new": "224847400 (FY25)",
+    "reason": "본 SAP 산출로 ISO 인증비 16,028,000원 차감. 차감 사유: ISO 통합인증(품질/환경/안전) NP(EAC-03583) + SPX(AC-05694) 합산값 공덕 일괄 이관. FY25 한국품질재단(KFQ) 거래원장 ISO 14001(환경) 실금액 직접 추출(NP 10,004,000 + SPX 4,377,000 = 14,381,000원) 적용 후 공덕 합산."
+  },
+  "대구:환경 모니터링·인증 비용": {
+    "date": "2026-05-14",
+    "prev": "71498385 (FY25)",
+    "new": "33527353 (FY25)",
+    "reason": "본 SAP 산출로 37,971,032원 차감 (ESG 근거자료 9건 R147-R155). 그 중 21,971,032원(R147-R152, 환경 인증 6건 HIGG·Bhive·ZDHC·OEKO-TEX): 공덕 일괄 이관. 그 중 16,000,000원(R153-R155, 유해화학물질 취급시설 설치 및 정기검사 컨설팅 3건): 행98 시설투자로 재분류 (매뉴얼 §행98 decisionTree ⑤ 항 닝샤 C11 사례 정합)."
+  },
+  "대구:환경 시설투자": {
+    "date": "2026-05-14",
+    "prev": "0 (FY25)",
+    "new": "16000000 (FY25)",
+    "reason": "v128 신규 분류 등록: 유해화학물질 취급시설 설치 및 정기검사 컨설팅 SAP 전표 3건 (R153-R155) 16,000,000원. 종전 대구 행96에 포함되어 있던 16,000,000원을 행98로 재분류. 법적 근거: 화학물질관리법 제24조 + 환경부 고시 제2025-137호. 자본적 지출(CAPEX) 회계 처리 정합 (시설 설치검사 컨설팅 + 분할 결제 패턴). 매뉴얼 §행98 decisionTree ⑤ 항 닝샤 C11 사례 정합."
   }
 };
 
