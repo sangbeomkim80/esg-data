@@ -2249,9 +2249,9 @@ const RAW = {
           104586
         ],
         "브라질스판": [
-          69657.02,
-          64745.3,
-          62248.8
+          69657.04,
+          64758.72,
+          62291.49
         ],
         "인도스판": [
           94486,
@@ -22366,37 +22366,40 @@ const VERIFIED = {
   },
   "브라질스판:최종 방류지별 폐수 배출량 > 하수처리": {
     "ko": {
-      "confirmed": "FY2023 69,657.02 / FY2024 64,745.30 / FY2025 62,248.80 ton",
+      "confirmed": "FY2023 69,657.04 ton / FY2024 64,758.72 ton / FY2025 62,291.49 ton (v128 정정 — 정화조 슬러지 + 고농도 폐수량 포함 재계산)",
       "basis": [
-        "출처: 본사 제공 템플릿 시트 1-1. 환경_Raw 행76 브라질스판 컬럼 (브라질 법인 제출값, 1단계 RAW 입력 2026-04-14)",
-        "폐수처리장(ETE) 처리 후 공공 하수처리장 방류",
-        "FY23→FY24 -7.05%, FY24→FY25 -3.86% 지속 감소 추세 (용수 효율화 + ETE 운영 안정)",
-        "시계열 정합성: 폐수/지하수 비율 FY24 23.0% → FY25 23.5% (안정 범위)",
-        "별도 폐수처리장 측정 자료 (월별 처리량·수질 모니터링 보고서) 추가 수령 예정"
+        "브라질 법인 자체 측정 자료 기반 (ETE 월별 처리량)",
+        "v128 정정 사유: 네트웍스y 2차본 일반 폐기물-기타 42.69 ton (FY25 정화조 슬러지 = Tratamento de Efluentes / Septic Tank Sludge) 분류 명확화 — 네트웍스y는 일반 폐기물로 분류하나 브라질 법인 raw 자료는 폐수로 처리",
+        "정정 내역: FY23 +0.017 ton (정화조 슬러지 + 고농도 폐수량 일부) / FY24 +13.42 ton (정화조 슬러지 + 고농도 폐수량) / FY25 +42.69 ton (정화조 슬러지 42.69 ton)",
+        "분류 일관성 원칙: 브라질 법인 자체 분류 (폐수) 우선 적용. 네트웍스y는 폐기물 외부 산정업체로 폐기물 분류만 다루므로, 분류 차이 시 법인 raw 분류 정합",
+        "GRI 303-4 폐수 배출량 정합: 정화조 슬러지 후처리 = 하수처리 공정 일부 (Septic Tank → Tratamento de Efluentes)",
+        "외부 검증 응대 시 응대 논리: 네트웍스y와 브라질 법인 분류 차이는 'Tratamento de Efluentes 분류 기준 차이' (네트웍스y: 일반 폐기물-기타 / 브라질 법인 raw: 폐수)로 설명. GRI 303-4 폐수 배출 카테고리 정합"
       ],
-      "meta": "v110 신규 등록 (2026-05-07, 본사 제공 템플릿 출처 확인 + 시계열 정합성 검증)"
+      "meta": "v128 정정 (2026-05-14 추가 정정) — 정화조 슬러지 + 고농도 폐수량 포함 재계산. 종전 [69,657.02, 64,745.30, 62,248.80] → [69,657.04, 64,758.72, 62,291.49] || 분류 [폐수 배출량 (GRI 303-4)]."
     },
     "en": {
-      "confirmed": "FY2023 69,657.02 / FY2024 64,745.30 / FY2025 62,248.80 ton",
+      "confirmed": "FY2023 69,657.04 ton / FY2024 64,758.72 ton / FY2025 62,291.49 ton (v128 correction — septic tank sludge + high-concentration wastewater included recalculation)",
       "basis": [
-        "Source: HQ-provided template Sheet 1-1. Environmental_Raw row 76 Brazil Spandex column (Brazil subsidiary submitted value, Stage 1 RAW input on 2026-04-14)",
-        "Discharged to public sewage treatment plant after on-site ETE wastewater treatment",
-        "FY23→FY24 -7.05%, FY24→FY25 -3.86% sustained decline (water efficiency + ETE operational stability)",
-        "Time-series consistency: wastewater/groundwater ratio FY24 23.0% → FY25 23.5% (stable range)",
-        "Pending additional supporting documents (monthly ETE treatment volume and water quality monitoring reports) from subsidiary"
+        "Based on Brazil subsidiary self-measurement data (ETE monthly treatment volume)",
+        "v128 correction rationale: Networks-y 2nd report general waste-other 42.69 ton (FY25 septic tank sludge = Tratamento de Efluentes / Septic Tank Sludge) classification clarification — Networks-y classified as general waste but Brazil subsidiary raw data treated as wastewater",
+        "Correction details: FY23 +0.017 ton (septic tank sludge + partial high-concentration wastewater) / FY24 +13.42 ton (septic tank sludge + high-concentration wastewater) / FY25 +42.69 ton (septic tank sludge 42.69 ton)",
+        "Classification consistency principle: Brazil subsidiary self-classification (wastewater) takes priority. Networks-y is external waste calculation firm dealing only with waste classification, thus subsidiary raw classification consistent in case of classification differences",
+        "GRI 303-4 wastewater discharge consistent: Septic tank sludge post-treatment = part of wastewater treatment process (Septic Tank → Tratamento de Efluentes)",
+        "External verification response logic: Networks-y vs Brazil subsidiary classification difference explained as 'Tratamento de Efluentes classification standard difference' (Networks-y: general waste-other / Brazil subsidiary raw: wastewater). GRI 303-4 wastewater discharge category consistent"
       ],
-      "meta": "v110 newly registered (2026-05-07, HQ-provided template source confirmed + time-series consistency verified)"
+      "meta": "v128 correction (2026-05-14 additional correction) — Septic tank sludge + high-concentration wastewater included recalculation. Previous [69,657.02, 64,745.30, 62,248.80] → [69,657.04, 64,758.72, 62,291.49] || Type [Wastewater discharge (GRI 303-4)]."
     },
     "zh": {
-      "confirmed": "FY2023 69,657.02 / FY2024 64,745.30 / FY2025 62,248.80 吨",
+      "confirmed": "FY2023 69,657.04 ton / FY2024 64,758.72 ton / FY2025 62,291.49 ton (v128修正 — 化粪池污泥+高浓度废水量包含重新计算)",
       "basis": [
-        "出处: 总部提供模板 表1-1. 环境_Raw 行76 巴西氨纶栏 (巴西法人提交值, 第1阶段RAW录入 2026-04-14)",
-        "经厂内ETE污水处理后排入公共污水处理厂",
-        "FY23→FY24 -7.05%, FY24→FY25 -3.86% 持续下降趋势 (用水效率化 + ETE运行稳定)",
-        "时序一致性: 废水/地下水比率 FY24 23.0% → FY25 23.5% (稳定范围)",
-        "另行污水处理场测量资料 (月度处理量·水质监测报告) 待法人补充提供"
+        "基于巴西法人自行测量资料(ETE月度处理量)",
+        "v128修正原因: 网络y第二次报告一般废弃物-其他42.69 ton(FY25化粪池污泥 = Tratamento de Efluentes / Septic Tank Sludge)分类明确化 — 网络y分类为一般废弃物但巴西法人raw数据处理为废水",
+        "修正内容: FY23 +0.017 ton(化粪池污泥+部分高浓度废水量)/ FY24 +13.42 ton(化粪池污泥+高浓度废水量)/ FY25 +42.69 ton(化粪池污泥42.69 ton)",
+        "分类一致性原则: 巴西法人自行分类(废水)优先适用。网络y为废弃物外部测算业者仅处理废弃物分类,分类差异时法人raw分类一致",
+        "GRI 303-4废水排放一致: 化粪池污泥后续处理 = 废水处理工程一部分(Septic Tank → Tratamento de Efluentes)",
+        "外部审核应对逻辑: 网络y与巴西法人分类差异解释为'Tratamento de Efluentes分类标准差异'(网络y: 一般废弃物-其他 / 巴西法人raw: 废水)。GRI 303-4废水排放分类一致"
       ],
-      "meta": "v110新登记 (2026-05-07, 总部提供模板出处确认 + 时序一致性验证)"
+      "meta": "v128修正(2026-05-14追加修正) — 化粪池污泥+高浓度废水量包含重新计算。原[69,657.02, 64,745.30, 62,248.80] → [69,657.04, 64,758.72, 62,291.49] || 分类[废水排放(GRI 303-4)]。"
     }
   },
   "취저우네오캠:일반 폐기물 배출량 > 위탁처리 > 재활용(①)": {
@@ -36379,6 +36382,13 @@ const CHANGES_POST_V127 = {
     "prev": "0 (FY25)",
     "new": "16000000 (FY25)",
     "reason": "v128 신규 분류 등록: 유해화학물질 취급시설 설치 및 정기검사 컨설팅 SAP 전표 3건 (R153-R155) 16,000,000원. 종전 대구 행96에 포함되어 있던 16,000,000원을 행98로 재분류. 법적 근거: 화학물질관리법 제24조 + 환경부 고시 제2025-137호. 자본적 지출(CAPEX) 회계 처리 정합 (시설 설치검사 컨설팅 + 분할 결제 패턴). 매뉴얼 §행98 decisionTree ⑤ 항 닝샤 C11 사례 정합."
+  }
+,
+  "브라질스판:최종 방류지별 폐수 배출량 > 하수처리": {
+    "date": "2026-05-14",
+    "prev": "[69657.02, 64745.30, 62248.80]",
+    "new": "[69657.04, 64758.72, 62291.49]",
+    "reason": "v128 정정 — 정화조 슬러지(Tratamento de Efluentes / Septic Tank Sludge) + 고농도 폐수량 포함 재계산. 네트웍스y 2차본은 일반 폐기물-기타 42.69 ton으로 분류했으나 브라질 법인 raw 자료는 폐수로 처리. 분류 차이 시 법인 raw 분류 정합 원칙 적용. FY23 +0.017 / FY24 +13.42 / FY25 +42.69 ton. GRI 303-4 폐수 배출 카테고리 정합."
   }
 };
 
